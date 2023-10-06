@@ -47,7 +47,7 @@ var AppRoute = function(_id, _html, _param) {
 
 var AppForm = function(input_class) {
   var appForm = new FormInfo(input_class);
-  return appForm;
+  return appForm.getData();
 };
 
 var AppIdEvent = function(_el, _e, _calback) {
