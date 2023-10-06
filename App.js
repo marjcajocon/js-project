@@ -1,11 +1,11 @@
 "use strict";
 
-function AppForm(input_class) {
+function FormInfo(input_class) {
   this.input = input_class; 
   this.data = {};
   
   this.__process = function() {
-    var input = App.class(this.input);
+    var input = AppClass(this.input);
     var input_len = input.length;
     for (var i = 0;i < input_len; i++) {
       this.data[input[i].attributes.name.nodeValue] = input[i].value;
@@ -46,7 +46,7 @@ var AppRoute = function(_id, _html, _param) {
 };
 
 var AppForm = function(input_class) {
-  var appForm = new AppForm(input_class);
+  var appForm = new FormInfo(input_class);
   return appForm;
 };
 
