@@ -50,6 +50,13 @@ var AppForm = function(input_class) {
   return appForm.getData();
 };
 
+var AppFormClear = function(input_class) {
+  var el = AppClass(input_class);
+  for (var x of el) {
+    x.value = "";
+  }
+};
+
 var AppIdEvent = function(_el, _e, _calback) {
   var x = AppId(_el);
   x.addEventListener(_e, function(e) {
@@ -75,3 +82,39 @@ var AppClassEvent = function(_el, _e, _calback) {
     });
   }
 };
+
+
+var AppConfig = {
+  url: "http://127.0.0.1:8083",
+  token: null
+};
+
+var AppHttp = function(_url, _data, _param) {
+  var url = _url || null;
+  var data = _data || null;
+  var param = _param || {};
+  
+  var method = param["method"] || "POST";
+  var headers = param["headers"] || [];
+
+  var xml = new XMLHttpRequest();
+  xml.open(method, `${AppConfig["url"]}${url}`);
+  if (data instanceof FormData) {
+    //xml.setRequestHeader("Content-Type", "application/json");
+  } else if (typeof(data) == "object") {
+    xml.setRequestHeader("Content-Type", "application/json");
+    data = JSON.stringify(data);
+  }
+  if (AppConfig.token != null) {
+    xml.setRequestHeader("Auth", `_token=${AppConfig.token}`);
+  }
+  for (var h of headers) {
+    xml.setRequestHeader(h[0], h[1]);
+  }
+  if (method.toLowerCase() == "get") {
+    data = null;
+  } 
+  xml.send(data);
+  return xml;
+};
+
