@@ -34,6 +34,15 @@ var AppAlert = function(_m) {
   alert(_m);
 };
 
+var AppConfirm = function(_m, func_) {
+  var fn = func_ || null;
+  if (confirm(_m)) {
+    if (fn != null) {
+      fn();
+    }
+  }
+};
+
 var AppRoute = function(_id, _html, _param) {
   var param = _param || {};
   if (typeof(_html) == "function") {
@@ -85,7 +94,7 @@ var AppClassEvent = function(_el, _e, _calback) {
 
 
 var AppConfig = {
-  url: "http://127.0.0.1:8083",
+  url: "",
   token: null
 };
 
@@ -117,4 +126,3 @@ var AppHttp = function(_url, _data, _param) {
   xml.send(data);
   return xml;
 };
-
