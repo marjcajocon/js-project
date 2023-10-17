@@ -93,29 +93,34 @@ var AppClassEvent = function(_el, _e, _calback) {
 };
 
 
-var AppConfig = {
+var Config = {
   url: "",
-  token: null
+  token: null,
+  fkey: null,
+  getKey: function() {
+    return "spxsGsfgBsEqlxwbPiicBgVkelCWzweTISeIwKS3iuw";
+  }
 };
 
-var AppHttp = function(_url, _data, _param) {
+var AppHttp = function(_url, _data, _param, __callback) {
   var url = _url || null;
   var data = _data || null;
   var param = _param || {};
+  var __callback = __callback || null;
   
   var method = param["method"] || "POST";
   var headers = param["headers"] || [];
 
   var xml = new XMLHttpRequest();
-  xml.open(method, `${AppConfig["url"]}${url}`);
+  xml.open(method, `${Config["url"]}${url}`);
   if (data instanceof FormData) {
     //xml.setRequestHeader("Content-Type", "application/json");
   } else if (typeof(data) == "object") {
     xml.setRequestHeader("Content-Type", "application/json");
     data = JSON.stringify(data);
   }
-  if (AppConfig.token != null) {
-    xml.setRequestHeader("Auth", `_token=${AppConfig.token}`);
+  if (Config.token != null) {
+    xml.setRequestHeader("Auth", `_token=${Config.token}`);
   }
   for (var h of headers) {
     xml.setRequestHeader(h[0], h[1]);
@@ -123,6 +128,33 @@ var AppHttp = function(_url, _data, _param) {
   if (method.toLowerCase() == "get") {
     data = null;
   } 
-  xml.send(data);
+  if (Config.fkey != null) {
+    if (typeof(__callback) == "function") {
+      if (data != null) {
+        if (typeof(data) == "object") {
+          data["token"] = Config["token"];
+          data = JSON.stringify(data);
+        } else {
+          data = JSON.parse(data);
+          data["token"] = Config["token"];
+          data = JSON.stringify(data);
+        }
+      }
+      var txt = new Text(Config.fkey);
+      xml.send(txt.encrypt(data));
+    } else {
+      xml.send(data);
+    }
+  } else {
+    xml.send(data);
+  }
+  // this is a callback function for the data
+  // this callback is the response encrypted data
+  if (typeof(__callback) == "function") {
+    var txt = new Text(Config.fkey);
+    xml.onload = function() {
+      __callback(txt.decrypt(this.response));
+    };
+  }
   return xml;
 };
