@@ -1,5 +1,21 @@
 "use strict";
 
+var AppStorage = {
+  data: {},
+  setItem: function(key, value) {
+    this.data[key] = value;
+  },
+  getItem: function(key) {
+    return this.data[key] || null;
+  },
+  removeItem: function(key) {
+    var d = this.data[key] || null;
+    if (d != null) {
+      delete this.data[key];
+    }
+  }
+};
+
 function FormInfo(input_class) {
   this.input = input_class; 
   this.data = {};
