@@ -16,15 +16,29 @@ var AppStorage = {
   }
 };
 
-function FormInfo(input_class) {
+var AppFormInput = function( input_class, _data ) {
+  var data = _data || {};
+
+  var input = AppClass( input_class );
+  var input_len = input.length;
+  for ( var i = 0; i < input_len; i++ ) {
+    for ( var key in data ) {
+      if ( key == input[ i ].attributes.name.nodeValue ) {
+        input[ i ].value = data[ key ];
+      }
+    }
+  }
+};
+
+function FormInfo( input_class ) {
   this.input = input_class; 
   this.data = {};
   
   this.__process = function() {
-    var input = AppClass(this.input);
+    var input = AppClass( this.input );
     var input_len = input.length;
-    for (var i = 0;i < input_len; i++) {
-      this.data[input[i].attributes.name.nodeValue] = input[i].value;
+    for ( var i = 0;i < input_len; i++ ) {
+      this.data[ input[ i ].attributes.name.nodeValue ] = input[ i ].value;
     }
   };
 
