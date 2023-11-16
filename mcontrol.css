@@ -1,0 +1,85 @@
+body {
+  background-color: #ddd;
+}
+.dialog {
+  width: 720px;
+  min-height: 200px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  display: none;
+  margin: auto;
+  background-color: white;
+}
+
+.dialog_container {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(124 124 124 / 30%);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dialog_modal {
+  width: 720px;
+  min-height: 200px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+  position: relative;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 10px;
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
+}
+
+.dialog_container .dialog_modal .title {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+@media(max-width: 730px) {
+  .dialog {
+    width: 90%;
+  }
+  .dialog_modal {
+    width: 90%;
+  }
+}
+
+.title {
+  font-weight: bold;
+  font-size: 12pt;
+  color: #8d8d8d;
+  width: 100%;
+  height: 30px;
+  background-color: #efefef;
+  padding: 5px;
+}
+
+.loader {
+  width: 100%;
+  height: 16px;
+  display: inline-block;
+  background-color: #FFF;
+  border: 1px solid #FFF;
+  border-radius: 4px;
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.25) 75%, transparent 75%, transparent);
+  font-size: 30px;
+  background-size: 1em 1em;
+  box-sizing: border-box;
+  animation: barStripe 1s linear infinite;
+}
+
+@keyframes barStripe {
+  0% {
+    background-position: 1em 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
