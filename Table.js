@@ -38,9 +38,14 @@ var Table = function(header) {
       var tr = document.createElement("tr");
       
       for (var y of x) {
+        console.log(typeof(y));
         var td = document.createElement("td");
         td.style.cursor = "pointer";
-        td.innerHTML = y;
+        if (typeof(y) == "object") {
+          td.append(y); // if button or any elements
+        } else {
+          td.innerHTML = y;
+        }
         tr.append(td);
       }
 
@@ -54,7 +59,11 @@ var Table = function(header) {
     for (y of data) {
       var td = document.createElement("td");
       td.style.cursor = "pointer";
-      td.innerHTML = y;
+      if (typeof(y) == "object") {
+        td.append(y); // if button or any elements
+      } else {
+        td.innerHTML = y;
+      }
       tr.append(td);
     }
     this.tbody.prepend(tr);
@@ -65,7 +74,11 @@ var Table = function(header) {
     for (y of data) {
       var td = document.createElement("td");
       td.style.cursor = "pointer";
-      td.innerHTML = y;
+      if (typeof(y) == "object") {
+        td.append(y); // if button or any elements
+      } else {
+        td.innerHTML = y;
+      }
       tr.append(td);
     }
     this.tbody.append(tr);
