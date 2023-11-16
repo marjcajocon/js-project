@@ -307,3 +307,61 @@ var Button = function(name, type, icon, hint) {
   this.init();
 };
 // end button
+
+
+// modal
+/*
+
+  var dialog_con = document.createElement("div");
+  dialog_con.setAttribute("class", "dialog_container");
+  var dialog = document.createElement("div");
+  dialog.setAttribute("class", "dialog_modal");
+
+*/
+
+
+var Modal = function(title, icon) {
+  this.title = title || null;
+  this.icon = icon || icon;
+
+  this.container = null;
+  this.dialog = null;
+  
+  this.getContainer = function() {
+    return this.container;
+  };
+
+  this.show = function() {
+    this.container.style.display = "block";
+  };
+
+  this.hide = function() {
+    this.container.style.display = "none";
+  };
+
+
+  this.append = function(obj_element) {
+    // only the above classes can be appended
+    this.dialog.append(obj_element.getContainer());    
+  };
+
+  this.init = function() {
+    this.container = document.createElement("div");
+    this.container.setAttribute("class", "dialog_container");
+    
+    this.dialog = document.createElement("div");
+    this.dialog.setAttribute("class", "dialog_modal");
+    
+    var title = document.createElement("div");
+    title.classList.add("title");
+    
+    var t = document.createElement("div");
+    
+    title.innerHTML = `<i class="fa fa-${this.icon}"></i> ${this.title}`;
+    
+
+    this.container.append(this.dialog);
+  };
+
+  this.init();
+};
