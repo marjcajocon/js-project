@@ -1,3 +1,33 @@
+/* mcontrol */
+var Application = function() {
+  this.container = null;
+  this.body = null;
+
+  this.init = function() {
+    this.body = document.getElementsByTagName("body")[0];
+    this.container = document.createElement("div");
+    this.body.append(this.container);
+    this.container.style.width = "100%";
+    this.container.style.height = "100%";
+    this.container.style.margin = "0px";
+    this.container.style.padding = "0px";
+    this.container.style.position = "relative";
+  };
+
+  this.clear = function() {
+    while(this.container.firstChild) {
+     this.container.removeChild(this.container.firstChild);
+    };
+  };
+
+  this.open = function(panel) {
+    this.clear();
+    this.container.append(panel.getContainer());
+  };
+
+  this.init();
+};
+
 // Table control
 var Table = function(header) {
 
@@ -95,7 +125,7 @@ var Table = function(header) {
     this.tbody.prepend(tr);
   };
 
-  this.append = function(data) {
+  this.addRow = function(data) {
     var tr = document.createElement("tr");
     for (y of data) {
       var td = document.createElement("td");
@@ -319,6 +349,24 @@ var Button = function(name, type, icon, hint) {
 
 */
 
+var Panel = function(title) {
+  this.container = null;
+
+  this.init = function() {
+    this.container = document.createElement("div");
+    this.container.style.backgroundColor = "white";
+  };
+
+  this.getContainer = function() {
+    return this.container;
+  };  
+  
+  this.add = function(mcontrol_obj) {
+    this.container.append(mcontrol_obj.getContainer());
+  };
+
+  this.init();
+};
 
 var Modal = function(title, icon) {
   this.title = title || null;
@@ -326,6 +374,7 @@ var Modal = function(title, icon) {
 
   this.container = null;
   this.dialog = null;
+  this.body = null;
   
   this.getContainer = function() {
     return this.container;
@@ -340,9 +389,9 @@ var Modal = function(title, icon) {
   };
 
 
-  this.append = function(obj_element) {
+  this.add = function(obj_element) {
     // only the above classes can be appended
-    this.dialog.append(obj_element.getContainer());    
+    this.body.append(obj_element.getContainer());    
   };
 
   this.init = function() {
@@ -352,14 +401,34 @@ var Modal = function(title, icon) {
     this.dialog = document.createElement("div");
     this.dialog.setAttribute("class", "dialog_modal");
     
+    var me = this;
+    
+    var close = document.createElement("button");
+    close.innerHTML = `x`;
+    close.style.height = "23px";
+    close.style.width = "23px";
+    close.style.position = "absolute";
+    close.style.right = "10px";
+    close.style.top = "3px";
+    close.style.fontSize = "9pt";
+    
+    close.addEventListener("click", function() {
+      me.hide();
+    });
+    
     var title = document.createElement("div");
     title.classList.add("title");
-    
-    var t = document.createElement("div");
-    
+    title.style.position = "relative";
     title.innerHTML = `<i class="fa fa-${this.icon}"></i> ${this.title}`;
-    
+    title.append(close);
 
+    this.dialog.append(title);
+    // contents
+    this.body = document.createElement("div");
+    this.body.style.padding = "10px";
+    this.body.style.position = "relative";
+    this.dialog.append(this.body);
+    // end contents
     this.container.append(this.dialog);
   };
 
