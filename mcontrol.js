@@ -157,7 +157,7 @@ var Table = function(header) {
     var header = this.__header;;
 
     this.container = document.createElement("div");
-    this.container.style.display = "none";
+    // this.container.style.display = "none";
     this.table = document.createElement("table");
     this.table.setAttribute("class", "table");
     this.tbody = document.createElement("tbody");
@@ -298,6 +298,26 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this.init();
 };
 // end text box
+
+var Label = function(label) {
+  this.label = label || "";
+  this.container = null;
+  
+  this.setValue = function(value) {
+    this.container.innerHTML = value;
+  };
+
+  this.getContainer = function() {
+    return this.container;
+  };
+
+  this.init = function() {
+    this.container = document.createElement("label");
+    this.container.innerHTML = this.label;
+  };
+
+  this.init();
+};
 
 // comboBox
 var ComboBox = function(option, label, type, icon, hint, placeholder) {
@@ -513,7 +533,6 @@ var Panel = function(title) {
 
   this.init = function() {
     this.container = document.createElement("div");
-    this.container.style.backgroundColor = "white";
   };
 
   this.getContainer = function() {
