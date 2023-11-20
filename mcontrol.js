@@ -3,6 +3,14 @@ var Application = function() {
   this.container = null;
   this.body = null;
 
+  this.show = function() {
+    this.container.style.display = "block";
+  };
+
+  this.hide = function() {
+    this.container.style.display = "none";
+  };
+
   this.init = function() {
     this.body = document.getElementsByTagName("body")[0];
     this.container = document.createElement("div");
@@ -230,6 +238,14 @@ var TextBox = function(label, type, icon, hint, placeholder) {
     return this.input.value;
   };
 
+  this.show = function() {
+    this.container.style.display = "block";
+  };
+
+  this.hide = function() {
+    this.container.style.display = "none";
+  };
+
   this.events = {};
 
   this.addEventListener = function(evt, callback) {
@@ -296,6 +312,14 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
       ["o", "Other"]
     ]
   */
+
+  this.show = function() {
+    this.container.style.display = "block";
+  };
+
+  this.hide = function() {
+    this.container.style.display = "none";
+  };
 
   this.options = [];
 
@@ -408,6 +432,14 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
 var Button = function(name, type, icon, hint) {
   // container
   this.container = null;
+
+  this.show = function() {
+    this.container.style.display = "block";
+  };
+
+  this.hide = function() {
+    this.container.style.display = "none";
+  };
 
   this.hint = hint || null;
   // type danger, success, primary
