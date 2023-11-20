@@ -125,13 +125,13 @@ var Table = function(header) {
     this.tbody.prepend(tr);
   };
 
-  this.addRow = function(data) {
+  this.add = function(data) {
     var tr = document.createElement("tr");
     for (y of data) {
       var td = document.createElement("td");
       td.style.cursor = "pointer";
       if (typeof(y) == "object") {
-        td.append(y); // if button or any elements
+        td.append(y.getContainer()); // if button or any elements
       } else {
         td.innerHTML = y;
       }
@@ -406,6 +406,8 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
 
 // button
 var Button = function(name, type, icon, hint) {
+  // container
+  this.container = null;
 
   this.hint = hint || null;
   // type danger, success, primary
