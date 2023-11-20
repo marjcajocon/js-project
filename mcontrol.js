@@ -283,6 +283,127 @@ var TextBox = function(label, type, icon, hint, placeholder) {
 };
 // end text box
 
+// comboBox
+var ComboBox = function(option, label, type, icon, hint, placeholder) {
+  
+  this.option = option || [];
+
+  /* 
+    options must be an array of an array;
+    example: [
+      ["f", "Female"],
+      ["m", "Male"],
+      ["o", "Other"]
+    ]
+  */
+
+  this.options = [];
+
+  this.placeholder = placeholder || "";
+  this.hint = hint || null;
+
+  this.id = null;
+
+  this.setId = function(id) {
+    this.id = id || null;
+  };
+
+  this.getId = function() {
+    return this.id;
+  };
+
+  this.i = null;
+  this.icon = icon || null;
+  this.type = type || "text";
+
+  this.label = label;
+
+  this.container = null;
+  this.input = null;
+  
+  this.setPlaceHolder = function(t) {
+    this.input.setAttribute("placeholder", t);
+  };
+
+  this.setValue = function(value) {
+    this.input.value = value;
+  }
+
+  this.getValue = function() {
+    return this.input.value;
+  };
+
+  this.events = {};
+
+  this.addEventListener = function(evt, callback) {
+    var ok = typeof(this.events[evt]) == "undefined";
+    if (ok) {
+      if (this.events[evt] != evt) {
+        this.input.addEventListener(evt, callback);
+      }
+      this.events[evt] = evt;
+    }
+    
+  };
+
+  this.clear = function() {
+    for (var x of this.options) {
+      x.remove();
+    }
+  };
+
+  this.add = function(key, value) {
+    var option = document.createElement("option");
+    option.setAttribute("value", key);
+    option.innerHTML = value;
+    this.input.append(option);
+    this.options.push(option);
+  };
+
+  this.getContainer = function() {
+    return this.container;
+  };
+
+  this.init = function() {
+    this.container = document.createElement("div");
+    this.container.style.marginTop = "3px";
+    this.container.setAttribute("class", "input-group");
+
+    var span = document.createElement("span");
+    
+    this.i = document.createElement("i");
+    this.i.setAttribute("class", `fa fa-${this.icon}`);
+    span.setAttribute("class", "input-group-addon");
+
+    if (this.icon != null) {
+      span.append(this.i);
+    } else {
+      span.innerHTML = this.label;
+    }
+
+    this.input = document.createElement("select");
+    this.input.setAttribute("class", "form-control");
+    this.input.setAttribute("type", this.type);
+    
+    if (this.hint != null) {
+      this.input.setAttribute("data-toggle", "tooltip");
+      this.input.setAttribute("title", this.hint);
+    }
+
+    this.input.setAttribute("placeholder", this.placeholder);
+
+    // all all the options in the placeholder
+    for (var v of this.option) {
+      this.add(v[0], v[1]);
+    }
+    this.container.append(span);
+    this.container.append(this.input);    
+  };
+  
+  this.init();
+};
+// end combobox
+
 // button
 var Button = function(name, type, icon, hint) {
 
