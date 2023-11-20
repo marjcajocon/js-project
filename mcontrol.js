@@ -194,8 +194,9 @@ var Table = function(header) {
 
 // text box
 
-var TextBox = function(label, type, icon, hint) {
+var TextBox = function(label, type, icon, hint, placeholder) {
   
+  this.placeholder = placeholder || "";
   this.hint = hint || null;
 
   this.id = null;
@@ -248,6 +249,7 @@ var TextBox = function(label, type, icon, hint) {
 
   this.init = function() {
     this.container = document.createElement("div");
+    this.container.style.marginTop = "3px";
     this.container.setAttribute("class", "input-group");
 
     var span = document.createElement("span");
@@ -270,6 +272,8 @@ var TextBox = function(label, type, icon, hint) {
       this.input.setAttribute("data-toggle", "tooltip");
       this.input.setAttribute("title", this.hint);
     }
+
+    this.input.setAttribute("placeholder", this.placeholder);
 
     this.container.append(span);
     this.container.append(this.input);    
