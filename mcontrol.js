@@ -544,12 +544,25 @@ var MessageBox = function() {
   this.label.style.height = "20pt";
   this.label.style.textAlign = "center";
   this.label.style.color = "#8f8787";
+  this.label.style.fontWeight = "bold";
+
+  this.msg = document.createElement("p");
+  this.msg.style.position = "absolute";
+  this.msg.style.left = "0";
+  this.msg.style.right = "0";
+  this.msg.style.top = "80px";
+  this.msg.style.fontSize = "15pt";
+  this.msg.style.margin = "auto";
+  this.msg.style.width = "250px";
+  this.msg.style.height = "20pt";
+  this.msg.style.textAlign = "center";
+  this.msg.style.color = "#8f8787";
 
   this.card.append(this.label);
+  this.card.append(this.msg);
   this.card.append(this.ok);
 
   this.container.append(this.card);
-  
   
   var me = this;
   this.callback = null;
@@ -567,8 +580,12 @@ MessageBox.prototype = Object.create(Interface.prototype);
 
 MessageBox.prototype.show = function(msg, _callback) {
   var type = type || "A l e r t !";
+  var msg = msg || "";
   var _callback = _callback || undefined;
   this.container.style.display = "block";
   this.label.innerHTML = type;
+  
+  this.msg.innerHTML = msg;
+
   this.call_back = _callback;
 };;
