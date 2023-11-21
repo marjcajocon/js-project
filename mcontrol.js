@@ -53,6 +53,10 @@ Application.prototype.open = function(panel) {
   this.container.append(panel.getContainer());
 };
 
+Application.prototype.add = function(obj) {
+  this.container.append(obj.getContainer());
+};
+
 /* End Application */
 
 
@@ -487,3 +491,84 @@ Modal.prototype.add = function(obj_element) {
   // only the above classes can be appended
   this.body.append(obj_element.getContainer());    
 };
+
+
+
+// alerts 
+var MessageBox = function() {
+  this.container = document.createElement("div");
+  this.container.style.display = "none";
+  this.container.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
+  this.container.style.zIndex = "1000";
+  this.container.style.width = "100%";
+  this.container.style.height = "100%";
+  this.container.style.position = "fixed";
+  this.container.style.left = "0";
+  this.container.style.top = "0";
+
+  this.card = document.createElement("div");
+  this.card.style.position = "absolute";
+  this.card.style.width = "360px";
+  this.card.style.height = "200px";
+  this.card.style.backgroundColor = "white";
+  this.card.style.left = "0";
+  this.card.style.right = "0";
+  this.card.style.bottom = "0";
+  this.card.style.top = "0";
+  this.card.style.margin = "auto";
+  this.card.style.borderRadius = "10px";
+  this.card.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
+
+  this.ok = document.createElement("button");
+  this.ok.innerHTML = "OK";
+  this.ok.style.width = "100px";
+  this.ok.style.height = "35px";
+  this.ok.style.backgroundColor = "#16c4cd";
+  this.ok.style.color = "white";
+  this.ok.style.fontWeight = "bold";
+  this.ok.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+  this.ok.style.position = "absolute";
+  this.ok.style.left = "0";
+  this.ok.style.right = "0";
+  this.ok.style.bottom = "10px";
+  this.ok.style.margin = "auto";
+
+  this.label = document.createElement("label");
+  this.label.style.position = "absolute";
+  this.label.style.left = "0";
+  this.label.style.right = "0";
+  this.label.style.top = "10px";
+  this.label.style.fontSize = "30pt";
+  this.label.style.margin = "auto";
+  this.label.style.width = "200px";
+  this.label.style.height = "20pt";
+  this.label.style.textAlign = "center";
+  this.label.style.color = "#8f8787";
+
+  this.card.append(this.label);
+  this.card.append(this.ok);
+
+  this.container.append(this.card);
+  
+  
+  var me = this;
+  this.callback = null;
+  this.ok.addEventListener("click", function() {
+    try {
+      me.call_back();
+      me.hide();
+    } catch(er) {
+      me.hide();
+    }
+  });
+};
+
+MessageBox.prototype = Object.create(Interface.prototype);
+
+MessageBox.prototype.show = function(msg, _callback) {
+  var type = type || "A l e r t !";
+  var _callback = _callback || undefined;
+  this.container.style.display = "block";
+  this.label.innerHTML = type;
+  this.call_back = _callback;
+};;
