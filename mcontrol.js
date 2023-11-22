@@ -2,8 +2,9 @@
 
 var Interface = function() {};
 
-Interface.id = null;
-Interface.container = null;
+Interface.prototype.id = null;
+Interface.prototype.container = null;
+Interface.prototype.control = null;
 
 Interface.prototype.getContainer = function() {
   return this.container;
@@ -23,6 +24,22 @@ Interface.prototype.setId = function(id) {
 
 Interface.prototype.getId = function() {
   return this.id;
+};
+
+Interface.prototype.setBackgroundColor = function(color) {
+  this.control.style.backgroundColor = color;
+};
+
+Interface.prototype.setFontColor = function(color) {
+  this.control.style.color = `${color}`;
+};
+
+Interface.prototype.setFontStyle = function(font_family) {
+  this.control.style.fontFamily = `${font_family}`;
+};
+
+Interface.prototype.setBackgroundImage = function(img) {
+  // image goes here
 };
 // end for interface
 
@@ -75,13 +92,14 @@ var Table = function(header) {
   this.loader.innerHTML = `<span class="loader"></span>`;
 
   var header = this.__header;;
-
+  
   this.container = document.createElement("div");
   // this.container.style.display = "none";
   this.table = document.createElement("table");
   this.table.setAttribute("class", "table");
   this.tbody = document.createElement("tbody");
 
+  this.control = this.table;
   // create header
   var thead = document.createElement("thead");
   var tr = document.createElement("tr");
@@ -231,7 +249,7 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this.input = document.createElement("input");
   this.input.setAttribute("class", "form-control");
   this.input.setAttribute("type", this.type);
-  
+  this.control = this.input;
   if (this.hint != null) {
     this.input.setAttribute("data-toggle", "tooltip");
     this.input.setAttribute("title", this.hint);
@@ -270,6 +288,7 @@ var Label = function(label) {
   this.label = label || "";
   this.container = document.createElement("label");
   this.container.innerHTML = this.label;
+  this.control = this.container;
 };
 Label.prototype = Object.create(Interface.prototype);
 Label.prototype.setValue = function(value) {
@@ -328,7 +347,7 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   this.input = document.createElement("select");
   this.input.setAttribute("class", "form-control");
   this.input.setAttribute("type", this.type);
-  
+  this.control = this.input;  
   if (this.hint != null) {
     this.input.setAttribute("data-toggle", "tooltip");
     this.input.setAttribute("title", this.hint);
@@ -342,6 +361,8 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   }
   this.container.append(span);
   this.container.append(this.input);    
+
+  this.control = this.container;
 };
 
 ComboBox.prototype = Object.create(Interface.prototype);
@@ -377,11 +398,9 @@ ComboBox.prototype.add = function(key, value) {
   this.options.push(option);
 };
 // end combobox
-
 // button
 var Button = function(name, type, icon, hint) {
   // container
-
   this.hint = hint || null;
   // type danger, success, primary
 
@@ -392,6 +411,7 @@ var Button = function(name, type, icon, hint) {
   this.events = {};
   
   this.container = document.createElement("button");
+  this.control = this.container;
   this.container.setAttribute("class", `btn btn-${this.type}`);
   var i = document.createElement("i");
   if (this.icon != "") {
@@ -433,6 +453,7 @@ Button.prototype.addEventListener = function(evt, callback) {
 
 var Panel = function(title) {
   this.container = document.createElement("div");
+  this.control = this.container;
 };
 Panel.prototype = Object.create(Interface.prototype);
 Panel.prototype.add = function(mcontrol_obj) {
@@ -484,6 +505,7 @@ var Modal = function(title, icon) {
   // end contents
   this.container.append(this.dialog);
   
+  this.control = this.dialog;
 };
 
 Modal.prototype = Object.create(Interface.prototype);
@@ -568,12 +590,13 @@ var MessageBox = function() {
   this.callback = null;
   this.ok.addEventListener("click", function() {
     try {
-      me.call_back();
       me.hide();
+      me.call_back();
     } catch(er) {
       me.hide();
     }
   });
+  this.control = this.card;
 };
 
 MessageBox.prototype = Object.create(Interface.prototype);
@@ -588,4 +611,4 @@ MessageBox.prototype.show = function(msg, _callback) {
   this.msg.innerHTML = msg;
 
   this.call_back = _callback;
-};;
+};
