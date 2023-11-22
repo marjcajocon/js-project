@@ -612,3 +612,132 @@ MessageBox.prototype.show = function(msg, _callback) {
 
   this.call_back = _callback;
 };
+
+
+var ConfirmBox = function() {
+  this.container = document.createElement("div");
+  this.container.style.display = "none";
+  this.container.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
+  this.container.style.zIndex = "1001";
+  this.container.style.width = "100%";
+  this.container.style.height = "100%";
+  this.container.style.position = "fixed";
+  this.container.style.left = "0";
+  this.container.style.top = "0";
+
+  this.card = document.createElement("div");
+  this.card.style.position = "absolute";
+  this.card.style.width = "360px";
+  this.card.style.height = "200px";
+  this.card.style.backgroundColor = "white";
+  this.card.style.left = "0";
+  this.card.style.right = "0";
+  this.card.style.bottom = "0";
+  this.card.style.top = "0";
+  this.card.style.margin = "auto";
+  this.card.style.borderRadius = "10px";
+  this.card.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
+
+  this.ok = document.createElement("button");
+  this.ok.innerHTML = "OK";
+  this.ok.style.width = "100px";
+  this.ok.style.height = "35px";
+  this.ok.style.backgroundColor = "#16c4cd";
+  this.ok.style.color = "white";
+  this.ok.style.fontWeight = "bold";
+  this.ok.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+  // this.ok.style.position = "absolute";
+  // this.ok.style.left = "0";
+  // this.ok.style.right = "0";
+  // this.ok.style.bottom = "10px";
+  // this.ok.style.margin = "auto";
+
+  this.bgroup = document.createElement("div");
+  this.bgroup.style.position = "absolute";
+  this.bgroup.style.width = "200px";
+  this.bgroup.style.height = "40px";
+  this.bgroup.style.left = "0";
+  this.bgroup.style.right = "0";
+  this.bgroup.style.bottom = "10px";
+  this.bgroup.style.margin = "auto";
+
+  this.close = document.createElement("button");
+  this.close.innerHTML = "Close";
+  this.close.style.width = "100px";
+  this.close.style.height = "35px";
+  this.close.style.backgroundColor = "rgb(255, 62, 97)";
+  this.close.style.color = "white";
+  this.close.style.fontWeight = "bold";
+  this.close.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+  // this.close.style.position = "absolute";
+  // this.close.style.left = "0";
+  // this.close.style.right = "0";
+  // this.close.style.bottom = "10px";
+  // this.close.style.margin = "auto";
+
+  this.label = document.createElement("label");
+  this.label.style.position = "absolute";
+  this.label.style.left = "0";
+  this.label.style.right = "0";
+  this.label.style.top = "15px";
+  this.label.style.fontSize = "15pt";
+  this.label.style.margin = "auto";
+  this.label.style.width = "220px";
+  this.label.style.height = "20pt";
+  this.label.style.textAlign = "center";
+  this.label.style.color = "#8f8787";
+  this.label.style.fontWeight = "bold";
+
+  this.msg = document.createElement("p");
+  this.msg.style.position = "absolute";
+  this.msg.style.left = "0";
+  this.msg.style.right = "0";
+  this.msg.style.top = "80px";
+  this.msg.style.fontSize = "15pt";
+  this.msg.style.margin = "auto";
+  this.msg.style.width = "250px";
+  this.msg.style.height = "20pt";
+  this.msg.style.textAlign = "center";
+  this.msg.style.color = "#8f8787";
+
+  this.bgroup.append(this.ok);
+  this.bgroup.append(this.close);
+
+  this.card.append(this.label);
+  this.card.append(this.msg);
+  this.card.append(this.bgroup);
+
+  this.container.append(this.card);
+  
+
+  var me = this;
+  this.callback = null;
+ 
+  this.close.addEventListener("click", function() {
+    me.hide();  
+  });
+
+  this.ok.addEventListener("click", function() {
+    try {
+      me.hide();
+      me.call_back();
+    } catch(er) {
+      me.hide();
+    }
+  });
+  this.control = this.card;
+};
+
+ConfirmBox.prototype = Object.create(Interface.prototype);
+
+ConfirmBox.prototype.show = function(msg, _callback) {
+  var type = type || "C O N F I R M A T I O N";
+  var msg = msg || "";
+  var _callback = _callback || undefined;
+  this.container.style.display = "block";
+  this.label.innerHTML = type;
+  
+  this.msg.innerHTML = msg;
+
+  this.call_back = _callback;
+};
