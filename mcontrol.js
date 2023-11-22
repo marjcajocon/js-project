@@ -741,3 +741,64 @@ ConfirmBox.prototype.show = function(msg, _callback) {
 
   this.call_back = _callback;
 };
+
+
+var ProgressBar = function() {
+  this.container = document.createElement("div");
+  
+};
+ProgressBar.prototype = Object.create(Interface.prototype);
+
+var LoaderBox = function() {
+  this.container = document.createElement("div");
+  this.container.style.display = "none";
+  this.container.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
+  this.container.style.zIndex = "1000";
+  this.container.style.width = "100%";
+  this.container.style.height = "100%";
+  this.container.style.position = "fixed";
+  this.container.style.left = "0";
+  this.container.style.top = "0";
+
+  this.card = document.createElement("div");
+  this.card.style.position = "absolute";
+  this.card.style.width = "300px";
+  this.card.style.height = "150px";
+  this.card.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+  this.card.style.left = "0";
+  this.card.style.right = "0";
+  this.card.style.bottom = "0";
+  this.card.style.top = "0";
+  this.card.style.margin = "auto";
+  this.card.style.borderRadius = "10px";
+  this.card.style.boxShadow = "1px 1px 3px rgba(0, 0, 0, 0.5)";
+
+  this._loader = document.createElement("span");
+  this._loader.setAttribute("class", "loader");
+
+  this._label = document.createElement("label");
+  this._label.style.fontWeight = "bold";
+  this._label.style.marginTop = "10px";
+  this._label.innerHTML = "Please Wait...";
+  this.card.style.textAlign = "center";
+
+  this.card.append(this._label);
+  this.card.append(this._loader);
+
+  this.container.append(this.card);
+  this.control = this.card;
+
+};
+
+LoaderBox.prototype = Object.create(Interface.prototype);
+
+/*
+classes:
+  Application
+  Table
+  Button
+  TextBox
+  ComboBox
+  MessageBox
+  ConfirmBox
+*/
