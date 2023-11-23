@@ -818,13 +818,20 @@ var Form = function() {
 Form.prototype = Object.create(Interface.prototype);
 
 Form.prototype.getValues = function() {
+  var data = {};
   for (var x of this._v) {
-    console.log(x);
+    data[x[0]] = x[1].getValue();
   }
+  return data;
 };
 
 Form.prototype.add = function(o, n) {
-  this._v.push([n, o]);
+  var n = n || null;
+  
+  if (n != null) {
+    this._v.push([n, o]);
+  }
+
   this._c.append(o.getContainer());
 };
 /*
