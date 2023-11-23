@@ -2,6 +2,9 @@
 var _ = {
   c: function(l) {
     return document.createElement(l);
+  },
+  e: function(a, c) {
+    o.addEventListener(_, c);
   }
 };
 
@@ -418,18 +421,20 @@ var Button = function(name, type, icon, hint) {
   this._c = _.c("button");
   this.control = this._c;
   this._c.setAttribute("class", `btn btn-${this.type}`);
-  var i = _.c("i");
+  this._i = _.c("i");
   if (this.icon != "") {
-    i.style.marginRight = "5px";
+    this._i.style.marginRight = "5px";
   }
   if (this.hint != null) {
     this._c.setAttribute("data-toggle", "tooltip");
     this._c.setAttribute("title", this.hint);
   }
-  i.setAttribute("class", `fa fa-${this.icon}`);
+  if (this.icon != "") 
+    this._i.setAttribute("class", `fa fa-${this.icon}`);
+  
   var name = _.c("span");
   name.innerHTML = this.name;
-  this._c.append(i);
+  this._c.append(this._i);
   this._c.append(name);
 };
 
@@ -442,6 +447,11 @@ Button.prototype.addEventListener = function(evt, callback) {
     }
     this.events[evt] = evt;
   }
+};
+Button.prototype.setIcon = function(_i) {
+  this._i.style.marginRight = "5px";
+  this._i.removeAttribute("class");
+  this._i.setAttribute("class", `fa fa-${_i}`);
 };
 // end button
 
@@ -546,19 +556,19 @@ var MessageBox = function() {
   this._d.style.borderRadius = "10px";
   this._d.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
 
-  this.ok = _.c("button");
-  this.ok.innerHTML = "OK";
-  this.ok.style.width = "100px";
-  this.ok.style.height = "35px";
-  this.ok.style.backgroundColor = "#16c4cd";
-  this.ok.style.color = "white";
-  this.ok.style.fontWeight = "bold";
-  this.ok.style.border = "1px solid rgba(255, 255, 255, 0.3)";
-  this.ok.style.position = "absolute";
-  this.ok.style.left = "0";
-  this.ok.style.right = "0";
-  this.ok.style.bottom = "10px";
-  this.ok.style.margin = "auto";
+  this._k = _.c("button");
+  this._k.innerHTML = "OK";
+  this._k.style.width = "100px";
+  this._k.style.height = "35px";
+  this._k.style.backgroundColor = "#16c4cd";
+  this._k.style.color = "white";
+  this._k.style.fontWeight = "bold";
+  this._k.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+  this._k.style.position = "absolute";
+  this._k.style.left = "0";
+  this._k.style.right = "0";
+  this._k.style.bottom = "10px";
+  this._k.style.margin = "auto";
 
   this._lb = _.c("label");
   this._lb.style.position = "absolute";
@@ -573,27 +583,27 @@ var MessageBox = function() {
   this._lb.style.color = "#8f8787";
   this._lb.style.fontWeight = "bold";
 
-  this.msg = _.c("p");
-  this.msg.style.position = "absolute";
-  this.msg.style.left = "0";
-  this.msg.style.right = "0";
-  this.msg.style.top = "80px";
-  this.msg.style.fontSize = "15pt";
-  this.msg.style.margin = "auto";
-  this.msg.style.width = "250px";
-  this.msg.style.height = "20pt";
-  this.msg.style.textAlign = "center";
-  this.msg.style.color = "#8f8787";
+  this._m = _.c("p");
+  this._m.style.position = "absolute";
+  this._m.style.left = "0";
+  this._m.style.right = "0";
+  this._m.style.top = "80px";
+  this._m.style.fontSize = "15pt";
+  this._m.style.margin = "auto";
+  this._m.style.width = "250px";
+  this._m.style.height = "20pt";
+  this._m.style.textAlign = "center";
+  this._m.style.color = "#8f8787";
 
   this._d.append(this._lb);
-  this._d.append(this.msg);
-  this._d.append(this.ok);
+  this._d.append(this._m);
+  this._d.append(this._k);
 
   this._c.append(this._d);
   
   var me = this;
   this.callback = null;
-  this.ok.addEventListener("click", function() {
+  this._k.addEventListener("click", function() {
     try {
       me.hide();
       me.call_back();
@@ -613,7 +623,7 @@ MessageBox.prototype.show = function(msg, _callback) {
   this._c.style.display = "block";
   this._lb.innerHTML = type;
   
-  this.msg.innerHTML = msg;
+  this._m.innerHTML = msg;
 
   this.call_back = _callback;
 };
@@ -643,28 +653,28 @@ var ConfirmBox = function() {
   this._d.style.borderRadius = "10px";
   this._d.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
 
-  this.ok = _.c("button");
-  this.ok.innerHTML = "OK";
-  this.ok.style.width = "100px";
-  this.ok.style.height = "35px";
-  this.ok.style.backgroundColor = "#16c4cd";
-  this.ok.style.color = "white";
-  this.ok.style.fontWeight = "bold";
-  this.ok.style.border = "1px solid rgba(255, 255, 255, 0.3)";
-  // this.ok.style.position = "absolute";
-  // this.ok.style.left = "0";
-  // this.ok.style.right = "0";
-  // this.ok.style.bottom = "10px";
-  // this.ok.style.margin = "auto";
+  this._k = _.c("button");
+  this._k.innerHTML = "OK";
+  this._k.style.width = "100px";
+  this._k.style.height = "35px";
+  this._k.style.backgroundColor = "#16c4cd";
+  this._k.style.color = "white";
+  this._k.style.fontWeight = "bold";
+  this._k.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+  // this._k.style.position = "absolute";
+  // this._k.style.left = "0";
+  // this._k.style.right = "0";
+  // this._k.style.bottom = "10px";
+  // this._k.style.margin = "auto";
 
-  this.bgroup = _.c("div");
-  this.bgroup.style.position = "absolute";
-  this.bgroup.style.width = "200px";
-  this.bgroup.style.height = "40px";
-  this.bgroup.style.left = "0";
-  this.bgroup.style.right = "0";
-  this.bgroup.style.bottom = "10px";
-  this.bgroup.style.margin = "auto";
+  this._b = _.c("div");
+  this._b.style.position = "absolute";
+  this._b.style.width = "200px";
+  this._b.style.height = "40px";
+  this._b.style.left = "0";
+  this._b.style.right = "0";
+  this._b.style.bottom = "10px";
+  this._b.style.margin = "auto";
 
   this._cls = _.c("button");
   this._cls.innerHTML = "Close";
@@ -693,24 +703,24 @@ var ConfirmBox = function() {
   this._lb.style.color = "#8f8787";
   this._lb.style.fontWeight = "bold";
 
-  this.msg = _.c("p");
-  this.msg.style.position = "absolute";
-  this.msg.style.left = "0";
-  this.msg.style.right = "0";
-  this.msg.style.top = "80px";
-  this.msg.style.fontSize = "15pt";
-  this.msg.style.margin = "auto";
-  this.msg.style.width = "250px";
-  this.msg.style.height = "20pt";
-  this.msg.style.textAlign = "center";
-  this.msg.style.color = "#8f8787";
+  this._m = _.c("p");
+  this._m.style.position = "absolute";
+  this._m.style.left = "0";
+  this._m.style.right = "0";
+  this._m.style.top = "80px";
+  this._m.style.fontSize = "15pt";
+  this._m.style.margin = "auto";
+  this._m.style.width = "250px";
+  this._m.style.height = "20pt";
+  this._m.style.textAlign = "center";
+  this._m.style.color = "#8f8787";
 
-  this.bgroup.append(this.ok);
-  this.bgroup.append(this._cls);
+  this._b.append(this._k);
+  this._b.append(this._cls);
 
   this._d.append(this._lb);
-  this._d.append(this.msg);
-  this._d.append(this.bgroup);
+  this._d.append(this._m);
+  this._d.append(this._b);
 
   this._c.append(this._d);
   
@@ -722,7 +732,7 @@ var ConfirmBox = function() {
     me.hide();  
   });
 
-  this.ok.addEventListener("click", function() {
+  this._k.addEventListener("click", function() {
     try {
       me.hide();
       me.call_back();
@@ -742,7 +752,7 @@ ConfirmBox.prototype.show = function(msg, _callback) {
   this._c.style.display = "block";
   this._lb.innerHTML = type;
   
-  this.msg.innerHTML = msg;
+  this._m.innerHTML = msg;
 
   this.call_back = _callback;
 };
@@ -799,7 +809,16 @@ LoaderBox.prototype = Object.create(Interface.prototype);
 
 
 var Form = function() {
-  this._p = _.c("");
+  this._c = _.c("div");
+  
+
+  this.control = this._c;
+};
+
+Form.prototype = Object.create(Interface.prototype);
+
+Form.prototype.add = function() {
+
 };
 /*
 classes:
