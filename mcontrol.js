@@ -1,4 +1,9 @@
 // for interface
+var _ = {
+  c: function(l) {
+    return document.createElement(l);
+  }
+};
 
 var Interface = function() {};
 
@@ -7,15 +12,15 @@ Interface.prototype.container = null;
 Interface.prototype.control = null;
 
 Interface.prototype.getContainer = function() {
-  return this.container;
+  return this._c;
 };
 
 Interface.prototype.hide = function() {
-  this.container.style.display = "none";
+  this._c.style.display = "none";
 };
 
 Interface.prototype.show = function() {
-  this.container.style.display = "block";
+  this._c.style.display = "block";
 };
 
 Interface.prototype.setId = function(id) {
@@ -48,30 +53,30 @@ Interface.prototype.setBackgroundImage = function(img) {
 var Application = function() {
   this.body = null;
   this.body = document.getElementsByTagName("body")[0];
-  this.container = document.createElement("div");
-  this.body.append(this.container);
-  this.container.style.width = "100%";
-  this.container.style.height = "100%";
-  this.container.style.margin = "0px";
-  this.container.style.padding = "0px";
-  this.container.style.position = "relative";
+  this._c = _.c("div");
+  this.body.append(this._c);
+  this._c.style.width = "100%";
+  this._c.style.height = "100%";
+  this._c.style.margin = "0px";
+  this._c.style.padding = "0px";
+  this._c.style.position = "relative";
 };
 
 Application.prototype = Object.create(Interface.prototype);
 
 Application.prototype.clear = function() {
-  while(this.container.firstChild) {
-    this.container.removeChild(this.container.firstChild);
+  while(this._c.firstChild) {
+    this._c.removeChild(this._c.firstChild);
    };
 };
 
 Application.prototype.open = function(panel) {
   this.clear();
-  this.container.append(panel.getContainer());
+  this._c.append(panel.getContainer());
 };
 
 Application.prototype.add = function(obj) {
-  this.container.append(obj.getContainer());
+  this._c.append(obj.getContainer());
 };
 
 /* End Application */
@@ -87,25 +92,25 @@ var Table = function(header) {
   this.loader = null;
 
   // initialized class
-  this.loader = document.createElement("div");
+  this.loader = _.c("div");
   this.loader.style.padding = "10px";
   this.loader.innerHTML = `<span class="loader"></span>`;
 
   var header = this.__header;;
   
-  this.container = document.createElement("div");
-  // this.container.style.display = "none";
-  this.table = document.createElement("table");
+  this._c = _.c("div");
+  // this._c.style.display = "none";
+  this.table = _.c("table");
   this.table.setAttribute("class", "table");
-  this.tbody = document.createElement("tbody");
+  this.tbody = _.c("tbody");
 
   this.control = this.table;
   // create header
-  var thead = document.createElement("thead");
-  var tr = document.createElement("tr");
-  var th = document.createElement("th");
+  var thead = _.c("thead");
+  var tr = _.c("tr");
+  var th = _.c("th");
   for (var x of header) {
-    var th = document.createElement("th");
+    var th = _.c("th");
     th.innerHTML = x;
     tr.append(th);
   }
@@ -116,7 +121,7 @@ var Table = function(header) {
   
   // initialized the body of the table
   this.table.append(this.tbody);
-  this.container.append(this.table);
+  this._c.append(this.table);
 
 };
 
@@ -129,15 +134,15 @@ Table.prototype.clear = function() {
 };
 
 Table.prototype._con_clear = function() {
-  while (this.container.firstChild) {
-    this.container.removeChild(this.container.firstChild);
+  while (this._c.firstChild) {
+    this._c.removeChild(this._c.firstChild);
   }
 };
 
 Table.prototype.show = function() {
   this._con_clear();
-  this.container.style.display = "block";
-  this.container.append(this.table);
+  this._c.style.display = "block";
+  this._c.append(this.table);
 };
 
 Table.prototype.getTable = function() {
@@ -147,7 +152,7 @@ Table.prototype.getTable = function() {
 Table.prototype.load = function() {
   // loader
   this._con_clear();
-  this.container.append(this.loader);
+  this._c.append(this.loader);
 };
 
 Table.prototype.row = function(data) {
@@ -156,11 +161,11 @@ Table.prototype.row = function(data) {
     
   // manipulate the body
   for (var x of data) {
-    var tr = document.createElement("tr");
+    var tr = _.c("tr");
     
     for (var y of x) {
       console.log(typeof(y));
-      var td = document.createElement("td");
+      var td = _.c("td");
       td.style.cursor = "pointer";
       if (typeof(y) == "object") {
         td.append(y); // if button or any elements
@@ -176,9 +181,9 @@ Table.prototype.row = function(data) {
 };
 
 Table.prototype.prepend = function(data) {
-  var tr = document.createElement("tr");
+  var tr = _.c("tr");
   for (var y of data) {
-    var td = document.createElement("td");
+    var td = _.c("td");
     td.style.cursor = "pointer";
     if (typeof(y) == "object") {
       td.append(y); // if button or any elements
@@ -192,9 +197,9 @@ Table.prototype.prepend = function(data) {
 
 // add row 
 Table.prototype.add = function(data) {
-  var tr = document.createElement("tr");
+  var tr = _.c("tr");
   for (var y of data) {
-    var td = document.createElement("td");
+    var td = _.c("td");
     td.style.cursor = "pointer";
     if (typeof(y) == "object") {
       td.append(y.getContainer()); // if button or any elements
@@ -221,62 +226,62 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this.icon = icon || null;
   this.type = type || "text";
 
-  this.label = label;
+  this._lb = label;
 
-  this.container = null;
-  this.input = null;
+  this._c = null;
+  this._n = null;
 
   this.events = {};
 
   // initialized class
 
-  this.container = document.createElement("div");
-  this.container.style.marginTop = "3px";
-  this.container.setAttribute("class", "input-group");
+  this._c = _.c("div");
+  this._c.style.marginTop = "3px";
+  this._c.setAttribute("class", "input-group");
 
-  var span = document.createElement("span");
+  var span = _.c("span");
   
-  this.i = document.createElement("i");
+  this.i = _.c("i");
   this.i.setAttribute("class", `fa fa-${this.icon}`);
   span.setAttribute("class", "input-group-addon");
 
   if (this.icon != null) {
     span.append(this.i);
   } else {
-    span.innerHTML = this.label;
+    span.innerHTML = this._lb;
   }
 
-  this.input = document.createElement("input");
-  this.input.setAttribute("class", "form-control");
-  this.input.setAttribute("type", this.type);
-  this.control = this.input;
+  this._n = _.c("input");
+  this._n.setAttribute("class", "form-control");
+  this._n.setAttribute("type", this.type);
+  this.control = this._n;
   if (this.hint != null) {
-    this.input.setAttribute("data-toggle", "tooltip");
-    this.input.setAttribute("title", this.hint);
+    this._n.setAttribute("data-toggle", "tooltip");
+    this._n.setAttribute("title", this.hint);
   }
 
-  this.input.setAttribute("placeholder", this.placeholder);
+  this._n.setAttribute("placeholder", this.placeholder);
 
-  this.container.append(span);
-  this.container.append(this.input);
+  this._c.append(span);
+  this._c.append(this._n);
   
 };
 
 TextBox.prototype = Object.create(Interface.prototype);
 TextBox.prototype.setPlaceHolder = function(t) {
-  this.input.setAttribute("placeholder", t);
+  this._n.setAttribute("placeholder", t);
 };
 TextBox.prototype.setValue = function(value) {
-  this.input.value = value;
+  this._n.value = value;
 };
 TextBox.prototype.getValue = function() {
-  return this.input.value;
+  return this._n.value;
 };
 TextBox.prototype.addEventListener = function(evt, callback) {
   var ok = typeof(this.events[evt]) == "undefined";
   if (ok) {
     if (this.events[evt] != evt) {
-      this.input.addEventListener(evt, callback);
+      this._n.addEventListener(evt, callback);
     }
     this.events[evt] = evt;
   }
@@ -285,14 +290,14 @@ TextBox.prototype.addEventListener = function(evt, callback) {
 // end text box
 
 var Label = function(label) {
-  this.label = label || "";
-  this.container = document.createElement("label");
-  this.container.innerHTML = this.label;
-  this.control = this.container;
+  this._lb = label || "";
+  this._c = _.c("label");
+  this._c.innerHTML = this._lb;
+  this.control = this._c;
 };
 Label.prototype = Object.create(Interface.prototype);
 Label.prototype.setValue = function(value) {
-  this.container.innerHTML = value;
+  this._c.innerHTML = value;
 };
 
 
@@ -321,65 +326,65 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   this.icon = icon || null;
   this.type = type || "text";
 
-  this.label = label;
+  this._lb = label;
 
-  this.container = null;
-  this.input = null;
+  this._c = null;
+  this._n = null;
   this.events = {};
 
   // initialized class
-  this.container = document.createElement("div");
-  this.container.style.marginTop = "3px";
-  this.container.setAttribute("class", "input-group");
+  this._c = _.c("div");
+  this._c.style.marginTop = "3px";
+  this._c.setAttribute("class", "input-group");
 
-  var span = document.createElement("span");
+  var span = _.c("span");
   
-  this.i = document.createElement("i");
+  this.i = _.c("i");
   this.i.setAttribute("class", `fa fa-${this.icon}`);
   span.setAttribute("class", "input-group-addon");
 
   if (this.icon != null) {
     span.append(this.i);
   } else {
-    span.innerHTML = this.label;
+    span.innerHTML = this._lb;
   }
 
-  this.input = document.createElement("select");
-  this.input.setAttribute("class", "form-control");
-  this.input.setAttribute("type", this.type);
-  this.control = this.input;  
+  this._n = _.c("select");
+  this._n.setAttribute("class", "form-control");
+  this._n.setAttribute("type", this.type);
+  this.control = this._n;  
   if (this.hint != null) {
-    this.input.setAttribute("data-toggle", "tooltip");
-    this.input.setAttribute("title", this.hint);
+    this._n.setAttribute("data-toggle", "tooltip");
+    this._n.setAttribute("title", this.hint);
   }
 
-  this.input.setAttribute("placeholder", this.placeholder);
+  this._n.setAttribute("placeholder", this.placeholder);
 
   // all all the options in the placeholder
   for (var v of this.option) {
     this.add(v[0], v[1]);
   }
-  this.container.append(span);
-  this.container.append(this.input);    
+  this._c.append(span);
+  this._c.append(this._n);    
 
-  this.control = this.container;
+  this.control = this._c;
 };
 
 ComboBox.prototype = Object.create(Interface.prototype);
 ComboBox.prototype.setPlaceHolder = function(t) {
-  this.input.setAttribute("placeholder", t);
+  this._n.setAttribute("placeholder", t);
 };
 ComboBox.prototype.setValue = function(value) {
-  this.input.value = value;
+  this._n.value = value;
 }
 ComboBox.prototype.getValue = function() {
-  return this.input.value;
+  return this._n.value;
 };
 ComboBox.prototype.addEventListener = function(evt, callback) {
   var ok = typeof(this.events[evt]) == "undefined";
   if (ok) {
     if (this.events[evt] != evt) {
-      this.input.addEventListener(evt, callback);
+      this._n.addEventListener(evt, callback);
     }
     this.events[evt] = evt;
   }
@@ -391,10 +396,10 @@ ComboBox.prototype.clear = function() {
   }
 };
 ComboBox.prototype.add = function(key, value) {
-  var option = document.createElement("option");
+  var option = _.c("option");
   option.setAttribute("value", key);
   option.innerHTML = value;
-  this.input.append(option);
+  this._n.append(option);
   this.options.push(option);
 };
 // end combobox
@@ -410,22 +415,22 @@ var Button = function(name, type, icon, hint) {
 
   this.events = {};
   
-  this.container = document.createElement("button");
-  this.control = this.container;
-  this.container.setAttribute("class", `btn btn-${this.type}`);
-  var i = document.createElement("i");
+  this._c = _.c("button");
+  this.control = this._c;
+  this._c.setAttribute("class", `btn btn-${this.type}`);
+  var i = _.c("i");
   if (this.icon != "") {
     i.style.marginRight = "5px";
   }
   if (this.hint != null) {
-    this.container.setAttribute("data-toggle", "tooltip");
-    this.container.setAttribute("title", this.hint);
+    this._c.setAttribute("data-toggle", "tooltip");
+    this._c.setAttribute("title", this.hint);
   }
   i.setAttribute("class", `fa fa-${this.icon}`);
-  var name = document.createElement("span");
+  var name = _.c("span");
   name.innerHTML = this.name;
-  this.container.append(i);
-  this.container.append(name);
+  this._c.append(i);
+  this._c.append(name);
 };
 
 Button.prototype = Object.create(Interface.prototype);
@@ -433,7 +438,7 @@ Button.prototype.addEventListener = function(evt, callback) {
   var ok = typeof(this.events[evt]) == "undefined";
   if (ok) {
     if (this.events[evt] != evt) {
-      this.container.addEventListener(evt, callback);
+      this._c.addEventListener(evt, callback);
     }
     this.events[evt] = evt;
   }
@@ -444,40 +449,40 @@ Button.prototype.addEventListener = function(evt, callback) {
 // modal
 /*
 
-  var dialog_con = document.createElement("div");
+  var dialog_con = _.c("div");
   dialog_con.setAttribute("class", "dialog_container");
-  var dialog = document.createElement("div");
+  var dialog = _.c("div");
   dialog.setAttribute("class", "dialog_modal");
 
 */
 
 var Panel = function(title) {
-  this.container = document.createElement("div");
-  this.control = this.container;
+  this._c = _.c("div");
+  this.control = this._c;
 };
 Panel.prototype = Object.create(Interface.prototype);
 Panel.prototype.add = function(mcontrol_obj) {
-  this.container.append(mcontrol_obj.getContainer());
+  this._c.append(mcontrol_obj.getContainer());
 };
 
 var Modal = function(title, icon) {
   this.title = title || null;
   this.icon = icon || icon;
 
-  this.container = null;
+  this._c = null;
   this.dialog = null;
   this.body = null;
 
   // Intialized the class
-  this.container = document.createElement("div");
-  this.container.setAttribute("class", "dialog_container");
+  this._c = _.c("div");
+  this._c.setAttribute("class", "dialog_container");
   
-  this.dialog = document.createElement("div");
+  this.dialog = _.c("div");
   this.dialog.setAttribute("class", "dialog_modal");
   
   var me = this;
   
-  var close = document.createElement("button");
+  var close = _.c("button");
   close.innerHTML = `x`;
   close.style.height = "23px";
   close.style.width = "23px";
@@ -490,7 +495,7 @@ var Modal = function(title, icon) {
     me.hide();
   });
   
-  var title = document.createElement("div");
+  var title = _.c("div");
   title.classList.add("title");
   title.style.position = "relative";
   title.innerHTML = `<i class="fa fa-${this.icon}"></i> ${this.title}`;
@@ -498,12 +503,12 @@ var Modal = function(title, icon) {
 
   this.dialog.append(title);
   // contents
-  this.body = document.createElement("div");
+  this.body = _.c("div");
   this.body.style.padding = "10px";
   this.body.style.position = "relative";
   this.dialog.append(this.body);
   // end contents
-  this.container.append(this.dialog);
+  this._c.append(this.dialog);
   
   this.control = this.dialog;
 };
@@ -518,30 +523,30 @@ Modal.prototype.add = function(obj_element) {
 
 // alerts 
 var MessageBox = function() {
-  this.container = document.createElement("div");
-  this.container.style.display = "none";
-  this.container.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
-  this.container.style.zIndex = "1000";
-  this.container.style.width = "100%";
-  this.container.style.height = "100%";
-  this.container.style.position = "fixed";
-  this.container.style.left = "0";
-  this.container.style.top = "0";
+  this._c = _.c("div");
+  this._c.style.display = "none";
+  this._c.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
+  this._c.style.zIndex = "1000";
+  this._c.style.width = "100%";
+  this._c.style.height = "100%";
+  this._c.style.position = "fixed";
+  this._c.style.left = "0";
+  this._c.style.top = "0";
 
-  this.card = document.createElement("div");
-  this.card.style.position = "absolute";
-  this.card.style.width = "360px";
-  this.card.style.height = "200px";
-  this.card.style.backgroundColor = "white";
-  this.card.style.left = "0";
-  this.card.style.right = "0";
-  this.card.style.bottom = "0";
-  this.card.style.top = "0";
-  this.card.style.margin = "auto";
-  this.card.style.borderRadius = "10px";
-  this.card.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
+  this._d = _.c("div");
+  this._d.style.position = "absolute";
+  this._d.style.width = "360px";
+  this._d.style.height = "200px";
+  this._d.style.backgroundColor = "white";
+  this._d.style.left = "0";
+  this._d.style.right = "0";
+  this._d.style.bottom = "0";
+  this._d.style.top = "0";
+  this._d.style.margin = "auto";
+  this._d.style.borderRadius = "10px";
+  this._d.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
 
-  this.ok = document.createElement("button");
+  this.ok = _.c("button");
   this.ok.innerHTML = "OK";
   this.ok.style.width = "100px";
   this.ok.style.height = "35px";
@@ -555,20 +560,20 @@ var MessageBox = function() {
   this.ok.style.bottom = "10px";
   this.ok.style.margin = "auto";
 
-  this.label = document.createElement("label");
-  this.label.style.position = "absolute";
-  this.label.style.left = "0";
-  this.label.style.right = "0";
-  this.label.style.top = "10px";
-  this.label.style.fontSize = "30pt";
-  this.label.style.margin = "auto";
-  this.label.style.width = "200px";
-  this.label.style.height = "20pt";
-  this.label.style.textAlign = "center";
-  this.label.style.color = "#8f8787";
-  this.label.style.fontWeight = "bold";
+  this._lb = _.c("label");
+  this._lb.style.position = "absolute";
+  this._lb.style.left = "0";
+  this._lb.style.right = "0";
+  this._lb.style.top = "10px";
+  this._lb.style.fontSize = "30pt";
+  this._lb.style.margin = "auto";
+  this._lb.style.width = "200px";
+  this._lb.style.height = "20pt";
+  this._lb.style.textAlign = "center";
+  this._lb.style.color = "#8f8787";
+  this._lb.style.fontWeight = "bold";
 
-  this.msg = document.createElement("p");
+  this.msg = _.c("p");
   this.msg.style.position = "absolute";
   this.msg.style.left = "0";
   this.msg.style.right = "0";
@@ -580,11 +585,11 @@ var MessageBox = function() {
   this.msg.style.textAlign = "center";
   this.msg.style.color = "#8f8787";
 
-  this.card.append(this.label);
-  this.card.append(this.msg);
-  this.card.append(this.ok);
+  this._d.append(this._lb);
+  this._d.append(this.msg);
+  this._d.append(this.ok);
 
-  this.container.append(this.card);
+  this._c.append(this._d);
   
   var me = this;
   this.callback = null;
@@ -596,7 +601,7 @@ var MessageBox = function() {
       me.hide();
     }
   });
-  this.control = this.card;
+  this.control = this._d;
 };
 
 MessageBox.prototype = Object.create(Interface.prototype);
@@ -605,8 +610,8 @@ MessageBox.prototype.show = function(msg, _callback) {
   var type = type || "A l e r t !";
   var msg = msg || "";
   var _callback = _callback || undefined;
-  this.container.style.display = "block";
-  this.label.innerHTML = type;
+  this._c.style.display = "block";
+  this._lb.innerHTML = type;
   
   this.msg.innerHTML = msg;
 
@@ -615,30 +620,30 @@ MessageBox.prototype.show = function(msg, _callback) {
 
 
 var ConfirmBox = function() {
-  this.container = document.createElement("div");
-  this.container.style.display = "none";
-  this.container.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
-  this.container.style.zIndex = "1001";
-  this.container.style.width = "100%";
-  this.container.style.height = "100%";
-  this.container.style.position = "fixed";
-  this.container.style.left = "0";
-  this.container.style.top = "0";
+  this._c = _.c("div");
+  this._c.style.display = "none";
+  this._c.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
+  this._c.style.zIndex = "1001";
+  this._c.style.width = "100%";
+  this._c.style.height = "100%";
+  this._c.style.position = "fixed";
+  this._c.style.left = "0";
+  this._c.style.top = "0";
 
-  this.card = document.createElement("div");
-  this.card.style.position = "absolute";
-  this.card.style.width = "360px";
-  this.card.style.height = "200px";
-  this.card.style.backgroundColor = "white";
-  this.card.style.left = "0";
-  this.card.style.right = "0";
-  this.card.style.bottom = "0";
-  this.card.style.top = "0";
-  this.card.style.margin = "auto";
-  this.card.style.borderRadius = "10px";
-  this.card.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
+  this._d = _.c("div");
+  this._d.style.position = "absolute";
+  this._d.style.width = "360px";
+  this._d.style.height = "200px";
+  this._d.style.backgroundColor = "white";
+  this._d.style.left = "0";
+  this._d.style.right = "0";
+  this._d.style.bottom = "0";
+  this._d.style.top = "0";
+  this._d.style.margin = "auto";
+  this._d.style.borderRadius = "10px";
+  this._d.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
 
-  this.ok = document.createElement("button");
+  this.ok = _.c("button");
   this.ok.innerHTML = "OK";
   this.ok.style.width = "100px";
   this.ok.style.height = "35px";
@@ -652,7 +657,7 @@ var ConfirmBox = function() {
   // this.ok.style.bottom = "10px";
   // this.ok.style.margin = "auto";
 
-  this.bgroup = document.createElement("div");
+  this.bgroup = _.c("div");
   this.bgroup.style.position = "absolute";
   this.bgroup.style.width = "200px";
   this.bgroup.style.height = "40px";
@@ -661,34 +666,34 @@ var ConfirmBox = function() {
   this.bgroup.style.bottom = "10px";
   this.bgroup.style.margin = "auto";
 
-  this.close = document.createElement("button");
-  this.close.innerHTML = "Close";
-  this.close.style.width = "100px";
-  this.close.style.height = "35px";
-  this.close.style.backgroundColor = "rgb(255, 62, 97)";
-  this.close.style.color = "white";
-  this.close.style.fontWeight = "bold";
-  this.close.style.border = "1px solid rgba(255, 255, 255, 0.3)";
-  // this.close.style.position = "absolute";
-  // this.close.style.left = "0";
-  // this.close.style.right = "0";
-  // this.close.style.bottom = "10px";
-  // this.close.style.margin = "auto";
+  this._cls = _.c("button");
+  this._cls.innerHTML = "Close";
+  this._cls.style.width = "100px";
+  this._cls.style.height = "35px";
+  this._cls.style.backgroundColor = "rgb(255, 62, 97)";
+  this._cls.style.color = "white";
+  this._cls.style.fontWeight = "bold";
+  this._cls.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+  // this._cls.style.position = "absolute";
+  // this._cls.style.left = "0";
+  // this._cls.style.right = "0";
+  // this._cls.style.bottom = "10px";
+  // this._cls.style.margin = "auto";
 
-  this.label = document.createElement("label");
-  this.label.style.position = "absolute";
-  this.label.style.left = "0";
-  this.label.style.right = "0";
-  this.label.style.top = "15px";
-  this.label.style.fontSize = "15pt";
-  this.label.style.margin = "auto";
-  this.label.style.width = "220px";
-  this.label.style.height = "20pt";
-  this.label.style.textAlign = "center";
-  this.label.style.color = "#8f8787";
-  this.label.style.fontWeight = "bold";
+  this._lb = _.c("label");
+  this._lb.style.position = "absolute";
+  this._lb.style.left = "0";
+  this._lb.style.right = "0";
+  this._lb.style.top = "15px";
+  this._lb.style.fontSize = "15pt";
+  this._lb.style.margin = "auto";
+  this._lb.style.width = "220px";
+  this._lb.style.height = "20pt";
+  this._lb.style.textAlign = "center";
+  this._lb.style.color = "#8f8787";
+  this._lb.style.fontWeight = "bold";
 
-  this.msg = document.createElement("p");
+  this.msg = _.c("p");
   this.msg.style.position = "absolute";
   this.msg.style.left = "0";
   this.msg.style.right = "0";
@@ -701,19 +706,19 @@ var ConfirmBox = function() {
   this.msg.style.color = "#8f8787";
 
   this.bgroup.append(this.ok);
-  this.bgroup.append(this.close);
+  this.bgroup.append(this._cls);
 
-  this.card.append(this.label);
-  this.card.append(this.msg);
-  this.card.append(this.bgroup);
+  this._d.append(this._lb);
+  this._d.append(this.msg);
+  this._d.append(this.bgroup);
 
-  this.container.append(this.card);
+  this._c.append(this._d);
   
 
   var me = this;
   this.callback = null;
  
-  this.close.addEventListener("click", function() {
+  this._cls.addEventListener("click", function() {
     me.hide();  
   });
 
@@ -725,7 +730,7 @@ var ConfirmBox = function() {
       me.hide();
     }
   });
-  this.control = this.card;
+  this.control = this._d;
 };
 
 ConfirmBox.prototype = Object.create(Interface.prototype);
@@ -734,8 +739,8 @@ ConfirmBox.prototype.show = function(msg, _callback) {
   var type = type || "C O N F I R M A T I O N";
   var msg = msg || "";
   var _callback = _callback || undefined;
-  this.container.style.display = "block";
-  this.label.innerHTML = type;
+  this._c.style.display = "block";
+  this._lb.innerHTML = type;
   
   this.msg.innerHTML = msg;
 
@@ -744,54 +749,58 @@ ConfirmBox.prototype.show = function(msg, _callback) {
 
 
 var ProgressBar = function() {
-  this.container = document.createElement("div");
+  this._c = _.c("div");
   
 };
 ProgressBar.prototype = Object.create(Interface.prototype);
 
 var LoaderBox = function() {
-  this.container = document.createElement("div");
-  this.container.style.display = "none";
-  this.container.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
-  this.container.style.zIndex = "1000";
-  this.container.style.width = "100%";
-  this.container.style.height = "100%";
-  this.container.style.position = "fixed";
-  this.container.style.left = "0";
-  this.container.style.top = "0";
+  this._c = _.c("div");
+  this._c.style.display = "none";
+  this._c.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
+  this._c.style.zIndex = "1000";
+  this._c.style.width = "100%";
+  this._c.style.height = "100%";
+  this._c.style.position = "fixed";
+  this._c.style.left = "0";
+  this._c.style.top = "0";
 
-  this.card = document.createElement("div");
-  this.card.style.position = "absolute";
-  this.card.style.width = "300px";
-  this.card.style.height = "150px";
-  this.card.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
-  this.card.style.left = "0";
-  this.card.style.right = "0";
-  this.card.style.bottom = "0";
-  this.card.style.top = "0";
-  this.card.style.margin = "auto";
-  this.card.style.borderRadius = "10px";
-  this.card.style.boxShadow = "1px 1px 3px rgba(0, 0, 0, 0.5)";
+  this._d = _.c("div");
+  this._d.style.position = "absolute";
+  this._d.style.width = "300px";
+  this._d.style.height = "150px";
+  this._d.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+  this._d.style.left = "0";
+  this._d.style.right = "0";
+  this._d.style.bottom = "0";
+  this._d.style.top = "0";
+  this._d.style.margin = "auto";
+  this._d.style.borderRadius = "10px";
+  this._d.style.boxShadow = "1px 1px 3px rgba(0, 0, 0, 0.5)";
 
-  this._loader = document.createElement("span");
+  this._loader = _.c("span");
   this._loader.setAttribute("class", "loader");
 
-  this._label = document.createElement("label");
+  this._label = _.c("label");
   this._label.style.fontWeight = "bold";
   this._label.style.marginTop = "10px";
   this._label.innerHTML = "Please Wait...";
-  this.card.style.textAlign = "center";
+  this._d.style.textAlign = "center";
 
-  this.card.append(this._label);
-  this.card.append(this._loader);
+  this._d.append(this._label);
+  this._d.append(this._loader);
 
-  this.container.append(this.card);
-  this.control = this.card;
+  this._c.append(this._d);
+  this.control = this._d;
 
 };
 
 LoaderBox.prototype = Object.create(Interface.prototype);
 
+
+var Form = function() {
+  this._p = _.c("");
+};
 /*
 classes:
   Application
@@ -801,4 +810,6 @@ classes:
   ComboBox
   MessageBox
   ConfirmBox
+  LoaderBox
+  Form
 */
