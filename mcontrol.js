@@ -810,15 +810,22 @@ LoaderBox.prototype = Object.create(Interface.prototype);
 
 var Form = function() {
   this._c = _.c("div");
-  
-
   this.control = this._c;
+
+  this._v = [];
 };
 
 Form.prototype = Object.create(Interface.prototype);
 
-Form.prototype.add = function() {
+Form.prototype.getValues = function() {
+  for (var x of this._v) {
+    console.log(x);
+  }
+};
 
+Form.prototype.add = function(o, n) {
+  this._v.push([n, o]);
+  this._c.append(o.getContainer());
 };
 /*
 classes:
