@@ -436,7 +436,7 @@ var Button = function(name, type, icon, hint) {
   this.hint = hint || null;
   // type danger, success, primary
 
-  this.type = type || "default";
+  this.type = type || null;
   this.name = name || "";
   this.icon = icon || "";
 
@@ -444,7 +444,9 @@ var Button = function(name, type, icon, hint) {
   
   this._c = _.c("button");
   this.control = this._c;
-  this._c.setAttribute("class", `btn btn-${this.type}`);
+  if (this.type != null) {
+    this._c.setAttribute("class", `btn btn-${this.type}`);
+  }
   this._i = _.c("i");
   if (this.icon != "") {
     this._i.style.marginRight = "5px";
