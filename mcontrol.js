@@ -46,6 +46,30 @@ Interface.prototype.setFontStyle = function(font_family) {
   this.control.style.fontFamily = `${font_family}`;
 };
 
+Interface.prototype.addClass = function(_) {
+  if (typeof(_) == "string") {
+    this.control.classList.add(_);
+  } else if(_ instanceof Array) {
+    for (var x of _) {
+      this.control.classList.add(x);
+    }
+  } else {
+    console.log("Invalid remove class parameter");
+  }
+};
+
+Interface.prototype.removeClass = function(_) {
+  if (typeof(_) == "string") {
+    this.control.classList.remove(_);
+  } else if(_ instanceof Array) {
+    for (var x of _) {
+      this.control.classList.remove(x);
+    }
+  } else  {
+    console.log("Invalid remove class parameter");
+  }
+};
+
 Interface.prototype.setBackgroundImage = function(img) {
   // image goes here
 };
