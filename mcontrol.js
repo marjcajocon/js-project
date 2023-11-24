@@ -70,6 +70,12 @@ Interface.prototype.removeClass = function(_) {
   }
 };
 
+Interface.prototype.clear = function() {
+  while (this._c.firstChild) {
+    this._c.removeChild(this._c.firstChild);
+  }
+};
+
 Interface.prototype.setBackgroundImage = function(img) {
   // image goes here
 };
