@@ -845,6 +845,7 @@ var Form = function() {
   this.control = this._c;
 
   this._v = [];
+  this.input = {};
 };
 
 Form.prototype = Object.create(Interface.prototype);
@@ -862,6 +863,7 @@ Form.prototype.add = function(o, n) {
   
   if (n != null) {
     this._v.push([n, o]);
+    this.input[n] = o;
   }
 
   this._c.append(o.getContainer());
