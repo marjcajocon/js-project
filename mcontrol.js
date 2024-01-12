@@ -868,6 +868,14 @@ Form.prototype.add = function(o, n) {
 
   this._c.append(o.getContainer());
 };
+
+Form.prototype.clear = function() {
+  var input = this._v;
+  var input_len = input.length;
+  for (var i = 0; i < input_len; i++) {
+    input[i][1].setValue("");
+  }
+};
 /*
 classes:
   Application
