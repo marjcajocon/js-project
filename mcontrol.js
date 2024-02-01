@@ -39,11 +39,11 @@ Interface.prototype.setBackgroundColor = function(color) {
 };
 
 Interface.prototype.setFontColor = function(color) {
-  this.control.style.color = `${color}`;
+  this.control.style.color = color;
 };
 
 Interface.prototype.setFontStyle = function(font_family) {
-  this.control.style.fontFamily = `${font_family}`;
+  this.control.style.fontFamily = font_family;
 };
 
 Interface.prototype.addClass = function(_) {
@@ -127,7 +127,7 @@ var Table = function(header) {
   // initialized class
   this.loader = _.c("div");
   this.loader.style.padding = "10px";
-  this.loader.innerHTML = `<span class="loader"></span>`;
+  this.loader.innerHTML = '<span class="loader"></span>';
 
   var header = this.__header;;
   
@@ -275,7 +275,7 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   var span = _.c("span");
   
   this.i = _.c("i");
-  this.i.setAttribute("class", `fa fa-${this.icon}`);
+  this.i.setAttribute("class", 'fa fa-' + this.icon);
   span.setAttribute("class", "input-group-addon");
 
   if (this.icon != null) {
@@ -373,7 +373,7 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   var span = _.c("span");
   
   this.i = _.c("i");
-  this.i.setAttribute("class", `fa fa-${this.icon}`);
+  this.i.setAttribute("class", 'fa fa-' + this.icon);
   span.setAttribute("class", "input-group-addon");
 
   if (this.icon != null) {
@@ -451,7 +451,7 @@ var Button = function(name, type, icon, hint) {
   this._c = _.c("button");
   this.control = this._c;
   if (this.type != null) {
-    this._c.setAttribute("class", `btn btn-${this.type}`);
+    this._c.setAttribute("class", 'btn btn-' + this.type);
   }
   this._i = _.c("i");
   if (this.icon != "") {
@@ -462,7 +462,7 @@ var Button = function(name, type, icon, hint) {
     this._c.setAttribute("title", this.hint);
   }
   if (this.icon != "") 
-    this._i.setAttribute("class", `fa fa-${this.icon}`);
+    this._i.setAttribute("class", 'fa fa-' + this.icon);
   
   var name = _.c("span");
   name.innerHTML = this.name;
@@ -483,7 +483,7 @@ Button.prototype.addEventListener = function(evt, callback) {
 Button.prototype.setIcon = function(_i) {
   this._i.style.marginRight = "5px";
   this._i.removeAttribute("class");
-  this._i.setAttribute("class", `fa fa-${_i}`);
+  this._i.setAttribute("class", 'fa fa-' + _i);
 };
 // end button
 
@@ -525,7 +525,7 @@ var Modal = function(title, icon) {
   var me = this;
   
   var close = _.c("button");
-  close.innerHTML = `x`;
+  close.innerHTML = 'x';
   close.style.height = "23px";
   close.style.width = "23px";
   close.style.position = "absolute";
@@ -540,7 +540,7 @@ var Modal = function(title, icon) {
   var title = _.c("div");
   title.classList.add("title");
   title.style.position = "relative";
-  title.innerHTML = `<i class="fa fa-${this.icon}"></i> ${this.title}`;
+  title.innerHTML = '<i class="fa fa-' + this.icon + '"></i>' + this.title;
   title.append(close);
 
   this.dialog.append(title);
