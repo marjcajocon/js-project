@@ -50,7 +50,8 @@ Interface.prototype.addClass = function(_) {
   if (typeof(_) == "string") {
     this.control.classList.add(_);
   } else if(_ instanceof Array) {
-    for (var x of _) {
+    for (var i = 0; i < _.length; i++) {
+      var x = _[i];
       this.control.classList.add(x);
     }
   } else {
@@ -62,7 +63,8 @@ Interface.prototype.removeClass = function(_) {
   if (typeof(_) == "string") {
     this.control.classList.remove(_);
   } else if(_ instanceof Array) {
-    for (var x of _) {
+    for (var i = 0; i < _.length; i++) {
+      var x = _[i];
       this.control.classList.remove(x);
     }
   } else  {
