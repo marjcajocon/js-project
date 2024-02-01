@@ -125,10 +125,10 @@ var AppClassEvent = function( _el, _e, _calback ) {
 
 var Config = {
   url: "",
-  token: null,
-  fkey: null,
+  token: localStorage.getItem("_token"),
+  fkey: localStorage.getItem("_fkey"),
   getKey: function() {
-    return "spxsGsfgBsEqlxwbPiicBgVkelCWzweTISeIwKS3iuw";
+    return "HZRIHcFraxLP-s0HJtHO7vYRvyYSVeFKTZU1OopNY5A=";
   }
 };
 
@@ -142,7 +142,7 @@ var AppHttp = function( _url, _data, _param, __callback ) {
   var headers = param["headers"] || [];
 
   var xml = new XMLHttpRequest();
-  xml.open( method, `${ Config[ "url" ] }${ url }` );
+  xml.open( method, Config[ "url" ] + url );
   if ( data instanceof FormData ) {
     //xml.setRequestHeader("Content-Type", "application/json");
   } else if ( typeof( data ) == "object" ) {
@@ -150,7 +150,7 @@ var AppHttp = function( _url, _data, _param, __callback ) {
     data = JSON.stringify( data );
   }
   if ( Config.token != null ) {
-    xml.setRequestHeader( "Auth", `_token=${ Config.token }` );
+    xml.setRequestHeader( "Auth", '_token=' + Config.token );
   }
   for ( var h of headers ) {
     xml.setRequestHeader( h[ 0 ], h[ 1 ] );
