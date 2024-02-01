@@ -878,6 +878,21 @@ Form.prototype.clear = function() {
     input[i][1].setValue("");
   }
 };
+
+var x_storage = {
+  items: {},
+  setItem: function(key, value) {
+    this.items[key] = value;
+  },
+  getItem: function(key) {
+    var value = this.items[key];
+    if (typeof(value) != 'undefined') {
+      return value;
+    }
+    return null;
+  }
+};
+
 /*
 classes:
   Application
