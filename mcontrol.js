@@ -249,6 +249,45 @@ Table.prototype.add = function(data) {
 
 // end of the table
 
+// CheckBox
+
+var CheckBox = function(_mark) {
+
+  var mark = _mark || false;
+
+  this._c = null;
+  this._n = null;
+  this._c = _.c("input");
+  this._c.setAttribute('type', 'checkbox');
+  this._c.checked = mark;
+  this._n = this._c;
+
+  this.events = {};
+};
+
+CheckBox.prototype = Object.create(Interface.prototype);
+
+CheckBox.prototype.setValue = function(mark) {
+  this._n.checked = mark;
+};
+CheckBox.prototype.getValue = function(mark) {
+  return this._n.checked;
+};
+CheckBox.prototype.addEventListener = function(evt, callback) {
+  var ok = typeof(this.events[evt]) == "undefined";
+  if (ok) {
+    if (this.events[evt] != evt) {
+      this._n.addEventListener(evt, callback);
+    }
+    this.events[evt] = evt;
+  }
+};
+
+
+
+
+// end of checkbox
+
 // text box
 
 var TextBox = function(label, type, icon, hint, placeholder) {
