@@ -262,6 +262,8 @@ var CheckBox = function(_mark) {
   this._c.checked = mark;
   this._n = this._c;
 
+  this.control = this._c;
+
   this.events = {};
 };
 
