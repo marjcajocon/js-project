@@ -144,9 +144,16 @@ var Table = function(header) {
   var thead = _.c("thead");
   var tr = _.c("tr");
   var th = _.c("th");
-  for (var x of header) {
+  
+  // for (var x of header) {
+  //   var th = _.c("th");
+  //   th.innerHTML = x;
+  //   tr.append(th);
+  // }
+
+  for (var i = 0; i < header.length; i++) {
     var th = _.c("th");
-    th.innerHTML = x;
+    th.innerHTML = header[i];
     tr.append(th);
   }
   
@@ -195,12 +202,31 @@ Table.prototype.row = function(data) {
   this.clear();
     
   // manipulate the body
-  for (var x of data) {
-    var tr = _.c("tr");
+  // for (var x of data) {
+  //   var tr = _.c("tr");
     
-    for (var y of x) {
-      console.log(typeof(y));
+  //   for (var y of x) {
+  //     console.log(typeof(y));
+  //     var td = _.c("td");
+  //     td.style.cursor = "pointer";
+  //     if (typeof(y) == "object") {
+  //       td.append(y); // if button or any elements
+  //     } else {
+  //       td.innerHTML = y;
+  //     }
+  //     tr.append(td);
+  //   }
+
+  //   this.tbody.append(tr); 
+  // }
+
+  for (var i = 0; i < data.length; i++) {
+    var tr = _.c("tr");
+    var x = data[i];
+
+    for (var j = 0; j < x.length; j++) {
       var td = _.c("td");
+      var y = x[j];
       td.style.cursor = "pointer";
       if (typeof(y) == "object") {
         td.append(y); // if button or any elements
@@ -209,15 +235,27 @@ Table.prototype.row = function(data) {
       }
       tr.append(td);
     }
-
-    this.tbody.append(tr); 
+    
   }
   // end update the body
 };
 
 Table.prototype.prepend = function(data) {
   var tr = _.c("tr");
-  for (var y of data) {
+  
+  // for (var y of data) {
+  //   var td = _.c("td");
+  //   td.style.cursor = "pointer";
+  //   if (typeof(y) == "object") {
+  //     td.append(y); // if button or any elements
+  //   } else {
+  //     td.innerHTML = y;
+  //   }
+  //   tr.append(td);
+  // }
+
+  for (var i = 0; i < data.length; i++) {
+    var y = data[i];
     var td = _.c("td");
     td.style.cursor = "pointer";
     if (typeof(y) == "object") {
@@ -227,13 +265,26 @@ Table.prototype.prepend = function(data) {
     }
     tr.append(td);
   }
+
   this.tbody.prepend(tr);
 };
 
 // add row 
 Table.prototype.add = function(data) {
   var tr = _.c("tr");
-  for (var y of data) {
+  // for (var y of data) {
+  //   var td = _.c("td");
+  //   td.style.cursor = "pointer";
+  //   if (typeof(y) == "object") {
+  //     td.append(y.getContainer()); // if button or any elements
+  //   } else {
+  //     td.innerHTML = y;
+  //   }
+  //   tr.append(td);
+  // }
+
+  for (var i = 0; i < data.length; i++) {
+    var y = data[i];
     var td = _.c("td");
     td.style.cursor = "pointer";
     if (typeof(y) == "object") {
@@ -243,6 +294,7 @@ Table.prototype.add = function(data) {
     }
     tr.append(td);
   }
+
   this.tbody.append(tr);
 };
 
@@ -437,9 +489,15 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   this._n.setAttribute("placeholder", this.placeholder);
 
   // all all the options in the placeholder
-  for (var v of this.option) {
+  // for (var v of this.option) {
+  //   this.add(v[0], v[1]);
+  // }
+
+  for (var i = 0; i < this.option.length; i++) {
+    var v = this.option[i];
     this.add(v[0], v[1]);
   }
+
   this._c.append(span);
   this._c.append(this._n);    
 
@@ -467,7 +525,11 @@ ComboBox.prototype.addEventListener = function(evt, callback) {
   
 };
 ComboBox.prototype.clear = function() {
-  for (var x of this.options) {
+  // for (var x of this.options) {
+  //   x.remove();
+  // }
+  for (var i = 0; i < this.options.length; i++) {
+    var x = this.options[i];
     x.remove();
   }
 };
@@ -895,9 +957,14 @@ Form.prototype = Object.create(Interface.prototype);
 
 Form.prototype.getValues = function() {
   var data = {};
-  for (var x of this._v) {
+  // for (var x of this._v) {
+  //   data[x[0]] = x[1].getValue();
+  // }
+  for (var i = 0; i < this._v.length; i++) {
+    var x = this._v[i];
     data[x[0]] = x[1].getValue();
   }
+
   return data;
 };
 
