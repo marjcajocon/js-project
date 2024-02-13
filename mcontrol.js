@@ -337,10 +337,73 @@ CheckBox.prototype.addEventListener = function(evt, callback) {
   }
 };
 
-
-
-
 // end of checkbox
+// Radio button
+
+var RadioButton = function(name) {
+  this.name = name || "";
+
+  this._c = null;
+  this._n = null;
+  this._c = _.c("div");
+
+  this._n = this._c;
+
+  this.control = this._c;
+
+  this.events = {};
+  this.el = [];
+};
+
+RadioButton.prototype = Object.create(Interface.prototype);
+RadioButton.prototype.add = function(label, value) {
+  var c = this._c;
+
+  var p = _.c("div");
+
+  var rad = _.c("input");
+  var id_val = label.replaceAll(" ", "").trim();
+  rad.setAttribute("type", "radio");
+  rad.setAttribute("name", this.name);
+  rad.setAttribute("value", value);
+  rad.setAttribute("id", id_val);
+
+  var labelf = _.c("label");
+  labelf.setAttribute("for", id_val);
+  labelf.innerText = label;
+  labelf.style.marginLeft = "2px";
+  p.append(rad);
+  p.append(labelf);
+  c.append(p);
+
+  this.el.push(rad);
+};
+
+RadioButton.prototype.setValue = function(value) {
+  var el = this.el;
+  var el_len = el.length;
+  for (var i = 0; i < el_len; i++) {
+    var r = el[i];
+    if (r.attributes.value.nodeValue == value) {
+      r.checked = true;
+      break;
+    }
+  }
+};
+
+RadioButton.prototype.getValue = function() {
+  var el = this.el;
+  var el_len = el.length;
+  for (var i = 0; i < el_len; i++) {
+    var r = el[i];
+    if (r.checked) {
+      return r.attributes.value.nodeValue;
+    }
+  }
+  return "";
+};
+
+// end Radio button
 
 // text box
 
