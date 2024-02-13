@@ -321,8 +321,8 @@ var CheckBox = function(_mark) {
 
 CheckBox.prototype = Object.create(Interface.prototype);
 
-CheckBox.prototype.setValue = function(mark) {
-  this._n.checked = mark;
+CheckBox.prototype.setValue = function(mark_true_false) {
+  this._n.checked = mark_true_false;
 };
 CheckBox.prototype.getValue = function(mark) {
   return this._n.checked;
