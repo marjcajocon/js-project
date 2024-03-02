@@ -3,14 +3,16 @@ import React from "react";
 interface buttonInterface {
   children: React.ReactNode,
   onClick?:(e: React.MouseEvent<HTMLButtonElement>) => void,
-  bgColor?: string
+  bgColor?: string,
+  LeftIcon?: React.ReactNode
 }
 
 interface inputInterface {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     type?: string,
     label?: string,
-    placeholder?: string
+    placeholder?: string,
+    LeftIcon?: React.ReactNode
 }
 
 const btncolor = [
@@ -23,27 +25,80 @@ const btncolor = [
 
 
 export function Input({
-    onChange, type, label, placeholder
+    onChange, type, label, placeholder, LeftIcon
 }: inputInterface): React.ReactNode {
+    let lstyle: {
+        paddingLeft: string
+    } = {
+        paddingLeft: "0px"
+    };
+    if (LeftIcon) {
+        lstyle.paddingLeft = "38px"
+    }
     return (
-        <div className="form-group">
-            <label>{label}</label>
-            <input className="form-control" placeholder={placeholder} type={type} onChange={onChange} />
+        <div className="form-group" style={{paddingBottom: "5px", position: "relative"}}>
+            {
+                label && (
+                    (<label>{label}</label>)
+                )
+                
+            } 
+            {
+                LeftIcon && (
+                    <div style={{
+                        position: "absolute", 
+                        left: "1px", 
+                        bottom: "6px", 
+                        width: "36px", 
+                        height: "36px",
+                        backgroundColor: "#ddd",
+                        borderTopLeftRadius: "5px",
+                        borderBottomLeftRadius: "5px"
+                    }}>
+                        <div style={{
+                            fontSize: "12pt",
+                            position: "absolute",
+                            left: "10px",
+                            top: "5px"
+                        }}>{LeftIcon}</div>
+                    </div>
+                )
+            }
+            <input className="form-control" style={lstyle} placeholder={placeholder} type={type} onChange={onChange} />
         </div>
     )
 }
 
-export function Button({ children, onClick, bgColor
+
+// Button style
+
+export function Button({ children, onClick, bgColor, LeftIcon
 }: buttonInterface): React.ReactNode {
     return <>
         {   
            
             btncolor && btncolor.map((item) => {
                 if (item.code == bgColor)
-                    return (<button key={item.code} className={item.content} onClick={onClick}>{children}</button>)
+                    return (<button key={item.code} className={item.content} onClick={onClick}>{
+                        LeftIcon && (
+                            <>{LeftIcon}</>
+                        )
+                    } {children}
+                    </button>)
             }) // map
             
         }
         
     </>
 }
+
+export const Card = ({children}: 
+    {children: React.ReactNode}): React.ReactNode => {
+    return <>
+        <div className="card">
+            <div className="card-body">
+                { children }
+            </div>
+        </div>
+    </>
+};
