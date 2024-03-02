@@ -41,4 +41,5 @@ export const AngleUpIcon = (): React.ReactNode => <><Icon icon="angle-up" /></>;
 export const AngleDownIcon = (): React.ReactNode => <><Icon icon="angle-down" /></>;
 export const AngleLeftIcon = (): React.ReactNode => <><Icon icon="angle-left" /></>;
 export const AngleRightIcon = (): React.ReactNode => <><Icon icon="angle-right" /></>;
-// Add here icon from the font-awesome
+export const CalendarMinus = (): React.ReactNode => <><Icon icon="calendar-minus-o" /></>;
+// Add more icons as needed
