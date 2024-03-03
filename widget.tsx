@@ -85,3 +85,57 @@ export const Card = ({
         </div>
     </>  
 };
+
+export const Container = ({
+    children
+}: {
+    children?: React.ReactNode
+}) => {
+    return <>
+        <div className="container-fluid">
+            { children }
+        </div>
+    </>
+};
+
+
+export const Grid = ({
+    children
+}: {
+    children?: React.ReactNode
+}) => <>
+    <div className="container-fluid">
+        <div className="row">
+            { children }
+        </div>    
+    </div>
+</>;
+
+export const GridItem = ({
+    children,
+    xs,
+    sm,
+    md,
+    lg,
+    xx
+}: {
+    children?: React.ReactNode,
+    xs?: string,
+    sm?: string,
+    md?: string,
+    lg?: string,
+    xx?: string
+}) => {
+
+    let dev = xs ? ` col-xs-${xs} ` : " ";
+    dev += sm ? ` col-sm-${sm} ` : "";
+    dev += md ? ` col-md-${md} ` : "";
+    dev += lg ? ` col-lg-${lg} ` : "";
+    dev += xx ? ` col-${xx} ` : "";
+    
+    return <>
+        <div className={dev.trim().replaceAll("  ", " ")}>
+            { children }
+        </div>
+    </>
+}
