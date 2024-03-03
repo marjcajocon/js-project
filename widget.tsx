@@ -1,104 +1,87 @@
 import React from "react";
 
-interface buttonInterface {
-  children: React.ReactNode,
-  onClick?:(e: React.MouseEvent<HTMLButtonElement>) => void,
-  bgColor?: string,
-  LeftIcon?: React.ReactNode
-}
+const colors = [
+    ["red", "danger"],
+    ["blue", "info"],
+    ["orange", "warning"]
+];
+const clen = colors.length;
 
-interface inputInterface {
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+const fcolors = (key: string): string => {
+    for (let i = 0; i < clen; i++) {
+        if (colors[i][0] == key) return colors[i][1];
+    }
+    return "default";
+};
+
+
+export const Button = (
+    {
+        children,
+        bgColor = "default",
+        icon,
+        style,
+        onClick
+    }: {
+        children: React.ReactNode,
+        bgColor?: string,
+        icon?: string,
+        style?: object,
+        onClick?: (e: any | undefined) => void
+    }
+) => {
+    return <>
+        <button onClick={onClick} className={`btn btn-sm btn-${fcolors(bgColor)}`} style={style}>
+            {
+                icon && (
+                    <i className={`fa fa-${icon}`} style={{marginRight: "5px"}}></i> 
+                )
+            }           
+            { children }
+        </button>
+    </>
+};
+
+export const Input = ({
+    type = "text",
+    label,
+    onChange,
+    placeholder,
+    style,
+}: {
     type?: string,
+    onChange?: (e: any |undefined) => void,
     label?: string,
     placeholder?: string,
-    LeftIcon?: React.ReactNode
-}
-
-const btncolor = [
-    {code: "default", content: "btn btn-default btn-sm"},
-    {code: "red", content: "btn btn-danger btn-sm"},
-    {code: "green", content: "btn btn-success btn-sm"},
-    {code: "orange", content: "btn btn-warning btn-sm"},
-    {code: "blue", content: "btn btn-primary btn-sm"}
-];
-
-
-export function Input({
-    onChange, type, label, placeholder, LeftIcon
-}: inputInterface): React.ReactNode {
-    let lstyle: {
-        paddingLeft: string
-    } = {
-        paddingLeft: "0px"
-    };
-    if (LeftIcon) {
-        lstyle.paddingLeft = "38px"
-    }
+    style?: object  
+}) => {
     return (
-        <div className="form-group" style={{paddingBottom: "5px", position: "relative"}}>
-            {
-                label && (
-                    (<label>{label}</label>)
-                )
-                
-            } 
-            {
-                LeftIcon && (
-                    <div style={{
-                        position: "absolute", 
-                        left: "1px", 
-                        bottom: "6px", 
-                        width: "36px", 
-                        height: "36px",
-                        backgroundColor: "#ddd",
-                        borderTopLeftRadius: "5px",
-                        borderBottomLeftRadius: "5px"
-                    }}>
-                        <div style={{
-                            fontSize: "12pt",
-                            position: "absolute",
-                            left: "10px",
-                            top: "5px"
-                        }}>{LeftIcon}</div>
-                    </div>
-                )
-            }
-            <input className="form-control" style={lstyle} placeholder={placeholder} type={type} onChange={onChange} />
-        </div>
-    )
-}
-
-
-// Button style
-
-export function Button({ children, onClick, bgColor, LeftIcon
-}: buttonInterface): React.ReactNode {
-    return <>
-        {   
-           
-            btncolor && btncolor.map((item) => {
-                if (item.code == bgColor)
-                    return (<button key={item.code} className={item.content} onClick={onClick}>{
-                        LeftIcon && (
-                            <>{LeftIcon}</>
-                        )
-                    } {children}
-                    </button>)
-            }) // map
-            
-        }
-        
-    </>
-}
-
-export const Card = ({children}: 
-    {children: React.ReactNode}): React.ReactNode => {
-    return <>
-        <div className="card">
-            <div className="card-body">
-                { children }
+        <>
+            <div className="form-group">
+                {
+                    label && (
+                        <label>{label}</label>
+                    )
+                }
+                <input type={type} onChange={onChange} className="form-control" placeholder={placeholder} style={style} />
             </div>
+        </>
+    )
+};
+
+export const Card = ({
+    children    
+}: {
+    children?: React.ReactNode
+}) => {
+    return <>
+        <div style={{
+            backgroundColor: "white",
+            width: "100%",
+            padding: "10px",
+            boxShadow: "0 0 3px rgba(0, 0, 0, 0.3)"
+        }}>
+            { children }
         </div>
-    </>
+    </>  
 };
