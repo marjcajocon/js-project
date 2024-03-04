@@ -114,6 +114,11 @@ Application.prototype.add = function(obj) {
   this._c.appendChild(obj.getContainer());
 };
 
+Application.prototype.route = function(widget) {
+  this.clear();
+  this._c.appendChild(widget.getContainer());
+};
+
 /* End Application */
 
 
@@ -675,11 +680,20 @@ Button.prototype.setIcon = function(_i) {
 
 */
 
-var Panel = function(title) {
+var Panel = function(widget) {
+  var widget = widget || [];
+  // widget array
+  // width = [textbox, button,etc..]
   this._c = _.c("div");
   this.control = this._c;
+
+  for (var i = 0; i < widget.length; i++) {
+    this.control.appendChild(widget[i].getContainer());
+  }
 };
+
 Panel.prototype = Object.create(Interface.prototype);
+
 Panel.prototype.add = function(mcontrol_obj) {
   this._c.appendChild(mcontrol_obj.getContainer());
 };
