@@ -370,7 +370,7 @@ RadioButton.prototype.add = function(label, value) {
   rad.style.position = "absolute";
   rad.style.top = "3px";
 
-  var id_val = label.replaceAll(" ", "").trim();
+  var id_val = label.replace(" ", "").trim();
   rad.setAttribute("type", "radio");
   rad.setAttribute("name", this.name);
   rad.setAttribute("value", value);
