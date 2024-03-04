@@ -89,7 +89,7 @@ var Application = function() {
   this.body = null;
   this.body = document.getElementsByTagName("body")[0];
   this._c = _.c("div");
-  this.body.append(this._c);
+  this.body.appendChild(this._c);
   this._c.style.width = "100%";
   this._c.style.height = "100%";
   this._c.style.margin = "0px";
@@ -107,11 +107,11 @@ Application.prototype.clear = function() {
 
 Application.prototype.open = function(panel) {
   this.clear();
-  this._c.append(panel.getContainer());
+  this._c.appendChild(panel.getContainer());
 };
 
 Application.prototype.add = function(obj) {
-  this._c.append(obj.getContainer());
+  this._c.appendChild(obj.getContainer());
 };
 
 /* End Application */
@@ -148,22 +148,22 @@ var Table = function(header) {
   // for (var x of header) {
   //   var th = _.c("th");
   //   th.innerHTML = x;
-  //   tr.append(th);
+  //   tr.appendChild(th);
   // }
 
   for (var i = 0; i < header.length; i++) {
     var th = _.c("th");
     th.innerHTML = header[i];
-    tr.append(th);
+    tr.appendChild(th);
   }
   
-  thead.append(tr);
-  this.table.append(thead);
+  thead.appendChild(tr);
+  this.table.appendChild(thead);
   // end create header
   
   // initialized the body of the table
-  this.table.append(this.tbody);
-  this._c.append(this.table);
+  this.table.appendChild(this.tbody);
+  this._c.appendChild(this.table);
 
 };
 
@@ -184,7 +184,7 @@ Table.prototype._con_clear = function() {
 Table.prototype.show = function() {
   this._con_clear();
   this._c.style.display = "block";
-  this._c.append(this.table);
+  this._c.appendChild(this.table);
 };
 
 Table.prototype.getTable = function() {
@@ -194,7 +194,7 @@ Table.prototype.getTable = function() {
 Table.prototype.load = function() {
   // loader
   this._con_clear();
-  this._c.append(this.loader);
+  this._c.appendChild(this.loader);
 };
 
 Table.prototype.row = function(data) {
@@ -210,14 +210,14 @@ Table.prototype.row = function(data) {
   //     var td = _.c("td");
   //     td.style.cursor = "pointer";
   //     if (typeof(y) == "object") {
-  //       td.append(y); // if button or any elements
+  //       td.appendChild(y); // if button or any elements
   //     } else {
   //       td.innerHTML = y;
   //     }
-  //     tr.append(td);
+  //     tr.appendChild(td);
   //   }
 
-  //   this.tbody.append(tr); 
+  //   this.tbody.appendChild(tr); 
   // }
 
   for (var i = 0; i < data.length; i++) {
@@ -229,11 +229,11 @@ Table.prototype.row = function(data) {
       var y = x[j];
       td.style.cursor = "pointer";
       if (typeof(y) == "object") {
-        td.append(y); // if button or any elements
+        td.appendChild(y); // if button or any elements
       } else {
         td.innerHTML = y;
       }
-      tr.append(td);
+      tr.appendChild(td);
     }
     
   }
@@ -247,11 +247,11 @@ Table.prototype.prepend = function(data) {
   //   var td = _.c("td");
   //   td.style.cursor = "pointer";
   //   if (typeof(y) == "object") {
-  //     td.append(y); // if button or any elements
+  //     td.appendChild(y); // if button or any elements
   //   } else {
   //     td.innerHTML = y;
   //   }
-  //   tr.append(td);
+  //   tr.appendChild(td);
   // }
 
   for (var i = 0; i < data.length; i++) {
@@ -259,11 +259,11 @@ Table.prototype.prepend = function(data) {
     var td = _.c("td");
     td.style.cursor = "pointer";
     if (typeof(y) == "object") {
-      td.append(y); // if button or any elements
+      td.appendChild(y); // if button or any elements
     } else {
       td.innerHTML = y;
     }
-    tr.append(td);
+    tr.appendChild(td);
   }
 
   this.tbody.prepend(tr);
@@ -276,11 +276,11 @@ Table.prototype.add = function(data) {
   //   var td = _.c("td");
   //   td.style.cursor = "pointer";
   //   if (typeof(y) == "object") {
-  //     td.append(y.getContainer()); // if button or any elements
+  //     td.appendChild(y.getContainer()); // if button or any elements
   //   } else {
   //     td.innerHTML = y;
   //   }
-  //   tr.append(td);
+  //   tr.appendChild(td);
   // }
 
   for (var i = 0; i < data.length; i++) {
@@ -288,14 +288,14 @@ Table.prototype.add = function(data) {
     var td = _.c("td");
     td.style.cursor = "pointer";
     if (typeof(y) == "object") {
-      td.append(y.getContainer()); // if button or any elements
+      td.appendChild(y.getContainer()); // if button or any elements
     } else {
       td.innerHTML = y;
     }
-    tr.append(td);
+    tr.appendChild(td);
   }
 
-  this.tbody.append(tr);
+  this.tbody.appendChild(tr);
 };
 
 
@@ -310,6 +310,8 @@ var CheckBox = function(_mark) {
   this._c = null;
   this._n = null;
   this._c = _.c("input");
+  this._c.style.height = "20px";
+  this._c.style.width = "20px";
   this._c.setAttribute('type', 'checkbox');
   this._c.checked = mark;
   this._n = this._c;
@@ -360,21 +362,28 @@ RadioButton.prototype.add = function(label, value) {
   var c = this._c;
 
   var p = _.c("div");
+  p.style.position = "relative";
 
   var rad = _.c("input");
+  rad.style.height = "20px";
+  rad.style.width = "20px";
+  rad.style.position = "absolute";
+  rad.style.top = "3px";
+
   var id_val = label.replaceAll(" ", "").trim();
   rad.setAttribute("type", "radio");
   rad.setAttribute("name", this.name);
   rad.setAttribute("value", value);
   rad.setAttribute("id", id_val);
-
+  
   var labelf = _.c("label");
   labelf.setAttribute("for", id_val);
   labelf.innerText = label;
-  labelf.style.marginLeft = "2px";
-  p.append(rad);
-  p.append(labelf);
-  c.append(p);
+  labelf.style.marginLeft = "23px";
+  labelf.style.marginTop = "7px";
+  p.appendChild(rad);
+  p.appendChild(labelf);
+  c.appendChild(p);
 
   this.el.push(rad);
 };
@@ -437,7 +446,7 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   span.setAttribute("class", "input-group-addon");
 
   if (this.icon != null) {
-    span.append(this.i);
+    span.appendChild(this.i);
   } else {
     span.innerHTML = this._lb;
   }
@@ -453,8 +462,8 @@ var TextBox = function(label, type, icon, hint, placeholder) {
 
   this._n.setAttribute("placeholder", this.placeholder);
 
-  this._c.append(span);
-  this._c.append(this._n);
+  this._c.appendChild(span);
+  this._c.appendChild(this._n);
   
 };
 
@@ -535,7 +544,7 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   span.setAttribute("class", "input-group-addon");
 
   if (this.icon != null) {
-    span.append(this.i);
+    span.appendChild(this.i);
   } else {
     span.innerHTML = this._lb;
   }
@@ -561,8 +570,8 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
     this.add(v[0], v[1]);
   }
 
-  this._c.append(span);
-  this._c.append(this._n);    
+  this._c.appendChild(span);
+  this._c.appendChild(this._n);    
 
   this.control = this._c;
 };
@@ -600,7 +609,7 @@ ComboBox.prototype.add = function(key, value) {
   var option = _.c("option");
   option.setAttribute("value", key);
   option.innerHTML = value;
-  this._n.append(option);
+  this._n.appendChild(option);
   this.options.push(option);
 };
 // end combobox
@@ -634,8 +643,8 @@ var Button = function(name, type, icon, hint) {
   
   var name = _.c("span");
   name.innerHTML = this.name;
-  this._c.append(this._i);
-  this._c.append(name);
+  this._c.appendChild(this._i);
+  this._c.appendChild(name);
 };
 
 Button.prototype = Object.create(Interface.prototype);
@@ -672,7 +681,7 @@ var Panel = function(title) {
 };
 Panel.prototype = Object.create(Interface.prototype);
 Panel.prototype.add = function(mcontrol_obj) {
-  this._c.append(mcontrol_obj.getContainer());
+  this._c.appendChild(mcontrol_obj.getContainer());
 };
 
 var Modal = function(title, icon) {
@@ -709,24 +718,24 @@ var Modal = function(title, icon) {
   title.classList.add("title");
   title.style.position = "relative";
   title.innerHTML = '<i class="fa fa-' + this.icon + '"></i>' + this.title;
-  title.append(close);
+  title.appendChild(close);
 
-  this.dialog.append(title);
+  this.dialog.appendChild(title);
   // contents
   this.body = _.c("div");
   this.body.style.padding = "10px";
   this.body.style.position = "relative";
-  this.dialog.append(this.body);
+  this.dialog.appendChild(this.body);
   // end contents
-  this._c.append(this.dialog);
+  this._c.appendChild(this.dialog);
   
   this.control = this.dialog;
 };
 
 Modal.prototype = Object.create(Interface.prototype);
 Modal.prototype.add = function(obj_element) {
-  // only the above classes can be appended
-  this.body.append(obj_element.getContainer());    
+  // only the above classes can be appendChilded
+  this.body.appendChild(obj_element.getContainer());    
 };
 
 
@@ -795,11 +804,11 @@ var MessageBox = function() {
   this._m.style.textAlign = "center";
   this._m.style.color = "#8f8787";
 
-  this._d.append(this._lb);
-  this._d.append(this._m);
-  this._d.append(this._k);
+  this._d.appendChild(this._lb);
+  this._d.appendChild(this._m);
+  this._d.appendChild(this._k);
 
-  this._c.append(this._d);
+  this._c.appendChild(this._d);
   
   var me = this;
   this.callback = null;
@@ -915,14 +924,14 @@ var ConfirmBox = function() {
   this._m.style.textAlign = "center";
   this._m.style.color = "#8f8787";
 
-  this._b.append(this._k);
-  this._b.append(this._cls);
+  this._b.appendChild(this._k);
+  this._b.appendChild(this._cls);
 
-  this._d.append(this._lb);
-  this._d.append(this._m);
-  this._d.append(this._b);
+  this._d.appendChild(this._lb);
+  this._d.appendChild(this._m);
+  this._d.appendChild(this._b);
 
-  this._c.append(this._d);
+  this._c.appendChild(this._d);
   
 
   var me = this;
@@ -997,10 +1006,10 @@ var LoaderBox = function() {
   this._label.innerHTML = "Please Wait...";
   this._d.style.textAlign = "center";
 
-  this._d.append(this._label);
-  this._d.append(this._loader);
+  this._d.appendChild(this._label);
+  this._d.appendChild(this._loader);
 
-  this._c.append(this._d);
+  this._c.appendChild(this._d);
   this.control = this._d;
 
 };
@@ -1039,7 +1048,7 @@ Form.prototype.add = function(o, n) {
     this.input[n] = o;
   }
 
-  this._c.append(o.getContainer());
+  this._c.appendChild(o.getContainer());
 };
 
 Form.prototype.clear = function() {
