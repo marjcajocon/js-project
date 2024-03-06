@@ -8,22 +8,37 @@ var _c = function(l) { // create element
 };
 
 // interface
-var JInterface = function() {};
+var JInterface = function() {
+	this.key = null;
+};
+
+JInterface.prototype.setKey = function(key) {
+	this.key = key;
+	return this;
+}
+
+JInterface.prototype.getKey = function() {
+	return this.key;
+};
 
 JInterface.prototype.add = function(l) {
 	this.c.appendChild(l.getWidget());
+	return this;
 };
 
 JInterface.prototype.addClass = function(c) {
 	this.c.classList.add(c);
+	return this;
 };
 
 JInterface.prototype.removeClass = function(c) {
 	this.c.classList.remove(c);
+	return this;
 };
 
 JInterface.prototype.setText = function(t) {
 	this.c.appendChild(t);
+	return this;
 };
 
 JInterface.prototype.getWidget = function() {
@@ -34,7 +49,9 @@ JInterface.prototype.setAttr = function(o) {
 	for (var i in o) {
 		this.c.setAttribute(i, o[i]);
 	}
+	return this;
 };
+
 
 JInterface.prototype.setText = function(t) {
 	if (this.jtype == "input" || this.jtype == "textarea") {
@@ -44,6 +61,7 @@ JInterface.prototype.setText = function(t) {
 	{
 		this.c.innerHTML = t;
 	}
+	return this;
 };
 
 JInterface.prototype.getText = function() {
@@ -56,16 +74,19 @@ JInterface.prototype.getText = function() {
 
 JInterface.prototype.event = function(e, c) {
 	this.c.addEventListener(e, c);
+	return this;
 };
 
 JInterface.prototype.style = function(k, v) {
 	this.c.style[k] = v;
+	return this;
 };
 
 JInterface.prototype.setStyle = function(o) {
 	for (var i in o) {
 		this.c.style[i] = o[i];
 	}
+	return this;
 };
 // end interface
 
@@ -91,8 +112,9 @@ JLabel.prototype = Object.create(JInterface.prototype);
 // End Label
 
 // button
-var JButton = function() {
+var JButton = function(t) {
 	this.c = _c("button");
+	this.setText(t);
 };
 JButton.prototype = Object.create(JInterface.prototype);
 // end button
@@ -119,3 +141,11 @@ var JH = function(h_no_tag) {
 };
 JH.prototype = Object.create(JInterface.prototype);
 // end h1 to h6
+
+var Form = function() {
+	this.c = _c("form");
+};
+
+Form.prototype = Object.create(JInterface.prototype);
+
+
