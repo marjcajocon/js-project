@@ -8,22 +8,34 @@ var _c = function(l) { // create element
 };
 
 // interface
-var JInterface = function() {
-
-};
+var JInterface = function() {};
 
 JInterface.prototype.add = function(l) {
 	this.c.appendChild(l.getWidget());
 };
+
+JInterface.prototype.addClass = function(c) {
+	this.c.classList.add(c);
+};
+
+JInterface.prototype.removeClass = function(c) {
+	this.c.classList.remove(c);
+};
+
 JInterface.prototype.setText = function(t) {
 	this.c.appendChild(t);
 };
+
 JInterface.prototype.getWidget = function() {
 	return this.c;
 };
-JInterface.prototype.setAttr = function(pkey, pval) {
-	this.c.setAttribute(pkey, pval);
+
+JInterface.prototype.setAttr = function(o) {
+	for (var i in o) {
+		this.c.setAttribute(i, o[i]);
+	}
 };
+
 JInterface.prototype.setText = function(t) {
 	if (this.jtype == "input" || this.jtype == "textarea") {
 		this.c.value = t;
@@ -33,15 +45,23 @@ JInterface.prototype.setText = function(t) {
 		this.c.innerHTML = t;
 	}
 };
+
 JInterface.prototype.getText = function() {
-	return this.c.value;
+	if (this.jtype == "input" || this.jtype == "textarea") {
+		return this.c.value;
+	} else {
+		return this.c.innerHTML;
+	}
 };
+
 JInterface.prototype.event = function(e, c) {
 	this.c.addEventListener(e, c);
 };
+
 JInterface.prototype.style = function(k, v) {
 	this.c.style[k] = v;
 };
+
 JInterface.prototype.setStyle = function(o) {
 	for (var i in o) {
 		this.c.style[i] = o[i];
@@ -52,18 +72,21 @@ JInterface.prototype.setStyle = function(o) {
 var JApplication = function(id) {
 	this.c = _id(id);
 };
-JApplication.prototype = Object.create(JInterface.prototype);
 
+JApplication.prototype = Object.create(JInterface.prototype);
 
 var JPanel = function() {
 	this.c = _c("div");
 };
 
+JPanel.prototype = Object.create(JInterface.prototype);
 // Label
-var JLabel = function(text) {
+
+var JLabel = function(t) {
 	this.c = _c("label");
-	this.c.innerHTML = text;
+	this.c.innerHTML(t);
 };
+
 JLabel.prototype = Object.create(JInterface.prototype);
 // End Label
 
@@ -89,3 +112,10 @@ JTextArea.prototype = Object.create(JInterface.prototype);
 
 // end TextArea
 
+
+// H1 to h6
+var JH = function(h_no_tag) {
+	this.c = _c("h" + h_no_tag.toString());
+};
+JH.prototype = Object.create(JInterface.prototype);
+// end h1 to h6

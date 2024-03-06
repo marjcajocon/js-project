@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<script src="jframe.js"></script>
+	</head>
+	<body id="body">
+		<script>
+			var HomePage = function() {
+				var pan = new JPanel();
+				
+				var button  = new JButton();
+				button.setText("hello this is me");
+				button.event("click", function(e) {
+					console.log(e);
+				});
+				button.setAttr({
+					class: "btn btn-info btn-sm",
+					rel: "n",
+					name: "marjon"
+				});
+
+				button.addClass("addict");
+				
+				setTimeout(function() {
+					button.removeClass("addict");
+				}, 5000);
+
+				
+
+				pan.add(button);
+				
+				var h5 = new JH(5);
+				h5.setText("hellow world");
+
+				pan.add(h5);
+				return pan;
+			};
+			var app = new JApplication("body");
+			app.add(HomePage());
+		
+				
+		</script>
+	</body>
+</html>
