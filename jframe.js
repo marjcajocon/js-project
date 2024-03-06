@@ -127,8 +127,9 @@ JPanel.prototype.getValue = function() {
 // Label
 
 var JLabel = function(t) {
+	var t  = t || "";
 	this.c = _c("label");
-	this.c.innerHTML(t);
+	this.c.innerHTML = t;
 };
 
 JLabel.prototype = Object.create(JInterface.prototype);

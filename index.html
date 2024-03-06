@@ -1,50 +1,18 @@
 <html>
 	<head>
+		<link rel="stylesheet" href="mui.css" />
+		<script src="mui.min.js"></script>
 		<script src="jframe.js"></script>
+		<script src="mui.js"></script>
 	</head>
 	<body id="body">
 		<script>
 			var HomePage = function() {
 				var pan = new JPanel();
 				
-				var button  = new JButton();
-				button.setText("hello this is me");
-				button.event("click", function(e) {
-					console.log(e);
-				});
-				button.setAttr({
-					class: "btn btn-info btn-sm",
-					rel: "n",
-					name: "marjon"
-				});
-
-				button.addClass("addict");
-				
-				setTimeout(function() {
-					button.removeClass("addict");
-				}, 5000);
-
-				
-
-				pan.add(button);
-				
-				var h5 = new JH(5);
-				h5.setText("hellow world");
-
-				pan.add(h5);
-				
-				var form = new JPanel();
-				
-				form.add(new JInput(), "fname");
-				form.add(new JInput().setAttr({"type": "password"}), "password");
-				form.add(new JButton("submit").event("click", function(e) {
-					console.log(form.getValue());
-					
-				}));
-
-				
-				pan.add(form);		
-		
+				var p = MPanel();
+				p.add(MInput("Firstname", "text", "float"));
+				pan.add(p);
 				return pan;
 			};
 			var app = new JApplication("body");
