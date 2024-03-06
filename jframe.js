@@ -7,10 +7,17 @@ var _c = function(l) { // create element
 	return document.createElement(l);
 };
 
+var _qs = function(l) {
+	return document.querySelector(l);
+};
+
 // interface
 var JInterface = function() {
-	this.key = null;
 };
+
+JInterface.prototype.key = null;
+JInterface.prototype.w = [];
+
 
 JInterface.prototype.setKey = function(key) {
 	this.key = key;
@@ -21,8 +28,13 @@ JInterface.prototype.getKey = function() {
 	return this.key;
 };
 
-JInterface.prototype.add = function(l) {
+
+JInterface.prototype.add = function(l, k) {
+	var k = k || null;
 	this.c.appendChild(l.getWidget());
+	l.setKey(k);
+	//this.w.push(l);
+	this.w.push(l);
 	return this;
 };
 
@@ -101,6 +113,17 @@ var JPanel = function() {
 };
 
 JPanel.prototype = Object.create(JInterface.prototype);
+
+JPanel.prototype.getValue = function() {
+	var len = this.w.length;
+	var data = {};
+	for (var i = 0; i < len; i++) {
+	        if (this.w[i].key != null) {
+	                data[this.w[i].key] = this.w[i].getText();
+	        }
+	}
+	return data;
+};
 // Label
 
 var JLabel = function(t) {
@@ -142,10 +165,19 @@ var JH = function(h_no_tag) {
 JH.prototype = Object.create(JInterface.prototype);
 // end h1 to h6
 
-var Form = function() {
+var JForm = function() {
 	this.c = _c("form");
 };
 
-Form.prototype = Object.create(JInterface.prototype);
+JForm.prototype = Object.create(JInterface.prototype);
 
-
+JForm.prototype.getValue = function() {
+	var len = this.w.length;
+	var data = {};
+	for (var i = 0; i < len; i++) {
+		if (this.w[i].key != null) {
+			data[this.w[i].key] = this.w[i].getText();
+		}
+	}
+	return data;
+};
