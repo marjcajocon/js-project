@@ -7,18 +7,47 @@
 	</head>
 	<body id="body">
 		<script>
+			var app = new JApplication("body");
 			var HomePage = function() {
 				var pan = new JPanel();
 				
-				var p = MPanel();
-				p.add(MInput("Firstname", "text", "float"));
+				var p = MPanel().container();
+				p.add(MInput("Firstname", "text", "float").container());
+
+				p.add(MDropDown(
+					MButton("Drop", "primary").container(),
+					[
+						new JLi().setText("Home"),
+						new JLi().setText("ABout")
+					]
+				).container());
+
+				p.add(MDropDown(
+					MButton("Drop", "primary").container(),
+					[
+						new JLi().setText("Home"),
+						new JLi().setText("ABout")
+					]
+				).container());
+
 				pan.add(p);
 				return pan;
 			};
-			var app = new JApplication("body");
-			app.add(HomePage());
-		
-				
+			
+			// var Login = function() {
+			// 	// var panel = new JPanel();
+			// 	// panel.add(new JInput()).add(MButton("Login", "primary")[1].event("click", function() {
+			// 	// 	alert("click");
+			// 	// 	app.navigate("#");
+			// 	// }));
+			// 	return panel;
+			// };
+
+
+			app.addRoute("#", HomePage());
+			// app.addRoute("#login", Login());
+			app.init();
+
 		</script>
 	</body>
 </html>
