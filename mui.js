@@ -55,7 +55,7 @@ var MPanel = function() {
 };
 
 
-var MDropDown = function(main_button, l_w) {
+var MDropDown = function(main_button, l_w, _dir) {
 
 	// <div class="mui-dropdown">
 	//   <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
@@ -70,8 +70,12 @@ var MDropDown = function(main_button, l_w) {
 	//   </ul>
 	// </div>
 
+	var dir = "mui-dropdown--" + _dir || "";
+
 	var panel = new JPanel();
 	panel.addClass("mui-dropdown");
+	panel.addClass(dir);
+	
 	main_button.setAttr({ "data-mui-toggle": "dropdown" });
 	panel.add(main_button);
 
