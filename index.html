@@ -7,47 +7,29 @@
 	</head>
 	<body id="body">
 		<script>
-			var app = new JApplication("body");
-			var HomePage = function() {
-				var pan = new JPanel();
-				
-				var p = MPanel().container();
-				p.add(MInput("Firstname", "text", "float").container());
+		var app = new JApplication("body");
+		
 
-				p.add(MDropDown(
-					MButton("Drop", "primary").container(),
-					[
-						new JLi().setText("Home"),
-						new JLi().setText("ABout")
-					], "left"
-				).container());
+		var Home = function() {
+			var p = new JPanel();
 
-				p.add(MDropDown(
-					MButton("Drop", "primary").container(),
-					[
-						new JLi().setText("Home"),
-						new JLi().setText("ABout")
-					]
-				).container());
+			var card = new MPanel();			
 
-				pan.add(p);
-				return pan;
-			};
+			var t = new MTable(["id", "name", "age", "addr", "Action"], "bordered");
 			
-			// var Login = function() {
-			// 	// var panel = new JPanel();
-			// 	// panel.add(new JInput()).add(MButton("Login", "primary")[1].event("click", function() {
-			// 	// 	alert("click");
-			// 	// 	app.navigate("#");
-			// 	// }));
-			// 	return panel;
-			// };
+			t.addRow(["01", "marjon cajocon", "12", "san isidro talibon bohol", new MButton("add", "primary").container()]);
+			t.addRow(["02", "Rosalina", "57", "san pedro, talibon", new MButton("add", "danger").container()]);
+			card.container().add(t.container());
 
+			p.add(card.container());
 
-			app.addRoute("#", HomePage());
-			// app.addRoute("#login", Login());
-			app.init();
+			return p;
+		};
 
+		//app.addRoute("#", Home());
+		//app.init();
+		app.run(Home());
+	
 		</script>
 	</body>
 </html>

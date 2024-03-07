@@ -13,10 +13,8 @@ var MButton = function(text, _color, _variant, _size) {
 	btn.setAttr({
 			"class": "mui-btn " + color + " " + type + " " + size
 		});
-	return  {
-		core: function() { return btn; },
-		container: function() { return btn; }
-	}
+	this.core = function() {return btn};
+	this.container = function() {return btn};
 };
 
 var MInput = function(label_txt, type, variant) {
@@ -40,42 +38,25 @@ var MInput = function(label_txt, type, variant) {
 
 	div.add(input).add(label);
 
-    return  {
-    	core: function() { return input; },
-    	container: function() { return div; }
-    };
+    	this.core = function() {return input};
+    	this.container = function() {return div};
 };
 
 var MPanel = function() {
 	var panel = new JPanel().addClass("mui-panel");
-	return {
-		core: function() { return panel; },
-		container: function() { return panel; }
-	};
+	this.core = function() {return panel};
+	this.container = function() {return panel};
 };
 
 
 var MDropDown = function(main_button, l_w, _dir) {
-
-	// <div class="mui-dropdown">
-	//   <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
-	//     Dropdown
-	//     <span class="mui-caret"></span>
-	//   </button>
-	//   <ul class="mui-dropdown__menu">
-	//     <li><a href="#">Option 1</a></li>
-	//     <li><a href="#">Option 2</a></li>
-	//     <li><a href="#">Option 3</a></li>
-	//     <li><a href="#">Option 4</a></li>
-	//   </ul>
-	// </div>
 
 	var dir = "mui-dropdown--" + _dir || "";
 
 	var panel = new JPanel();
 	panel.addClass("mui-dropdown");
 	panel.addClass(dir);
-	
+
 	main_button.setAttr({ "data-mui-toggle": "dropdown" });
 	panel.add(main_button);
 
@@ -90,8 +71,53 @@ var MDropDown = function(main_button, l_w, _dir) {
 		ul.add(li);
 	}
 
-	return {
-		core: function() { return panel; },
-		container: function() { return panel; }
+	this.core = function() { return panel; };
+	this.container = function() { return panel; };
+
+};
+
+
+var MTable = function(header, type) {
+	var header = header || [];
+	var type = "mui-table--" + type || null;
+	var tbl = new JTable();
+	tbl.addClass("mui-table");
+	if (type != null) {
+		tbl.addClass(type);
+	}
+	var hlen = header.length;
+	var thead = new JThead();
+	var tr = new JTr();
+	thead.add(tr);
+	for (var i = 0; i < hlen; i++) {
+		var th = new JTh();
+		th.setText(header[i]);
+		tr.add(th);
+	}
+	tbl.add(thead);
+
+	var tbody = new JTbody();
+	tbl.add(tbody);
+	this.core = function() {
+		return tbl;
+	};
+	this.container = function() {
+		return tbl;
+	};
+
+	this.addRow = function(data) {
+		var data = data || [];
+		var data_len = data.length;
+		var tr = new JTr();
+		for (var i = 0; i < data_len; i++) {
+			var td = new JTd();
+			if (typeof(data[i]) == "object") {
+				td.add(data[i]);
+			} else {
+				td.setText(data[i]);
+			}
+			tr.add(td);
+		}
+		tbody.add(tr);
 	};
 };

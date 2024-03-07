@@ -241,3 +241,44 @@ JForm.prototype.getValue = function() {
 	}
 	return data;
 };
+
+// tables
+
+var JTable = function() {
+	this.c = _c("table");
+};
+
+JTable.prototype = Object.create(JInterface.prototype);
+
+var JThead = function() {
+	this.c = _c("thead");
+};
+
+JThead.prototype = Object.create(JInterface.prototype);
+
+var JTr = function() {
+	this.c = _c("tr");
+};
+
+JTr.prototype = Object.create(JInterface.prototype);
+
+
+var JTh = function() {
+	this.c = _c("th");
+};
+
+JTh.prototype = Object.create(JInterface.prototype);
+
+
+var JTd = function() {
+	this.c = _c("td");
+};
+
+JTd.prototype = Object.create(JInterface.prototype);
+
+
+var JTbody = function() {
+	this.c = _c("tbody");
+};
+
+JTbody.prototype = Object.create(JInterface.prototype);
