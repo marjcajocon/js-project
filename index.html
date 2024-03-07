@@ -11,23 +11,25 @@
 		
 
 		var Home = function() {
-			var p = new JPanel();
+			var appBar = new AppBar();			
 
-			var card = new MPanel();			
+			var p = new MContainer();
 
-			var t = new MTable(["id", "name", "age", "addr", "Action"], "bordered");
+			var card = new MDropDown(new MButton("click me", "primary").container(), [
+				new MButton("home").container(),
+				new MButton("About").container()
+			]);
+
+			appBar.setTitle("ePOS");
+			p.core().add(appBar.container());
+			p.core().add(card.container());
 			
-			t.addRow(["01", "marjon cajocon", "12", "san isidro talibon bohol", new MButton("add", "primary").container()]);
-			t.addRow(["02", "Rosalina", "57", "san pedro, talibon", new MButton("add", "danger").container()]);
-			card.container().add(t.container());
-
-			p.add(card.container());
-
-			return p;
+			return p.container();
 		};
 
 		//app.addRoute("#", Home());
 		//app.init();
+		
 		app.run(Home());
 	
 		</script>

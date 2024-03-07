@@ -121,3 +121,50 @@ var MTable = function(header, type) {
 		tbody.add(tr);
 	};
 };
+
+var MContainer = function() {
+	var panel = new JPanel();
+	panel.addClass("mui-container-fluid");
+
+	this.container = function() {
+		return panel;
+	};
+	this.core = function() {
+		return panel;
+	};
+};
+
+
+var AppBar = function() {
+
+	var panel = new JPanel();
+	panel.addClass("mui-appbar");
+	panel.addClass("mui--z1");
+	var con = new MContainer();
+	con = con.container();
+
+	var table = new JTable();
+	con.add(table);
+	var tbody = new JTbody();
+	var tr = new JTr();
+	tr.addClass("mui--appbar-height");
+	table.add(tbody);
+	tbody.add(tr);
+	panel.add(con);
+	this.setTitle = function(brand) {
+		var td = new JTd();
+		td.addClass("mui--text-title");
+		td.style("color", "white");
+		td.style("fontWeight", "bold");
+		td.setText(brand);
+		tr.add(td);
+	}
+
+	this.container = function() {
+		return panel;
+	};
+
+	this.core = function() {
+		return panel;
+	};
+};
