@@ -177,9 +177,13 @@ var MRow = function() {
 	this.core = function() {return panel;};
 };
 
-var MCol = function() {
+var MCol = function(size_list) {
+	var size = size_list || []; // note md-1, sm-1
 	var panel = new JPanel();
-        panel.addClass("mui-row");
+
+	for (var i = 0; i < size.length; i++) {
+		panel.addClass("mui-col-" + size[i]);
+	}
 
         this.container = function() {return panel;};
         this.core = function() {return panel;};

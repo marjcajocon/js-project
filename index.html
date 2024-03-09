@@ -11,19 +11,19 @@
 		
 
 		var Home = function() {
-			var appBar = new AppBar();			
-
 			var p = new MContainer();
-
-			var card = new MDropDown(new MButton("click me", "primary").container(), [
-				new MButton("home").container(),
-				new MButton("About").container()
-			]);
-
-			appBar.setTitle("ePOS");
-			p.core().add(appBar.container());
-			p.core().add(card.container());
 			
+			var row = new MRow();
+			
+			var grid = new MCol(["md-6"]);
+			grid.core().add(new MButton("left", "primary").container());
+			row.core().add(grid.container());
+
+			var grid = new MCol(["md-6"]);
+                        grid.core().add(new MButton("right", "primary").container());
+                        row.core().add(grid.container());
+
+			p.core().add(row.container());
 			return p.container();
 		};
 
@@ -35,3 +35,4 @@
 		</script>
 	</body>
 </html>
+
