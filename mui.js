@@ -168,3 +168,19 @@ var AppBar = function() {
 		return panel;
 	};
 };
+
+var MRow = function() {
+	var panel = new JPanel();
+        panel.addClass("mui-row");
+
+	this.container = function() {return panel;};
+	this.core = function() {return panel;};
+};
+
+var MCol = function() {
+	var panel = new JPanel();
+        panel.addClass("mui-row");
+
+        this.container = function() {return panel;};
+        this.core = function() {return panel;};
+};
