@@ -15,6 +15,10 @@ var MButton = function(text, _color, _variant, _size) {
 		});
 	this.core = function() {return btn};
 	this.container = function() {return btn};
+
+	this.btn = function(mobj) {
+		panel.add(mobj.container());
+	};
 };
 
 var MInput = function(label_txt, type, variant) {
@@ -38,14 +42,22 @@ var MInput = function(label_txt, type, variant) {
 
 	div.add(input).add(label);
 
-    	this.core = function() {return input};
-    	this.container = function() {return div};
+	this.core = function() {return input};
+	this.container = function() {return div};
+
+	this.add = function(mobj) {
+		input.add(mobj.container());
+	};
 };
 
 var MPanel = function() {
 	var panel = new JPanel().addClass("mui-panel");
 	this.core = function() {return panel};
 	this.container = function() {return panel};
+
+	this.add = function(mobj) {
+		panel.add(mobj.container());
+	};
 };
 
 
@@ -74,6 +86,9 @@ var MDropDown = function(main_button, l_w, _dir) {
 	this.core = function() { return panel; };
 	this.container = function() { return panel; };
 
+	this.add = function(mobj) {
+		panel.add(mobj.container());
+	};
 };
 
 
@@ -120,6 +135,10 @@ var MTable = function(header, type) {
 		}
 		tbody.add(tr);
 	};
+
+	this.add = function(mobj) {
+		panel.add(mobj.container());
+	};
 };
 
 var MContainer = function() {
@@ -131,6 +150,10 @@ var MContainer = function() {
 	};
 	this.core = function() {
 		return panel;
+	};
+
+	this.add = function(mobj) {
+		panel.add(mobj.container());
 	};
 };
 
@@ -167,6 +190,10 @@ var AppBar = function() {
 	this.core = function() {
 		return panel;
 	};
+
+	this.add = function(mobj) {
+		panel.add(mobj.container()); // to updated soon
+	};
 };
 
 var MRow = function() {
@@ -175,6 +202,10 @@ var MRow = function() {
 
 	this.container = function() {return panel;};
 	this.core = function() {return panel;};
+
+	this.add = function(mobj) {
+		panel.add(mobj.container());
+	};
 };
 
 var MCol = function(size_list) {
@@ -183,8 +214,13 @@ var MCol = function(size_list) {
 
 	for (var i = 0; i < size.length; i++) {
 		panel.addClass("mui-col-" + size[i]);
+		panel.addClass("p0");
 	}
 
-        this.container = function() {return panel;};
-        this.core = function() {return panel;};
+    this.container = function() {return panel;};
+    this.core = function() {return panel;};
+
+    this.add = function(mobj) {
+		panel.add(mobj.container());
+	};
 };
