@@ -132,9 +132,9 @@ JApplication.prototype.run = function(w) {
 };
 
 JApplication.prototype.navigate = function(url) {
+	history.pushState(null, null, url);
 	for (var i in this.routes) {
 		if (i == url) {
-			history.pushState(null, null, url);
 			this.run(this.routes[i]);
 			return;
 		}
