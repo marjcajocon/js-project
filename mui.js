@@ -158,30 +158,51 @@ var MContainer = function() {
 };
 
 
-var AppBar = function() {
+var MAppBar = function() {
 
-	var panel = new JPanel();
-	panel.addClass("mui-appbar");
-	panel.addClass("mui--z1");
-	var con = new MContainer();
-	con = con.container();
+	var panel = new JPanel().addClass("mui-appbar");
+	
+	
+// 	<div class="mui-appbar">
+//   <table width="100%">
+//     <tr style="vertical-align:middle;">
+//       <td class="mui--appbar-height">Left Side</td>
+//       <td class="mui--appbar-height" align="right">Right Side</td>
+//     </tr>
+//   </table>
+// </div>
 
-	var table = new JTable();
-	con.add(table);
-	var tbody = new JTbody();
-	var tr = new JTr();
-	tr.addClass("mui--appbar-height");
-	table.add(tbody);
-	tbody.add(tr);
-	panel.add(con);
-	this.setTitle = function(brand) {
-		var td = new JTd();
-		td.addClass("mui--text-title");
-		td.style("color", "white");
-		td.style("fontWeight", "bold");
-		td.setText(brand);
-		tr.add(td);
-	}
+	var table = new JTable().setAttr({"width": "100%"});
+	var tr = new JTr()
+			.style("verticalAlign", "middle");
+	var ltd = new JTd()
+			.addClass("mui--appbar-height");
+
+	var rtd = new JTd()
+			  .addClass("mui--appbar-height")
+			  .setAttr({"align": "right"});
+
+	tr.add(ltd);
+	tr.add(rtd);
+	table.add(tr);
+	panel.add(table);
+
+	this.setTitle =  function(title) {
+		ltd.add(new JPanel()
+				.setText(title)
+				.addClass("mui--appbar"));
+		return this;
+	};
+
+	this.addLeft = function(mobj) {
+
+		return this;
+	};
+
+	this.addRight = function(obj) {
+		rtd.add(obj);
+		return this;
+	};
 
 	this.container = function() {
 		return panel;
