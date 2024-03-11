@@ -122,8 +122,9 @@ JApplication.prototype = Object.create(JInterface.prototype);
 
 JApplication.prototype.routes = {};
 
-JApplication.prototype.addRoute = function(url, w) {
-	this.routes[url] = w;
+JApplication.prototype.addRoute = function(url, w, prop) {
+
+	this.routes[url] = { page: w, prop: prop };
 	return this;
 };
 JApplication.prototype.run = function(w) {
@@ -135,7 +136,11 @@ JApplication.prototype.navigate = function(url) {
 	history.pushState(null, null, url);
 	for (var i in this.routes) {
 		if (i == url) {
-			this.run(this.routes[i]);
+			var prop = this.routes[i].prop || null;
+			var obj = null;
+			if (prop != null) obj = new this.routes[i].page(prop());
+			else obj = new this.routes[i].page();
+			this.run(obj);
 			return;
 		}
 	}

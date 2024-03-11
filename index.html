@@ -10,28 +10,40 @@
 		var app = new JApplication("body");
 		
 
-		var Home = function() {
+		var Home = function(o) {
 			var p = new MContainer();
 			
-			var row = new MRow();
+			p.container().setText("hellow home pages").add(new MButton("test").core().event("click", function() {
+				app.navigate("#login");
+			}));
+
+			p.core().add(o);
 			
-			var grid = new MCol(["md-6"]);
-			grid.add(new MPanel());
-			row.add(grid);
-
-			var grid = new MCol(["md-6"]);
-            grid.add(new MPanel());
-            row.add(grid);
-
-			p.add(row);
-
+			return p.container();
+		};
+		
+		var Login = function() {
+			var p = new MContainer();
+			var login = new MButton("Login", "primary", "flat");
+			login.core().event("click", function() {
+				app.navigate("#");
+			});
+			p.add(login); 
+			
+			return p.container();
+		};
+		
+		var Contact = function() {
+			var p = new MContainer();
+			
+			p.core().setText("This is a page contact");
+			alert("contact");
 			return p.container();
 		};
 
-		//app.addRoute("#", Home());
-		//app.init();
-		
-		app.run(Home());
+		app.addRoute("#", Home, Contact);
+		app.addRoute("#login", Login);
+		app.init();
 	
 		</script>
 	</body>
