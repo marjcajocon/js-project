@@ -1,4 +1,14 @@
 // for interface
+var mcreate_name = function() {
+  var t = '';
+  for (var i = 0; i < 20; i++) {
+    var c = 97 + Math.floor(Math.random() * 25);
+    t += String.fromCharCode(c);
+  }
+  return t;
+};
+
+
 var _ = {
   c: function(l) {
     return document.createElement(l);
@@ -20,10 +30,12 @@ Interface.prototype.getContainer = function() {
 
 Interface.prototype.hide = function() {
   this._c.style.display = "none";
+  return this;
 };
 
 Interface.prototype.show = function() {
   this._c.style.display = "block";
+  return this;
 };
 
 Interface.prototype.setId = function(id) {
@@ -36,14 +48,17 @@ Interface.prototype.getId = function() {
 
 Interface.prototype.setBackgroundColor = function(color) {
   this.control.style.backgroundColor = color;
+  return this;
 };
 
 Interface.prototype.setFontColor = function(color) {
   this.control.style.color = color;
+  return this;
 };
 
 Interface.prototype.setFontStyle = function(font_family) {
   this.control.style.fontFamily = font_family;
+  return this;
 };
 
 Interface.prototype.addClass = function(_) {
@@ -57,6 +72,7 @@ Interface.prototype.addClass = function(_) {
   } else {
     console.log("Invalid remove class parameter");
   }
+  return this;
 };
 
 Interface.prototype.removeClass = function(_) {
@@ -70,12 +86,14 @@ Interface.prototype.removeClass = function(_) {
   } else  {
     console.log("Invalid remove class parameter");
   }
+  return this;
 };
 
 Interface.prototype.clear = function() {
   while (this._c.firstChild) {
     this._c.removeChild(this._c.firstChild);
   }
+  return this;
 };
 
 Interface.prototype.setBackgroundImage = function(img) {
@@ -315,6 +333,7 @@ var CheckBox = function(_mark) {
   this._c = null;
   this._n = null;
   this._c = _.c("input");
+  this._c.setAttribute("name", mcreate_name());
   this._c.style.height = "20px";
   this._c.style.width = "20px";
   this._c.setAttribute('type', 'checkbox');
@@ -443,7 +462,7 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this._c = _.c("div");
   this._c.style.marginTop = "3px";
   this._c.setAttribute("class", "input-group");
-
+  
   var span = _.c("span");
   
   this.i = _.c("i");
@@ -459,6 +478,8 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this._n = _.c("input");
   this._n.setAttribute("class", "form-control");
   this._n.setAttribute("type", this.type);
+  this._n.setAttribute("name", mcreate_name());
+  this._n.setAttribute('autocomplete', 'off');
   this.control = this._n;
   if (this.hint != null) {
     this._n.setAttribute("data-toggle", "tooltip");
@@ -555,6 +576,7 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   }
 
   this._n = _.c("select");
+  this._n.setAttribute("name", mcreate_name());
   this._n.setAttribute("class", "form-control");
   this._n.setAttribute("type", this.type);
   this.control = this._n;  
@@ -696,6 +718,7 @@ Panel.prototype = Object.create(Interface.prototype);
 
 Panel.prototype.add = function(mcontrol_obj) {
   this._c.appendChild(mcontrol_obj.getContainer());
+  return this;
 };
 
 var Modal = function(title, icon) {
@@ -1030,6 +1053,10 @@ var LoaderBox = function() {
 
 LoaderBox.prototype = Object.create(Interface.prototype);
 
+LoaderBox.prototype.show = function(loadertxt) {
+  this._c.style.display = "block";
+  this._label.innerHTML = loadertxt;
+};
 
 var Form = function() {
   this._c = _.c("div");
