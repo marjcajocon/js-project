@@ -30,7 +30,7 @@ JInterface.prototype.getKey = function() {
 
 JInterface.prototype.add = function(l, k) {
 	var k = k || null;
-	this.c.appendChild(l.getWidget());
+	this.c.appendChild(l.getControl());
 	l.setKey(k);
 	//this.w.push(l);
 	this.w.push(l);
@@ -52,7 +52,7 @@ JInterface.prototype.setText = function(t) {
 	return this;
 };
 
-JInterface.prototype.getWidget = function() {
+JInterface.prototype.getControl = function() {
 	return this.c;
 };
 
