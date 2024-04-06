@@ -282,6 +282,13 @@ JRadioGroup.prototype.addEvent = function(e, fn) {
 		options[i].addEvent(e, fn);
 	}
 };
+JRadioGroup.prototype.check = function(b) {
+	var options = this.options;
+	var ln = options.length;
+	for (var i = 0; i < ln; i++) {
+		options[i].c.checked = b;
+	}
+};
 /* End RadioButton */
 
 /* CheckBox  */
@@ -324,6 +331,13 @@ JCheckBoxGroup.prototype.addEvent = function(e, fn) {
 	var ln = options.length;
 	for (var i = 0; i < ln; i++) {
 		options[i].addEvent(e, fn);
+	}
+};
+JCheckBoxGroup.prototype.check = function(b) {
+	var options = this.options;
+	var ln = options.length;
+	for (var i = 0; i < ln; i++) {
+		options[i].c.checked = b;
 	}
 };
 /* End CheckBox */ 
