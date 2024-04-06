@@ -52,11 +52,16 @@ JInterface.prototype.setText = function(t) {
 	return this;
 };
 
+JInterface.prototype.setHTML = function(html_string) {
+	return this.c.innerHTML = html_string;
+};
+
 JInterface.prototype.getControl = function() {
 	return this.c;
 };
 
 JInterface.prototype.setAttr = function(o) {
+	/* o is a dictionary  */
 	for (var i in o) {
 		this.c.setAttribute(i, o[i]);
 	}
@@ -83,7 +88,7 @@ JInterface.prototype.getText = function() {
 	}
 };
 
-JInterface.prototype.event = function(e, c) {
+JInterface.prototype.addEvent = function(e, c) {
 	this.c.addEventListener(e, c);
 	return this;
 };
@@ -186,6 +191,7 @@ JLabel.prototype = Object.create(JInterface.prototype);
 
 // button
 var JButton = function(t) {
+	var t = t || '';
 	this.c = _c("button");
 	this.setText(t);
 };
@@ -207,6 +213,101 @@ JTextArea.prototype = Object.create(JInterface.prototype);
 
 // end TextArea
 
+
+// ComboBox
+var _JOption = function(key, value) {
+    var key = key || '';
+    var value = value || '';
+    this.c = _c('option');
+    this.c.innerHTML = value;
+    this.c.value = key;
+};
+_JOption.prototype = Object.create(JInterface.prototype);
+
+var JComboBox = function() {
+    this.c = _c('select');
+};
+JComboBox.prototype = Object.create(JInterface.prototype);
+JComboBox.prototype.addOption = function(key, value) {
+    this.add(new _JOption(key, value));
+	return this;
+};
+JComboBox.prototype.getText = function() {
+	return this.c.value;
+};
+// End ComboBox
+
+/* RadioButton */
+var _JRadio = function(group_name, value) {
+	this.c = _c('input');
+	this.c.setAttribute('type', 'radio');
+	this.c.setAttribute('value', value);
+	this.c.setAttribute('name', group_name);
+};
+_JRadio.prototype = Object.create(JInterface.prototype);
+
+var JRadioGroup = function(name, br) {
+	this.br = br || false;
+	var name = name || '';
+	this.c = _c('span');
+	this.name = name;
+
+	this.options = [];
+};
+JRadioGroup.prototype = Object.create(JInterface.prototype);
+JRadioGroup.prototype.addOption = function(value, label) {
+	if (this.br) {
+		this.add(new JBr());
+	}
+	var radio = new _JRadio(this.name, value);
+	this.add(radio);
+	this.add(new JLabel().setAttr({'for': value}).setText(label));
+	this.options.push(radio);
+	return this;
+};
+JRadioGroup.prototype.getText = function() {
+	var options = this.options;
+	var ln = options.length;
+	for (var i = 0; i < ln; i++) {
+		if (options[i].c.checked) {
+			return options[i].c.attributes.value.nodeValue;
+		}
+	}
+	return '';
+};
+JRadioGroup.prototype.addEvent = function(e, fn) {
+	var options = this.options;
+	var ln = options.length;
+	for (var i = 0; i < ln; i++) {
+		options[i].addEvent(e, fn);
+	}
+};
+/* End RadioButton */
+
+/* CheckBox  */
+var _JCheck = function(name, value) {
+	this.c = _c('input');
+	this.c.setAttribute('type', 'checkbox');
+	this.c.setAttribute('value', value);
+	this.c.setAttribute('name', group_name);
+};
+_JCheck.prototype = Object.create(JInterface.prototype);
+var JCheckBoxGroup = function(br) {
+	this.br = br || false;
+	this.c = _c('span');
+
+};
+JCheckBoxGroup.prototype.addOption = function(name, value) {
+	
+};
+/* End CheckBox */ 
+
+/* Break Line */
+var JBr = function() {
+	this.c = _c('br');
+};
+JBr.prototype = Object.create(JInterface.prototype);
+/* end Break line */
 
 // H1 to h6
 var JH = function(h_no_tag) {
