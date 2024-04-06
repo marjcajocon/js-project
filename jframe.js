@@ -198,11 +198,11 @@ var JButton = function(t) {
 JButton.prototype = Object.create(JInterface.prototype);
 // end button
 
-var JInput = function() {
+var JTextField = function() {
 	this.jtype = "input";
 	this.c = _c("input");
 };
-JInput.prototype = Object.create(JInterface.prototype);
+JTextField.prototype = Object.create(JInterface.prototype);
 
 // Textarea
 var JTextArea  = function() {
