@@ -46,3 +46,23 @@ var TextField = function(label, is_float) {
         return panel;
     };
 };
+
+var Grid = function() {
+    var panel = new JPanel().addClass('mui-row');
+
+
+    this.cell = function(container, size) {
+        /*  size must be a list or array of string ex.: md-1 */
+        var size = size || []; /* md-no, sm-no, xs-no, lg-no  */
+        var spanel = new JPanel();
+        for (var x in size) {
+            spanel.addClass('mui-col-' + size[x]);
+        }
+        spanel.add(container);
+        panel.add(spanel);
+    };
+
+    this.control = function() {
+        return panel;
+    };
+};
