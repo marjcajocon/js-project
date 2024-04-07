@@ -210,6 +210,7 @@ var Button = function (label, color, type, size) {
 
     this.addEvent = function (e, c) {
         b.addEvent(e, c);
+        return this;
     };
     this.button = function () {
         return b;
@@ -287,9 +288,10 @@ var ButtonGroup = function (label, color, type, direction) {
 };
 
 
-var TextField = function (label, _float) {
+var TextField = function (label, _float, type) {
     var label = label || '';
     var _float = _float || '';
+    var type = type || 'text';
 
     if (_float != '') {
         if (!__isValidConfig(_float, ControlConfig.TextFieldType)) throw new TypeError(type + ' is not valid! valid: ' + ControlConfig.TextFieldType);
@@ -302,7 +304,7 @@ var TextField = function (label, _float) {
         panel.addClass('mui-textfield--float-label');
     }
 
-    var tf = new JTextField();
+    var tf = new JTextField().setAttr({type: type});
 
     panel.add(tf);
 
@@ -417,6 +419,8 @@ var Grid = function () {
         }
 
         panel.add(spanel);
+        
+        return this;
     };
 
     this.control = function () {
@@ -702,3 +706,131 @@ var ConfirmDialog = {
     }
 };
 /* End Dialog */
+
+/* Modal  */
+var Modal = function(obj) {
+    var obj = obj || null;
+
+    var panel = new Panel();
+
+    var content = new Panel();
+
+    /*  create header */
+    var header = new Panel();
+    
+    if (obj != null) {
+        if (obj instanceof JInterface) {
+            header.add(obj);
+        } else if ( obj instanceof Object ) {
+            header.add(obj.control());
+        } else {
+            var label = new Label(obj, 'dark', 'button');
+            header.add(label);
+        }
+    }
+
+
+    panel.add(header);
+    /* Create footer */
+
+    panel.add(content);
+
+    var footer = new EmptyPanel();
+
+    var menu = new EmptyPanel();
+
+    var close = new Button('Close', 'danger', 'raised', 'small');
+    menu.add(close);
+    footer.add(menu);
+
+    panel.add(footer);
+
+    var grid = new Grid()
+            .cell(new EmptyPanel(), ['md-2'])
+            .cell(panel, ['md-8'])
+            .cell(new EmptyPanel(), ['md-2']);
+
+    grid.control().setStyle({
+        marginTop: '10%'
+    });
+
+    close.addEvent('click', function() {
+        mui.overlay('off');
+    });
+
+    this.add = function(obj) {
+        if ( obj instanceof JInterface) {
+            content.control().add(obj);
+        } else if(obj instanceof Object) {
+            content.add(obj);
+        }
+        return this;
+    };
+
+    this.footer = function(obj) {
+        if ( obj instanceof JInterface) {
+            menu.add(obj);
+        } else if(obj instanceof Object) {
+            menu.add(obj.control());
+        }
+        return this;
+    };
+
+    this.hide = function() {
+        mui.overlay('off');
+        return this;
+    };
+    
+    this.show = function() {
+        var options = {
+            'keyboard': true, // teardown when <esc> key is pressed (default: true)
+            'static': true, // maintain overlay when clicked (default: false)
+            'onclose': function() {} // execute function when overlay is closed
+        };
+
+        mui.overlay('on', options, grid.control().getControl());
+        return this;
+    };
+
+    this.control = function() {
+        return panel.control()
+    };
+};
+/* End Modal  */
+
+/* Form  */
+var Form = function() {
+    var form = new JForm();
+    var w = {};
+
+    this.add = function(obj, key) {
+        var key = key || null;
+        
+        if (obj instanceof JInterface) {
+            form.add(obj, key);
+        } else if (obj instanceof Object) {
+            form.add(obj.control(), key);
+        }
+
+        if (key != null) {
+            w[key] = obj;
+        }
+    };
+
+    this.getValue = function() {
+        var data = {};
+        for (var i in w) {
+            if (w[i] instanceof JInterface) {
+                data[w[i]] = w[i].getText();
+            } else if(w[i] instanceof Object) {
+                data[i] = w[i].textfield().getText();
+            }
+        }
+        return data;
+    };
+
+    this.control = function() {
+        return form;
+    };
+};
+/* End form */
