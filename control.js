@@ -215,6 +215,10 @@ var TextField = function(label, _float) {
         panel.add(labelo);
     }
     
+    this.addEvent = function(e, fn) {
+        tf.addEvent(e, fn);
+    };
+
     this.textfield = function() {
         return tf;
     };
@@ -249,6 +253,10 @@ var TextBox = function(label, _float) {
         var labelo = new JLabel(label);
         panel.add(labelo);
     }
+
+    this.addEvent = function(e, fn) {
+        tf.addEvent(e, fn);
+    };
     
     this.textfield = function() {
         return tf;
