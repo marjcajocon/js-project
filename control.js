@@ -7,9 +7,10 @@ var ControlConfig = {
     TextFieldType: ['float'],
     TableType: ['bordered'],
     TabType: ['justified'],
+    Size: ['small', 'large'],
     Direction: ['right', 'left', 'up', 'bottom'],
     GridType: ['md', 'xs', 'lg', 'sm', 'xl', 'md-offset', 'xs-offset', 'lg-offset', 'sm-offset', 'xl-offset'], //        var reg = new RegExp('^[md|xs|lg|sm|xl]\-$');
-    tostr: function(ls) {
+    tostr: function (ls) {
         var ret = '';
         for (var i in ls) {
             ret += ls[i] + ','
@@ -17,7 +18,7 @@ var ControlConfig = {
         return ret;
     }
 };
-var __isValidConfig = function(n, ls) {
+var __isValidConfig = function (n, ls) {
     for (var i in ls) {
         if (n == ls[i]) {
             return true;
@@ -26,7 +27,7 @@ var __isValidConfig = function(n, ls) {
     return false;
 };
 
-var Label = function(text, color, size, display) {
+var Label = function (text, color, size, display) {
     /* for typography  */
 
     var color = color || null;
@@ -35,40 +36,40 @@ var Label = function(text, color, size, display) {
 
     color = color != null ? color : 'dark';
     size = size != null ? size : 'caption';
-    display = display != null ? display: 'inline';
+    display = display != null ? display : 'inline';
 
     if (!__isValidConfig(color, ControlConfig.TextColor)) throw new TypeError('color ' + color + ' is not valid, Valid: ' + ControlConfig.tostr(ControlConfig.TextColor));
     if (!__isValidConfig(size, ControlConfig.TextSize)) throw new TypeError('Textsize ' + size + ' is not valid, Valid: ' + ControlConfig.tostr(ControlConfig.TextSize));
     if (!__isValidConfig(display, ControlConfig.TextDisplay)) throw new TypeError('TextDisplay ' + display + ' is not valid, Valid: ' + ControlConfig.tostr(ControlConfig.TextDisplay));
 
     var c = new JPanel().addClass('mui--text-' + color).addClass('mui--text-' + size);
-    c.setStyle({display: display});
+    c.setStyle({ display: display });
     c.setText(text);
 
-    this.control = function() {
+    this.control = function () {
         return c;
     };
 
 };
 
 
-var Container = function() {
+var Container = function () {
     var panel = new JPanel().addClass('mui-container-fluid');
 
 
-    this.setStyle = function(obj_dic) {
+    this.setStyle = function (obj_dic) {
         panel.setStyle(obj_dic);
     };
 
-    this.addClass = function(classname) {
+    this.addClass = function (classname) {
         panel.addClass(classname);
     };
 
-    this.control = function() {
+    this.control = function () {
         return panel;
     };
 
-    this.add = function(j) {
+    this.add = function (j) {
         if (j instanceof JInterface) {
             panel.add(j);
         } else {
@@ -77,25 +78,25 @@ var Container = function() {
     };
 };
 
-var Panel = function() {
+var Panel = function () {
     var panel = new JPanel().addClass('mui-panel');
 
 
     var self = this;
-    this.setStyle = function(obj_dic) {
+    this.setStyle = function (obj_dic) {
         panel.setStyle(obj_dic);
         return self;
     };
 
-    this.addClass = function(classname) {
+    this.addClass = function (classname) {
         panel.addClass(classname);
     };
 
-    this.control = function() {
+    this.control = function () {
         return panel;
     };
 
-    this.add = function(j) {
+    this.add = function (j) {
         if (j instanceof JInterface) {
             panel.add(j);
         } else {
@@ -105,11 +106,12 @@ var Panel = function() {
 };
 
 
-var Button = function(label, color, type) {
-    
+var Button = function (label, color, type, size) {
+
     var label = label || ''; /* Label of the button */
     var color = color || ''; /* primary, danger, accent */
     var type = type || ''; /* flat, raised, fab */ /* fab is a circular button */
+    var size = size || '';
 
     /* checking error  */
     if (color != '') {
@@ -117,6 +119,9 @@ var Button = function(label, color, type) {
     }
     if (type != '') {
         if (!__isValidConfig(type, ControlConfig.ButtonType)) throw new TypeError(type + ' is not valid! valid input: ' + ControlConfig.tostr(ControlConfig.ButtonType));
+    }
+    if (size != '') {
+        if (!__isValidConfig(size, ControlConfig.Size)) throw new TypeError(size + ' is not valid! valid input: ' + ControlConfig.tostr(ControlConfig.Size));
     }
     /* End error checking */
 
@@ -128,34 +133,37 @@ var Button = function(label, color, type) {
     if (type != '') {
         b.addClass('mui-btn--' + type);
     }
+    if (size != '') {
+        b.addClass('mui-btn--' + size);
+    }
 
-    this.addEvent = function(e, c) {
+    this.addEvent = function (e, c) {
         b.addEvent(e, c);
     };
-    this.button = function() {
+    this.button = function () {
         return b;
     }
 
-    this.control = function() {
+    this.control = function () {
         return b;
     };
 };
 
-var ButtonLink = function(label) {
+var ButtonLink = function (label) {
     var link = new JLink(label);
-    
-    this.control = function() {
+
+    this.control = function () {
         return link;
     };
 };
 
-var ButtonGroup = function(label, color, type, direction) {
+var ButtonGroup = function (label, color, type, direction) {
     var panel = new JPanel().addClass('mui-dropdown');
 
     var direction = direction || '';
 
     var btn = new Button(label, color, type);
-    btn.button().setAttr({'data-mui-toggle': 'dropdown'});
+    btn.button().setAttr({ 'data-mui-toggle': 'dropdown' });
     panel.add(btn.control());
 
     var ul = new JUl().addClass('mui-dropdown__menu');
@@ -167,13 +175,13 @@ var ButtonGroup = function(label, color, type, direction) {
 
     panel.add(ul);
 
-    this.addButton = function() {
+    this.addButton = function () {
 
     };
 
-    this.add = function(o) {
+    this.add = function (o) {
         var li = new JLi();
-        
+
         if (o instanceof JInterface) {
             li.add(o);
         } else if (o instanceof Object) {
@@ -185,13 +193,13 @@ var ButtonGroup = function(label, color, type, direction) {
         ul.add(li);
     };
 
-    this.control = function() {
+    this.control = function () {
         return panel;
     };
 };
 
 
-var TextField = function(label, _float) {
+var TextField = function (label, _float) {
     var label = label || '';
     var _float = _float || '';
 
@@ -214,23 +222,23 @@ var TextField = function(label, _float) {
         var labelo = new JLabel(label);
         panel.add(labelo);
     }
-    
-    this.addEvent = function(e, fn) {
+
+    this.addEvent = function (e, fn) {
         tf.addEvent(e, fn);
     };
 
-    this.textfield = function() {
+    this.textfield = function () {
         return tf;
     };
-    
-    this.control = function() {
+
+    this.control = function () {
         return panel;
     };
 };
 
 
 
-var TextBox = function(label, _float) {
+var TextBox = function (label, _float) {
     var label = label || '';
     var _float = _float || '';
 
@@ -254,35 +262,35 @@ var TextBox = function(label, _float) {
         panel.add(labelo);
     }
 
-    this.addEvent = function(e, fn) {
+    this.addEvent = function (e, fn) {
         tf.addEvent(e, fn);
     };
-    
-    this.textfield = function() {
+
+    this.textfield = function () {
         return tf;
     };
-    
-    this.control = function() {
+
+    this.control = function () {
         return panel;
     };
 };
 
 
-var Grid = function() {
+var Grid = function () {
     var panel = new JPanel().addClass('mui-row');
 
 
-    this.cell = function(container, size) {
-        
+    this.cell = function (container, size) {
+
         /* Checking Errors  */
-        if ( !(size instanceof Array) ) {
+        if (!(size instanceof Array)) {
             throw new TypeError('function(container, size) {} the value of size must be a List or Array([]), example: md-5, md-3');
         }
 
         for (var index in size) {
             var n = size[index];
             var a = n.split('-');
-            
+
             var t = '';
             if (a.length > 2) {
                 n = a[0] + '-' + a[1] + '-' + a[2];
@@ -295,7 +303,7 @@ var Grid = function() {
                 }
             } else {
                 t = a[0];
-                
+
                 if (!__isValidConfig(t, ControlConfig.GridType)) throw new Error(t + ' is invalid: valid: ' + ControlConfig.tostr(ControlConfig.GridType));
 
                 if (parseInt(a[1]) > 12) {
@@ -319,11 +327,11 @@ var Grid = function() {
         } else {
             spanel.add(container.control());
         }
-        
+
         panel.add(spanel);
     };
 
-    this.control = function() {
+    this.control = function () {
         return panel;
     };
 };
@@ -331,7 +339,7 @@ var Grid = function() {
 
 /* Table */
 
-var Table = function(header, type) {
+var Table = function (header, type) {
     var table = new JTable().addClass('mui-table');
     var type = type || '';
 
@@ -351,7 +359,7 @@ var Table = function(header, type) {
 
     for (var i in header) {
         var th = new JTh();
-        
+
         if (header[i] instanceof JInterface) {
             th.add(header[i]);
         } else if (header[i] instanceof Object) {
@@ -368,11 +376,11 @@ var Table = function(header, type) {
     var tbody = new JTbody();
     table.add(tbody);
 
-    this.clear = function() {
+    this.clear = function () {
         tbody.clear();
     };
 
-    this.addRow = function(arr) {
+    this.addRow = function (arr) {
         if (!(arr instanceof Array)) throw new TypeError('Table.addRow must be an List or an array sample: [1, "argon", 23]');
         if (header.length != arr.length) throw new Error('Table header must match the size of the addRow or table data');
 
@@ -393,14 +401,14 @@ var Table = function(header, type) {
         tbody.add(tr);
     };
 
-    this.control = function() {
+    this.control = function () {
         return table;
     }
 };
 /* End of Table  */
 
 /* Tab  */
-var Tab = function(ids, type) {
+var Tab = function (ids, type) {
     var type = type || '';
 
 
@@ -415,44 +423,58 @@ var Tab = function(ids, type) {
 
     var i = 1;
     c.add(ul);
-    this.add = function(title, content) {
+
+    this.add = function (title, content, fn) {
         var content = content || 'Tab ' + i.toString();
 
-        var name = ids + '-pane-default-'+ i.toString();
+        var name = ids + '-pane-default-' + i.toString();
 
-        
+        var fn = fn || null;
+
 
         var li = new JLi();
         if (i == 1) {
             /* set active tab */
-            li.addClass('mui--is-active');   
+            li.addClass('mui--is-active');
         }
-        
-        var link = new JLink().setAttr({"data-mui-toggle": "tab", 'data-mui-controls': name});
+
+        var link = new JLink().setAttr({ "data-mui-toggle": "tab", 'data-mui-controls': name });
         link.setText(title);
         li.add(link);
 
         ul.add(li);
 
-        var pan = new JPanel().addClass('mui-tabs__pane').setAttr({'id': name});
+        var pan = new JPanel().addClass('mui-tabs__pane').setAttr({ 'id': name });
         if (i == 1) {
             pan.addClass('mui--is-active');
         }
         /* add the contents */
-        
+
         if (content instanceof JInterface) {
             pan.add(content);
-        } else if(content instanceof Object) {
+        } else if (content instanceof Object) {
             pan.add(content.control());
         } else {
             pan.setText(content);
         }
 
         c.add(pan);
+        
+        if (fn != null && typeof(fn) == 'function') {
+            if (i == 1) {
+                fn(title);
+            }
+            link.addEvent('click', function() {
+                fn(title);
+            });
+        }
+        
         i += 1;
     };
 
-    this.control = function() {
+
+
+    this.control = function () {
         return c;
     };
 };
