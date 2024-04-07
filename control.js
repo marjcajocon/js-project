@@ -716,7 +716,7 @@ var Modal = function(obj) {
     var content = new Panel();
 
     /*  create header */
-    var header = new Panel();
+    var header = new EmptyPanel();
     
     if (obj != null) {
         if (obj instanceof JInterface) {
