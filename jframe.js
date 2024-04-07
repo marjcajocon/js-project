@@ -53,7 +53,8 @@ JInterface.prototype.setText = function(t) {
 };
 
 JInterface.prototype.setHTML = function(html_string) {
-	return this.c.innerHTML = html_string;
+	this.c.innerHTML = html_string;
+	return this;
 };
 
 JInterface.prototype.getControl = function() {
@@ -89,6 +90,8 @@ JInterface.prototype.getText = function() {
 };
 
 JInterface.prototype.addEvent = function(e, c) {
+	if (typeof(c) != 'function') throw new TypeError('addEvent(e, c): c must be a function');
+
 	this.c.addEventListener(e, c);
 	return this;
 };
@@ -99,6 +102,7 @@ JInterface.prototype.style = function(k, v) {
 };
 
 JInterface.prototype.setStyle = function(o) {
+	if ( !(o instanceof Object) ) throw new TypeError('setStyle(o): error: param o must be dictionary {}');
 	for (var i in o) {
 		this.c.style[i] = o[i];
 	}
@@ -128,7 +132,7 @@ JApplication.prototype = Object.create(JInterface.prototype);
 JApplication.prototype.routes = {};
 
 JApplication.prototype.addRoute = function(url, w, prop) {
-
+	
 	this.routes[url] = { page: w, prop: prop };
 	return this;
 };
