@@ -1,51 +1,101 @@
-<html>
-	<head>
-		<link rel="stylesheet" href="mui.css" />
-		<script src="mui.min.js"></script>
-		<script src="jframe.js"></script>
-		<script src="mui.js"></script>
-	</head>
-	<body id="body">
-		<script>
-		var app = new JApplication("body");
-		
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Testing</title>
+    <link rel="stylesheet" href="mui.css" />
+    <script src="mui.min.js"></script>
+    <script src="jframe.js"></script>
+    <script src="control.js"></script>
+</head>
+<body id="root">
+    
 
-		var Home = function(o) {
-			var p = new MContainer();
-			
-			p.container().setText("hellow home pages").add(new MButton("test").core().event("click", function() {
-				app.navigate("#login");
-			}));
 
-			p.core().add(o);
-			
-			return p.container();
-		};
-		
-		var Login = function() {
-			var p = new MContainer();
-			var login = new MButton("Login", "primary", "flat");
-			login.core().event("click", function() {
-				app.navigate("#");
-			});
-			p.add(login); 
-			
-			return p.container();
-		};
-		
-		var Contact = function() {
-			var p = new MContainer();
-			
-			p.core().setText("This is a page contact");
-			alert("contact");
-			return p.container();
-		};
+<script>
+    
+    var Home = function() {
+        var panel = new Container();
+        
+        var btn = new Button('+', 'danger', 'fab', 'small');
+        var btn2 = new Button('confirm', 'primary', 'flat', 'small');
+        
+        btn2.addEvent('click', function() {
+            // ConfirmDialog.show('Are you willing to be my girl?', function() {
+            //     alert(1);
+            //     ConfirmDialog.hide();
+            // });
 
-		app.addRoute("#", Home, Contact);
-		app.addRoute("#login", Login);
-		app.init();
-	
-		</script>
-	</body>
+            ConfirmDialog.show(new Button('hellow', 'danger', 'raised'), function() {
+                ConfirmDialog.hide();
+            });
+        });
+
+
+        var tf = new TextField('Username', 'float');
+    
+        var grid = new Grid();
+        var left = new JPanel().setHTML('hellow world').setStyle({backgroundColor: 'orange'});
+        
+        var right = new JPanel().setHTML('Hellow write').setStyle({backgroundColor: 'blue'});
+
+
+        grid.cell(left, ['md-6']);
+        grid.cell(right, ['md-6']);
+
+        var dialog = new Panel();
+        
+        btn.addEvent('click', function() {
+            MessageDialog.show('You such a good person! hehe', function() {
+                MessageDialog.hide();
+            });
+
+        });
+
+        var table = new Table(['name', 'age', 'helo'], 'bordered');
+        table.addRow(['marjon', '34', new Button('Help', 'primary', 'raised')]);
+        
+        var box = new TextBox('Hellow world', 'float');
+
+        var card = new Panel();
+        
+        var drop = new ButtonGroup('Drowpdown', 'primary', 'raised', 'left');
+        drop.add(new ButtonLink('Home'), function(e) { console.log('home');});
+        drop.add(new ButtonLink('Contact'), function(e) {console.log('contact');});
+        
+        var tab = new Tab('test');
+        var profile = new Panel().setStyle({backgroundColor: 'orange'});
+        tab.add('Profile Info', profile, function(e) { profile.setStyle({backgroundColor: 'black'});  });
+        tab.add('Barangay', new Panel().setStyle({backgroundColor: 'blue'}), function(e) {console.log(e)});
+
+        var label = new Label('Hellow world', 'accent', 'title', 'inline');
+        var label2 = new Label('How are you', null,  null, 'inline');
+
+        panel.add(btn);
+        panel.add(tf);
+        panel.add(grid);
+
+        panel.add(table);
+        panel.add(box);
+
+        panel.add(card);
+        panel.add(drop);
+
+        panel.add(tab);
+        panel.add(label);
+        panel.add(label2);
+
+        panel.add(btn2);
+
+        return panel.control();
+    };
+
+
+    var myapp = new JApplication('root');
+    myapp.addRoute('#', Home);
+    myapp.init();
+
+</script>
+</body>
 </html>
-
