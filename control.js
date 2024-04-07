@@ -27,6 +27,49 @@ var __isValidConfig = function (n, ls) {
     return false;
 };
 
+var AppBar = function(left_side, right_side) {
+    var panel = new JPanel().addClass('mui-appbar');
+
+    var table = new JTable().setStyle({width: '100%'});
+
+    var tr = new JTr().setStyle({
+        verticalAlign: 'middle'
+    });
+
+    var left = new JTd().addClass('mui--appbar-height');
+
+    var right = new JTd().addClass('mui--appbar-height').setAttr({
+        align: 'right'
+    });
+
+    var left_side = left_side || null;
+    var right_side = right_side || null;
+
+    if (left_side != null && left_side instanceof JInterface) {
+        left.add(left_side);
+    } else if(left_side != null && left_side instanceof Object) {
+        left.add(left_side.control());
+    } else {
+        left.setText(left_side);
+    }
+
+    if (right_side != null && right_side instanceof JInterface) {
+        right.add(right_side);
+    } else if(right_side != null && right_side instanceof Object) {
+        right.add(right_side.control());
+    } else {
+        right.setText(right_side);
+    }
+
+    tr.add(left);
+    tr.add(right);
+    table.add(tr);
+    panel.add(table);
+    this.control = function() {
+        return panel;
+    };
+};
+
 var Label = function (text, color, size, display) {
     /* for typography  */
 
