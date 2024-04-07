@@ -78,6 +78,34 @@ var Container = function () {
     };
 };
 
+var EmptyPanel = function () {
+    var panel = new JPanel();
+
+
+    var self = this;
+    this.setStyle = function (obj_dic) {
+        panel.setStyle(obj_dic);
+        return self;
+    };
+
+    this.addClass = function (classname) {
+        panel.addClass(classname);
+    };
+
+    this.control = function () {
+        return panel;
+    };
+
+    this.add = function (j) {
+        if (j instanceof JInterface) {
+            panel.add(j);
+        } else {
+            panel.add(j.control());
+        }
+    };
+};
+
+
 var Panel = function () {
     var panel = new JPanel().addClass('mui-panel');
 
@@ -144,6 +172,11 @@ var Button = function (label, color, type, size) {
         return b;
     }
 
+    this.setStyle = function(o) {
+        b.setStyle(o);
+        return this;
+    };
+
     this.control = function () {
         return b;
     };
@@ -179,13 +212,25 @@ var ButtonGroup = function (label, color, type, direction) {
 
     };
 
-    this.add = function (o) {
+    this.add = function (o, fn) {
         var li = new JLi();
+        var fn = fn || null;
 
         if (o instanceof JInterface) {
             li.add(o);
+            if (fn != null && typeof(fn) == 'function') {
+                o.addEvent('click', function(e) {
+                    fn(e);
+                });
+            }
         } else if (o instanceof Object) {
             li.add(o.control());
+
+            if (fn != null && typeof(fn) == 'function') {
+                o.control().addEvent('click', function(e) {
+                    fn(e);
+                });
+            }
         } else {
             li.setText(o);
         }
@@ -468,7 +513,7 @@ var Tab = function (ids, type) {
                 fn(title);
             });
         }
-        
+
         i += 1;
     };
 
@@ -479,3 +524,138 @@ var Tab = function (ids, type) {
     };
 };
 /* End of Tab  */
+
+/* Diviver */
+var Divider = function() {
+    var panel = new JPanel().addClass('mui-divider');
+
+    this.control = function() {
+        return panel;
+    };
+};
+/* end Divider */
+
+/* Dialog */
+var MessageDialog = {
+    show: function(msg, fn, type) {
+        /* Create  a simple dialog */
+        var fn = fn || null;
+
+        var panel = new Panel().setStyle({
+            width: '320px',
+            height: '100px',
+            margin: 'auto',
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0
+        });
+
+        var divider = new Divider();
+        var title = new Label('Alert', 'accent', 'menu', 'block');
+
+        var m = new Label(msg, 'dark-secondary', 'caption', 'block');
+
+        var ok = new Button('Ok', 'accent', 'raised', 'small').setStyle({
+            position: 'absolute',
+            bottom: '15px',
+            right: '15px'
+        });
+
+        panel.add(title);
+        panel.add(divider);
+        panel.add(m);
+        panel.add(ok);
+        /*  Create ok button  */
+
+        var options = {
+            'keyboard': true, // teardown when <esc> key is pressed (default: true)
+            'static': true, // maintain overlay when clicked (default: false)
+            'onclose': function() {} // execute function when overlay is closed
+        };
+
+        mui.overlay('on', options, panel.control().getControl());
+        ok.addEvent('click', function() {
+            if (fn != null && typeof(fn) == 'function') {
+                fn();
+            }
+        });
+    },
+    hide: function() {
+        mui.overlay('off');
+    }
+};
+
+var ConfirmDialog = {
+    show: function(msg, fn, type) {
+        /* Create  a simple dialog */
+        var fn = fn || null;
+        var msg = msg || null;
+
+        var panel = new Panel().setStyle({
+            width: '320px',
+            height: '150px',
+            margin: 'auto',
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0
+        });
+
+        var divider = new Divider();
+        var title = new Label('Confirm', 'accent', 'menu', 'block');
+
+        
+        var m = null;
+        if (msg != null && msg instanceof JInterface) {
+            m = msg;
+        } else if(msg != null && msg instanceof Object) {
+            m = msg.control();
+        } else {
+            m = new Label(msg, 'dark-secondary', 'caption', 'block');
+        }
+
+        var menu = new EmptyPanel();
+
+        var ok = new Button('Ok', 'accent', 'raised', 'small');
+        var cancel = new Button('Cancel', 'danger', 'raised', 'small');
+
+        cancel.addEvent('click', function() {
+            ConfirmDialog.hide();
+        });
+
+        menu.setStyle({
+            position: 'absolute',
+            bottom: '15px',
+            right: '15px'
+        });
+
+        menu.add(ok);
+        menu.add(cancel);
+
+        panel.add(title);
+        panel.add(divider);
+        panel.add(m);
+        panel.add(menu);
+        /*  Create ok button  */
+
+        var options = {
+            'keyboard': true, // teardown when <esc> key is pressed (default: true)
+            'static': true, // maintain overlay when clicked (default: false)
+            'onclose': function() {} // execute function when overlay is closed
+        };
+
+        mui.overlay('on', options, panel.control().getControl());
+        ok.addEvent('click', function() {
+            if (fn != null && typeof(fn) == 'function') {
+                fn();
+            }
+        });
+    },
+    hide: function() {
+        mui.overlay('off');
+    }
+};
+/* End Dialog */
