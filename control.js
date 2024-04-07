@@ -3,6 +3,8 @@ var ControlConfig = {
     ButtonType: ['flat', 'raised', 'fab'],
     TextFieldType: ['float'],
     TableType: ['bordered'],
+    TabType: ['justified'],
+    Direction: ['right', 'left', 'up', 'bottom'],
     GridType: ['md', 'xs', 'lg', 'sm', 'xl', 'md-offset', 'xs-offset', 'lg-offset', 'sm-offset', 'xl-offset'], //        var reg = new RegExp('^[md|xs|lg|sm|xl]\-$');
     tostr: function(ls) {
         var ret = '';
@@ -48,7 +50,7 @@ var Container = function() {
 };
 
 var Panel = function() {
-    var panel = new JPanel();
+    var panel = new JPanel().addClass('mui-panel');
 
 
     var self = this;
@@ -102,9 +104,61 @@ var Button = function(label, color, type) {
     this.addEvent = function(e, c) {
         b.addEvent(e, c);
     };
+    this.button = function() {
+        return b;
+    }
 
     this.control = function() {
         return b;
+    };
+};
+
+var ButtonLink = function(label) {
+    var link = new JLink(label);
+    
+    this.control = function() {
+        return link;
+    };
+};
+
+var ButtonGroup = function(label, color, type, direction) {
+    var panel = new JPanel().addClass('mui-dropdown');
+
+    var direction = direction || '';
+
+    var btn = new Button(label, color, type);
+    btn.button().setAttr({'data-mui-toggle': 'dropdown'});
+    panel.add(btn.control());
+
+    var ul = new JUl().addClass('mui-dropdown__menu');
+
+    if (direction != '') {
+        if (!__isValidConfig(direction, ControlConfig.Direction)) throw new TypeError(direction + ' is invalid, Valid: ' + ControlConfig.tostr(ControlConfig.Direction));
+        ul.addClass('mui-dropdown__menu--' + direction);
+    }
+
+    panel.add(ul);
+
+    this.addButton = function() {
+
+    };
+
+    this.add = function(o) {
+        var li = new JLi();
+        
+        if (o instanceof JInterface) {
+            li.add(o);
+        } else if (o instanceof Object) {
+            li.add(o.control());
+        } else {
+            li.setText(o);
+        }
+
+        ul.add(li);
+    };
+
+    this.control = function() {
+        return panel;
     };
 };
 
@@ -141,6 +195,42 @@ var TextField = function(label, _float) {
         return panel;
     };
 };
+
+
+
+var TextBox = function(label, _float) {
+    var label = label || '';
+    var _float = _float || '';
+
+    if (_float != '') {
+        if (!__isValidConfig(_float, ControlConfig.TextFieldType)) throw new TypeError(type + ' is not valid! valid: ' + ControlConfig.TextFieldType);
+    }
+
+    var panel = new JPanel();
+    panel.addClass('mui-textfield');
+
+    if (_float != '') {
+        panel.addClass('mui-textfield--float-label');
+    }
+
+    var tf = new JTextArea();
+
+    panel.add(tf);
+
+    if (label != '') {
+        var labelo = new JLabel(label);
+        panel.add(labelo);
+    }
+    
+    this.textfield = function() {
+        return tf;
+    };
+    
+    this.control = function() {
+        return panel;
+    };
+};
+
 
 var Grid = function() {
     var panel = new JPanel().addClass('mui-row');
@@ -271,8 +361,63 @@ var Table = function(header, type) {
         return table;
     }
 };
+/* End of Table  */
 
-/*
-var table = Table();
+/* Tab  */
+var Tab = function(ids, type) {
+    var type = type || '';
 
-*/
+
+    var c = new JPanel();
+
+    var ul = new JUl().addClass('mui-tabs__bar');
+
+    if (type != '') {
+        if (!__isValidConfig(type, ControlConfig.TabType)) throw new TypeError(type + ' is not valid, valid: ' + ControlConfig.tostr(ControlConfig.TabType));
+        ul.addClass('mui-tabs__bar--' + type);
+    }
+
+    var i = 1;
+    c.add(ul);
+    this.add = function(title, content) {
+        var content = content || 'Tab ' + i.toString();
+
+        var name = ids + '-pane-default-'+ i.toString();
+
+        
+
+        var li = new JLi();
+        if (i == 1) {
+            /* set active tab */
+            li.addClass('mui--is-active');   
+        }
+        
+        var link = new JLink().setAttr({"data-mui-toggle": "tab", 'data-mui-controls': name});
+        link.setText(title);
+        li.add(link);
+
+        ul.add(li);
+
+        var pan = new JPanel().addClass('mui-tabs__pane').setAttr({'id': name});
+        if (i == 1) {
+            pan.addClass('mui--is-active');
+        }
+        /* add the contents */
+        
+        if (content instanceof JInterface) {
+            pan.add(content);
+        } else if(content instanceof Object) {
+            pan.add(content.control());
+        } else {
+            pan.setText(content);
+        }
+
+        c.add(pan);
+        i += 1;
+    };
+
+    this.control = function() {
+        return c;
+    };
+};
+/* End of Tab  */
