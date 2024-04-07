@@ -1,6 +1,7 @@
 var ControlConfig = {
     TextColor: ['dark', 'dark-secondary', 'dark-hint', 'light', 'light-secondary', 'light-hint', 'accent', 'accent-secondary', 'accent-hint', 'black', 'white', 'danger'],
     TextSize: ['display4', 'display3', 'display2', 'display1', 'headline', 'title', 'subhead', 'body2', 'body1', 'caption', 'menu', 'button'],
+    TextDisplay: ['inline', 'inline-block', 'block'],
     Colors: ['primary', 'danger', 'accent'],
     ButtonType: ['flat', 'raised', 'fab'],
     TextFieldType: ['float'],
@@ -25,15 +26,23 @@ var __isValidConfig = function(n, ls) {
     return false;
 };
 
-var Label = function(text, color, size) {
+var Label = function(text, color, size, display) {
     /* for typography  */
-    var color = color || 'dark';
-    var size = size || 'caption';
-    
+
+    var color = color || null;
+    var size = size || null;
+    var display = display || null;
+
+    color = color != null ? color : 'dark';
+    size = size != null ? size : 'caption';
+    display = display != null ? display: 'inline';
+
     if (!__isValidConfig(color, ControlConfig.TextColor)) throw new TypeError('color ' + color + ' is not valid, Valid: ' + ControlConfig.tostr(ControlConfig.TextColor));
     if (!__isValidConfig(size, ControlConfig.TextSize)) throw new TypeError('Textsize ' + size + ' is not valid, Valid: ' + ControlConfig.tostr(ControlConfig.TextSize));
+    if (!__isValidConfig(display, ControlConfig.TextDisplay)) throw new TypeError('TextDisplay ' + display + ' is not valid, Valid: ' + ControlConfig.tostr(ControlConfig.TextDisplay));
 
     var c = new JPanel().addClass('mui--text-' + color).addClass('mui--text-' + size);
+    c.setStyle({display: display});
     c.setText(text);
 
     this.control = function() {
