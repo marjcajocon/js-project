@@ -63,6 +63,9 @@ JInterface.prototype.getControl = function() {
 
 JInterface.prototype.setAttr = function(o) {
 	/* o is a dictionary  */
+	if (!(o instanceof Object)) {
+		throw new TypeError('setAttr(o) o must be a dictionary');
+	}
 	for (var i in o) {
 		this.c.setAttribute(i, o[i]);
 	}
@@ -192,6 +195,12 @@ var JLabel = function(t) {
 
 JLabel.prototype = Object.create(JInterface.prototype);
 // End Label
+
+var JLink = function(t) {
+	this.c = _c('a');
+	this.setText(t);
+};
+JLink.prototype = Object.create(JInterface.prototype);
 
 // button
 var JButton = function(t) {
