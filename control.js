@@ -817,6 +817,16 @@ var Form = function() {
         }
     };
 
+    this.clear = function() {
+        for (var i in w) {
+            if (w[i] instanceof JInterface) {
+                w[i].setText('');
+            } else if(w[i] instanceof Object) {
+                w[i].textfield().setText('');
+            }
+        }
+    };
+
     this.getValue = function() {
         var data = {};
         for (var i in w) {
