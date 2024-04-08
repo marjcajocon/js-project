@@ -85,6 +85,8 @@ var NavBar = function(pos, bg) {
     var pos = pos || 'top';
     pos = pos == 'top' ? 'up' : pos;
 
+    var bg = bg || '#AA00FF';
+
     if (pos != null) {
         if (!__isValidConfig(pos, ControlConfig.Direction)) throw new TypeError(pos + ' is invalid, Valid: ' + ControlConfig.tostr(ControlConfig.Direction));
     }
@@ -103,7 +105,7 @@ var NavBar = function(pos, bg) {
         panel.setStyle({
             width: '100%',
             height: '60px',
-            backgroundColor: '#AA00FF',
+            backgroundColor: bg,
             position: 'fixed',
             left: 0,
             top: 0,
@@ -114,7 +116,7 @@ var NavBar = function(pos, bg) {
         panel.setStyle({
             width: '100%',
             height: '60px',
-            backgroundColor: '#AA00FF',
+            backgroundColor: bg,
             position: 'fixed',
             left: 0,
             bottom: 0,
