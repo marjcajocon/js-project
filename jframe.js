@@ -441,3 +441,9 @@ var JTbody = function() {
 };
 
 JTbody.prototype = Object.create(JInterface.prototype);
+
+
+JI = function() {
+	this.c = _c('i');
+}
+JI.prototype = Object.create(JInterface.prototype);
