@@ -88,6 +88,14 @@ var NavBar = function(pos, bg) {
     if (pos != null) {
         if (!__isValidConfig(pos, ControlConfig.Direction)) throw new TypeError(pos + ' is invalid, Valid: ' + ControlConfig.tostr(ControlConfig.Direction));
     }
+    
+    var const_size = 768;
+    var device = 'phone';
+    if (window.screen.width >= 768) {
+        device = 'desktop'
+    }
+
+    
 
     var panel = new JPanel();
 
@@ -111,13 +119,21 @@ var NavBar = function(pos, bg) {
             left: 0,
             bottom: 0,
             zIndex: 100,
-            boxShadow: '0 3px 3px rgba(0, 0, 0, 0.4)'
+            boxShadow: '0 -1px 1px rgba(0, 0, 0, 0.4)'
         });
     }
 
     var subpanel = new JPanel().setStyle({
         height: '100%'
     });
+    if (device != 'phone') {
+        subpanel.setStyle({
+            width: const_size + 'px'
+        });
+        subpanel.setStyle({
+            margin: 'auto'
+        });
+    }
     
     panel.add(subpanel);
     var ls = [];
@@ -186,10 +202,21 @@ var NavBar = function(pos, bg) {
         
         var width = 100 / ls.length;
         
+        if (device != 'phone') {
+            width = const_size / ls.length;
+        }
+        
         for (var i in ls) {
-            ls[i].setStyle({
-                width: width + '%'
-            });
+            if (device == 'phone') {
+                ls[i].setStyle({
+                    width: width + '%'
+                });
+            } else {
+                /* for desktop */
+                ls[i].setStyle({
+                    width: width + 'px'
+                });
+            }
         }
         return this;
     };
