@@ -84,9 +84,49 @@ var AppBar = function(left_side, right_side) {
 
 var SnackBar = function() {
     
-    this.show = function() {
 
-    }
+    var label = new Label(null, 'light-secondary', 'caption');
+
+    var panel = new JPanel()
+                .setStyle({
+                    width: '80%',
+                    backgroundColor: '#37474f',
+                    padding: '15px',
+                    borderRadius: '5px',
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    bottom: '20px',
+                    margin: 'auto',
+                    boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
+                    zIndex: 100,
+                    display: 'none'
+                })
+                .add(label.control());
+    
+    var tn = null;
+    var self = this;
+    
+    this.show = function(msg) {
+        var msg = msg || '';
+        label.setText(msg);
+        panel.setStyle({
+            display: 'block'
+        });
+        tn = setTimeout(function() {
+            self.hide();
+        }, 2000);
+    };
+    
+    this.hide = function() {
+        panel.setStyle({
+            display: 'none'
+        });
+    };
+
+    this.control = function() {
+        return panel;
+    };
     
 };
 
@@ -293,6 +333,11 @@ var Label = function (text, color, size, display) {
     var c = new JPanel().addClass('mui--text-' + color).addClass('mui--text-' + size);
     c.setStyle({ display: display });
     c.setText(text);
+
+    this.setText = function(msg) {
+        c.setText(msg);
+        return this;
+    };
 
     this.control = function () {
         return c;
@@ -571,8 +616,7 @@ var Switch = function(state) {
     
     var __state = state;
     
-    circle.addEvent('click', function() {
-        state = !state;
+    var update = function() {
         var _state = state ? off : on;
         var _state_pos = state ? ['18px', '-3.5px'] : ['-3px', '-3.5px'];
         
@@ -587,11 +631,23 @@ var Switch = function(state) {
         });
 
         __state = !state;
+    };
 
-        console.log(__state);
+    circle.addEvent('click', function() {
+       state = !state;
+       update(); 
     });
 
+
+
     panel.add(circle);
+
+    this.set = function(ischeck) {
+        if (typeof(ischeck) != 'boolean') throw new TypeError('ischeck is not bool');
+
+        state = false;
+        update();
+    };
 
     this.checked = function() {
         return __state;
@@ -987,7 +1043,7 @@ var ConfirmDialog = {
 var Modal = function(obj) {
     var obj = obj || null;
 
-    var panel = new Panel();
+    var panel = new Panel().setStyle({position: 'relative'});
 
     var content = new Panel();
 
@@ -1083,9 +1139,17 @@ var Form = function() {
         var key = key || null;
         
         if (obj instanceof JInterface) {
-            form.add(obj, key);
+            if (key != null) {
+                form.add(obj, key);
+            } else {
+                form.add(obj);
+            }
         } else if (obj instanceof Object) {
-            form.add(obj.control(), key);
+            if (key != null) {
+                form.add(obj.control(), key);
+            } else {
+                form.add(obj.control());                
+            }
         }
 
         if (key != null) {
@@ -1096,7 +1160,10 @@ var Form = function() {
 
     this.clear = function() {
         for (var i in w) {
-            if (w[i] instanceof JInterface) {
+            if(w[i] instanceof Switch) {
+                w[i].set(false);
+            }
+            else if (w[i] instanceof JInterface) {
                 w[i].setText('');
             } else if(w[i] instanceof Object) {
                 w[i].textfield().setText('');
