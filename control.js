@@ -137,6 +137,8 @@ var NavBar = function(pos, bg) {
     
     panel.add(subpanel);
     var ls = [];
+    var ls_icon = [];
+
     this.add = function(title, icon, fn) {
         var fn = fn || null; /* fn is an event  */
 
@@ -144,9 +146,14 @@ var NavBar = function(pos, bg) {
         var icon = icon || null;
 
         btn = null;
+    
+        var ico = new JI().addClass('fa').addClass('fa-' + icon).setStyle({
+            fontSize: '35px'
+        });
+
         if (pos == 'up') { 
+            
             btn = new JButton()
-                    .setText('<i class="fa fa-' + icon + '" style="font-size: 35px"></i>')
                     .setStyle({
                         backgroundColor: 'rgba(0, 0, 0, 0)',
                         border: 'none',
@@ -166,10 +173,11 @@ var NavBar = function(pos, bg) {
                         if (fn != null && typeof(fn) == 'function') {
                             fn(e);
                         }
-                    });
+                    })
+                    .add(ico);
         } else if (pos == 'bottom') {
+    
             btn = new JButton()
-                    .setText('<i class="fa fa-' + icon + '" style="font-size: 35px"></i>')
                     .setStyle({
                         backgroundColor: 'rgba(0, 0, 0, 0)',
                         border: 'none',
@@ -189,9 +197,12 @@ var NavBar = function(pos, bg) {
                         if (fn != null && typeof(fn) == 'function') {
                             fn(e);
                         }
-                    });
+                    })
+                    .add(ico);
         }
         
+        ls_icon.push(ico);
+
         subpanel.add(btn);
 
         ls.push(btn);
@@ -218,6 +229,29 @@ var NavBar = function(pos, bg) {
                 });
             }
         }
+
+        var ls_len = ls_icon.length;
+        for (var i in ls_icon) {
+            if (false) {
+
+            }
+            else if (ls_len >= 12) {
+                ls_icon[i].setStyle({
+                    fontSize: '15px'
+                });
+            }
+            else if (ls_len >= 9) {
+                ls_icon[i].setStyle({
+                    fontSize: '20px'
+                });
+            }
+            else if (ls_len >= 6) {
+                ls_icon[i].setStyle({
+                    fontSize: '23px'
+                });
+            }
+        }
+        
         return this;
     };
 
