@@ -81,7 +81,7 @@ var AppBar = function(left_side, right_side, pos) {
     };
 };
 
-var NavBar = function(pos, bgcolor) {
+var NavBar = function(pos, bg) {
     var pos = pos || 'top';
     pos = pos == 'top' ? 'up' : pos;
 
@@ -122,28 +122,59 @@ var NavBar = function(pos, bgcolor) {
     panel.add(subpanel);
     var ls = [];
     this.add = function(title, icon, fn) {
+        var fn = fn || null; /* fn is an event  */
 
         var title = title || null;
         var icon = icon || null;
 
-        var btn = new JButton()
-                .setText('<i class="fa fa-' + icon + '" style="font-size: 35px"></i>')
-                .setStyle({
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    height: '100%',
-                    float: 'left',
-                    color: 'white',
-                    borderBottom: '2px solid rgba(0, 0, 0, 0)'
-                }).addEvent('click', function() {
-                    for (var i in ls) {
-                        ls[i].getControl().style.borderBottom = '2px solid rgba(0, 0, 0, 0)';
-                        ls[i].getControl().style.backgroundColor = 'rgba(0, 0, 0, 0)';
-                    }
-                    this.style.borderBottom = '2px solid white';
-                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                });
+        btn = null;
+        if (pos == 'up') { 
+            btn = new JButton()
+                    .setText('<i class="fa fa-' + icon + '" style="font-size: 35px"></i>')
+                    .setStyle({
+                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        height: '100%',
+                        float: 'left',
+                        color: 'white',
+                        borderBottom: '2px solid rgba(0, 0, 0, 0)'
+                    }).addEvent('click', function(e) {
+                        for (var i in ls) {
+                            ls[i].getControl().style.borderBottom = '2px solid rgba(0, 0, 0, 0)';
+                            ls[i].getControl().style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                        }
+                        this.style.borderBottom = '2px solid white';
+                        this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        
+                        if (fn != null && typeof(fn) == 'function') {
+                            fn(e);
+                        }
+                    });
+        } else if (pos == 'bottom') {
+            btn = new JButton()
+                    .setText('<i class="fa fa-' + icon + '" style="font-size: 35px"></i>')
+                    .setStyle({
+                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        height: '100%',
+                        float: 'left',
+                        color: 'white',
+                        borderTop: '2px solid rgba(0, 0, 0, 0)'
+                    }).addEvent('click', function(e) {
+                        for (var i in ls) {
+                            ls[i].getControl().style.borderTop = '2px solid rgba(0, 0, 0, 0)';
+                            ls[i].getControl().style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                        }
+                        this.style.borderTop = '2px solid white';
+                        this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        
+                        if (fn != null && typeof(fn) == 'function') {
+                            fn(e);
+                        }
+                    });
+        }
         
         subpanel.add(btn);
 
