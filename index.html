@@ -85,10 +85,11 @@
         // panel.add(appbar);
 
         var navbar = new NavBar()
-                    .add('Home', 'home')
+                    .add('Home', 'home', function(e) {
+                        console.log(e);
+                    })
                     .add('About', 'question')
                     .add('Contact', 'user')
-                    .add('Page', 'dashboard')
                     .update();
                     
 
