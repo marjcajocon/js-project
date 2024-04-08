@@ -81,6 +81,15 @@ var AppBar = function(left_side, right_side, pos) {
     };
 };
 
+
+var SnackBar = function() {
+    
+    this.show = function() {
+
+    }
+    
+};
+
 var NavBar = function(pos, bg) {
     var pos = pos || 'top';
     pos = pos == 'top' ? 'up' : pos;
