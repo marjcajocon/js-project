@@ -161,6 +161,9 @@ var NavBar = function(pos, bg) {
         var ico = new JI().addClass('fa').addClass('fa-' + icon).setStyle({
             fontSize: '35px'
         });
+        if (title != null) {
+            ico.setText(title);
+        }
 
         if (pos == 'up') { 
             
@@ -532,6 +535,73 @@ var TextField = function (label, _float, type) {
     };
 };
 
+/* Switch */
+var Switch = function(state) {
+    
+    var state = state || false;
+    if (typeof(state) != 'boolean') throw new TypeError('state must be a boolean : value: true or false');
+
+    var on = '#AA00FF';
+    var off = '#B0BEC5';
+    
+    var _state = state ? on : off;
+
+    var _state_pos = state ? ['-3px', '-3.5px'] : ['18px', '-3.5px'];
+
+    var panel = new JPanel()
+                .setStyle({
+                    display: 'inline-block', 
+                    width: '35px', 
+                    height: '15px', 
+                    backgroundColor: _state + '99',
+                    borderRadius: '15px',
+                    position: 'relative'
+                });
+    var circle = new JPanel()
+                .setStyle({
+                    position: 'absolute',
+                    borderRadius: '50%',
+                    width: '22px',
+                    height: '22px',
+                    backgroundColor: _state,
+                    right: _state_pos[0],
+                    top: _state_pos[1],
+                    boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)'
+                });
+    
+    var __state = state;
+    
+    circle.addEvent('click', function() {
+        state = !state;
+        var _state = state ? off : on;
+        var _state_pos = state ? ['18px', '-3.5px'] : ['-3px', '-3.5px'];
+        
+        panel.setStyle({
+            backgroundColor: _state + '99'
+        });
+
+        circle.setStyle({
+            backgroundColor: _state,
+            right: _state_pos[0],
+            top: _state_pos[1],
+        });
+
+        __state = !state;
+
+        console.log(__state);
+    });
+
+    panel.add(circle);
+
+    this.checked = function() {
+        return __state;
+    }
+
+    this.control = function() {
+        return panel;
+    };
+};
+/* End Switch */
 
 
 var TextBox = function (label, _float) {
@@ -1021,6 +1091,7 @@ var Form = function() {
         if (key != null) {
             w[key] = obj;
         }
+        return this;
     };
 
     this.clear = function() {
@@ -1031,13 +1102,17 @@ var Form = function() {
                 w[i].textfield().setText('');
             }
         }
+        return this;
     };
 
     this.getValue = function() {
         var data = {};
+    
         for (var i in w) {
-            if (w[i] instanceof JInterface) {
-                data[w[i]] = w[i].getText();
+            if (w[i] instanceof Switch) {
+                data[i] = w[i].checked();
+            } else if (w[i] instanceof JInterface) {
+                data[i] = w[i].getText();
             } else if(w[i] instanceof Object) {
                 data[i] = w[i].textfield().getText();
             }
