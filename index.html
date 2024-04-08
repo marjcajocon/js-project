@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Testing</title>
+    <link rel="stylesheet" href="icon/css/font-awesome.min.css" />
     <link rel="stylesheet" href="mui.css" />
     <script src="mui.min.js"></script>
     <script src="jframe.js"></script>
@@ -16,7 +17,7 @@
 <script>
     
     var Home = function() {
-        var panel = new Container();
+        var panel = new EmptyPanel();
         
         var btn = new Button('+', 'danger', 'fab', 'small');
         var btn2 = new Button('confirm', 'primary', 'flat', 'small');
@@ -72,6 +73,26 @@
         var label = new Label('Hellow world', 'accent', 'title', 'inline');
         var label2 = new Label('How are you', null,  null, 'inline');
 
+        var drawer = new Drawer().add(new Panel()).add(new Divider());
+
+
+        var btn4 = new Button('Open Drawer', 'accent', 'raised', 'large').addEvent('click', function() {
+            drawer.show();
+        });
+        
+
+        // var appbar = new AppBar();
+        // panel.add(appbar);
+
+        var navbar = new NavBar()
+                    .add('Home', 'home')
+                    .add('About', 'question')
+                    .add('Contact', 'user')
+                    .add('Page', 'dashboard')
+                    .update();
+                    
+
+        panel.add(navbar);
         panel.add(btn);
         panel.add(tf);
         panel.add(grid);
@@ -87,6 +108,8 @@
         panel.add(label2);
 
         panel.add(btn2);
+
+        panel.add(btn4);
 
         return panel.control();
     };
