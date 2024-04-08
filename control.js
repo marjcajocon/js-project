@@ -232,6 +232,7 @@ var EmptyPanel = function () {
 
     this.addClass = function (classname) {
         panel.addClass(classname);
+        return this;
     };
 
     this.control = function () {
@@ -244,6 +245,7 @@ var EmptyPanel = function () {
         } else {
             panel.add(j.control());
         }
+        return this;
     };
 };
 
@@ -260,6 +262,7 @@ var Panel = function () {
 
     this.addClass = function (classname) {
         panel.addClass(classname);
+        return this;
     };
 
     this.control = function () {
@@ -272,6 +275,7 @@ var Panel = function () {
         } else {
             panel.add(j.control());
         }
+        return this;
     };
 };
 
