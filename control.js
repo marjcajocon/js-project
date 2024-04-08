@@ -10,6 +10,7 @@ var ControlConfig = {
     Size: ['small', 'large'],
     Direction: ['right', 'left', 'up', 'bottom'],
     GridType: ['md', 'xs', 'lg', 'sm', 'xl', 'md-offset', 'xs-offset', 'lg-offset', 'sm-offset', 'xl-offset'], //        var reg = new RegExp('^[md|xs|lg|sm|xl]\-$');
+    DrawerType: ['bottom', 'top', 'left', 'right'],
     tostr: function (ls) {
         var ret = '';
         for (var i in ls) {
@@ -845,6 +846,98 @@ var Form = function() {
 };
 /* End form */
 
+
+/* Drawer */
+var Drawer = function(type) {
+    var type = type || 'left';
+
+    var panel = new JPanel();
+
+    if (type != null) {
+        if (!__isValidConfig(type, ControlConfig.DrawerType)) throw new TypeError(type + ' is invalid, valid are' + ControlConfig.tostr(ControlConfig.DrawerType));
+    }
+
+    var style = {};
+
+    if (type == 'left') {
+        style = {
+            width: '250px',
+            height: '100%',
+            backgroundColor: 'white',
+            position: 'absolute',
+            left: 0,
+            top: 0
+        };
+    } else if(type == 'bottom') {
+        style = {
+            width: '100%',
+            height: '50%',
+            backgroundColor: 'white',
+            position: 'absolute',
+            bottom: '0px',
+            borderTopRightRadius: '20px',
+            borderTopLeftRadius: '20px'
+        };
+    } else if(type == 'top') {
+        style = {
+            width: '100%',
+            height: '50%',
+            backgroundColor: 'white',
+            position: 'absolute',
+            top: '0px',
+            borderBottomRightRadius: '20px',
+            borderBottomLeftRadius: '20px'
+        };
+    } else if (type == 'right') {
+        style = {
+            width: '250px',
+            height: '100%',
+            backgroundColor: 'white',
+            position: 'absolute',
+            right: 0,
+            top: 0
+        };
+    }
+
+    
+
+
+    panel.setStyle(style);
+
+    this.setStyle = function(styles) {
+        panel.setStyle(styles);
+        return this;
+    };
+
+    this.add = function(obj) {
+        if (obj instanceof JInterface) {
+            panel.add(obj);
+        } else if(obj instanceof Object) {
+            panel.add(obj.control());
+        }
+        return this;
+    };
+
+    this.show = function() {
+        // var options = {
+        //     'keyboard': true, // teardown when <esc> key is pressed (default: true)
+        //     'static': true, // maintain overlay when clicked (default: false)
+        //     'onclose': function() {} // execute function when overlay is closed
+        // };
+
+        mui.overlay('on', {}, panel.getControl());
+    };
+
+    this.hide = function() {
+
+    };
+
+    this.control = function() {
+        return panel;
+    };
+};
+
+/* End Drawer  */
 
 
 /* AppHttp */
