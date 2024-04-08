@@ -28,7 +28,7 @@ var __isValidConfig = function (n, ls) {
     return false;
 };
 
-var AppBar = function(left_side, right_side, pos) {
+var AppBar = function(left_side, right_side) {
     var panel = new JPanel().addClass('mui-appbar');
 
     var table = new JTable().setStyle({width: '100%'});
