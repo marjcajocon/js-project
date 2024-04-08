@@ -28,7 +28,7 @@ var __isValidConfig = function (n, ls) {
     return false;
 };
 
-var AppBar = function(left_side, right_side) {
+var AppBar = function(left_side, right_side, pos) {
     var panel = new JPanel().addClass('mui-appbar');
 
     var table = new JTable().setStyle({width: '100%'});
@@ -66,9 +66,84 @@ var AppBar = function(left_side, right_side) {
     tr.add(right);
     table.add(tr);
     panel.add(table);
+
+    panel.setStyle({
+        boxShadow: '0 3px 3px rgba(0, 0, 0, .4)'
+    });
+
+    this.setStyle = function(styles) {
+        panel.setStyle(styles);
+        return this;
+    }
+
     this.control = function() {
         return panel;
     };
+};
+
+var NavBar = function(pos, bgcolor) {
+    var pos = pos || 'top';
+    pos = pos == 'top' ? 'up' : pos;
+
+    if (pos != null) {
+        if (!__isValidConfig(pos, ControlConfig.Direction)) throw new TypeError(pos + ' is invalid, Valid: ' + ControlConfig.tostr(ControlConfig.Direction));
+    }
+
+    var panel = new JPanel();
+
+    if (pos == 'up') {
+        panel.setStyle({
+            width: '100%',
+            height: '60px',
+            backgroundColor: '#AA00FF',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            zIndex: 100,
+            boxShadow: '0 3px 3px rgba(0, 0, 0, 0.4)'
+        });
+    }
+
+    var subpanel = new JPanel().setStyle({
+        height: '100%'
+    });
+    
+    panel.add(subpanel);
+    var ls = [];
+    this.add = function(title, icon, fn) {
+
+        var btn = new JButton()
+                .setText('<i class="fa fa-' + icon + '">' + '<br>' +  title)
+                .setStyle({
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    height: '100%',
+                    float: 'left',
+                    color: 'white'
+                });
+        subpanel.add(btn);
+
+        ls.push(btn);
+        return this;
+    };
+
+    this.update = function() {
+        
+        var width = 100 / ls.length;
+        
+        for (var i in ls) {
+            ls[i].setStyle({
+                width: width + '%'
+            });
+        }
+        return this;
+    };
+
+
+    this.control = function() {
+        return panel;
+    };    
 };
 
 var Label = function (text, color, size, display) {
