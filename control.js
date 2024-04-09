@@ -363,6 +363,11 @@ var Container = function () {
         }
         return this;
     };
+
+    this.clear = function() {
+        panel.clear();
+        return this;
+    };
 };
 
 var EmptyPanel = function () {
@@ -382,6 +387,11 @@ var EmptyPanel = function () {
 
     this.control = function () {
         return panel;
+    };
+
+    this.clear = function() {
+        panel.clear();
+        return this;
     };
 
     this.add = function (j) {
@@ -420,6 +430,10 @@ var Panel = function () {
         } else {
             panel.add(j.control());
         }
+        return this;
+    };
+    this.clear = function() {
+        panel.clear();
         return this;
     };
 };
