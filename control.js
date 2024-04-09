@@ -1092,6 +1092,11 @@ var Tab = function (ids, type) {
 var Divider = function() {
     var panel = new JPanel().addClass('mui-divider');
 
+    this.setStyle = function(o) {
+        panel.setStyle(o);
+        return this;
+    };
+
     this.control = function() {
         return panel;
     };
