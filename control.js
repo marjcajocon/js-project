@@ -642,11 +642,13 @@ var Switch = function(state) {
 
     panel.add(circle);
 
-    this.set = function(ischeck) {
+    this.setValue = function(ischeck) {
         if (typeof(ischeck) != 'boolean') throw new TypeError('ischeck is not bool');
 
         state = false;
         update();
+
+        return this;
     };
 
     this.checked = function() {
@@ -658,6 +660,106 @@ var Switch = function(state) {
     };
 };
 /* End Switch */
+
+/* Slider */
+var Slider = function(max_size, width) {
+
+    var max_size = max_size || 100;
+    if (typeof(max_size) != 'number') throw new TypeError('max_size must be a number or integer');
+
+    var width = width || 50;
+
+    if (typeof(width) != 'number') throw new TypeError('width must be a number or integer');
+    
+    var myvalue = 0;
+
+    var on = '#AA00FF';
+    var off = '#B0BEC5';
+
+    var track = new JPanel().setStyle({
+        width: width + 'px',
+        height: '4px',
+        backgroundColor: off,
+        position: 'relative',
+        borderRadius: '2px',
+        display: 'inline-block'
+    });
+
+    var active = new JPanel().setStyle({
+        width: '0%',
+        height: '8px',
+        backgroundColor: on,
+        position: 'absolute',
+        top: '-2px',
+        left: 0,
+        borderRadius: '2px'
+    });
+
+    var circle = new JPanel().setStyle({
+        width: '20px',
+        height: '20px',
+        backgroundColor: on,
+        position: 'absolute',
+        borderRadius: '50%',
+        right: '-10px',
+        top: '-5.5px',
+        boxShadow: '0 0 3px rgba(0, 0, 0, 0.5)'
+    });
+
+    active.add(circle);
+
+    track.add(active);
+
+    var update = function(value) {
+        myvalue = value;
+
+        if (value < 1) return;
+
+        var ratio = (100 * value) / max_size;        
+
+        active.setStyle({
+            width: ratio + '%'
+        });
+    };
+
+    // active.addEvent('touchstart', function(e) {
+    //     console.table(e);
+    // });
+
+    track.addEvent('click', function(e) {
+        // e.layerX
+        var click_w = e.layerX;
+        var percent = 0;
+        if (click_w > 0) {
+            percent = click_w / width;
+
+            var nvalue = max_size * percent;
+            
+            update(parseInt(nvalue));
+        }
+
+    });
+
+    this.getValue = function() {
+
+        return myvalue;
+    };
+
+    this.setValue = function(value) {
+        if (typeof(value) != 'number') throw new TypeError('value must be a number or integer');
+
+        if (value > max_size) throw new TypeError('value is greater than ' + max_size);
+
+        update(value);
+        return this;
+    };
+
+    this.control = function() {
+        return track;
+    };
+    
+};
+/* End Slider  */
 
 
 var TextBox = function (label, _float) {
@@ -1178,7 +1280,10 @@ var Form = function() {
         for (var i in w) {
             if (w[i] instanceof Switch) {
                 data[i] = w[i].checked();
-            } else if (w[i] instanceof JInterface) {
+            } else if(w[i] instanceof Slider) {
+                data[i] = w[i].getValue();
+            } 
+            else if (w[i] instanceof JInterface) {
                 data[i] = w[i].getText();
             } else if(w[i] instanceof Object) {
                 data[i] = w[i].textfield().getText();
