@@ -645,6 +645,10 @@ var ComboBox = function (label) {
     this.control = function () {
         return panel;
     };
+    this.setStyle = function(o) {
+        panel.setStyle(o);
+        return this;
+    };
 };
 
 /* Switch */
