@@ -28,49 +28,31 @@ var __isValidConfig = function (n, ls) {
     return false;
 };
 
-var AppBar = function(left_side, right_side) {
-    var panel = new JPanel().addClass('mui-appbar');
+var AppBar = function(obj, is_fixed) {
+    var is_fixed = is_fixed || false;
+    if (!typeof(is_fixed)) throw new TypeError('is_fixed must be boolean');
 
-    var table = new JTable().setStyle({width: '100%'});
+    var panel = new JPanel()
+                .addClass('mui-appbar')
 
-    var tr = new JTr().setStyle({
-        verticalAlign: 'middle'
-    });
-
-    var left = new JTd().addClass('mui--appbar-height');
-
-    var right = new JTd().addClass('mui--appbar-height').setAttr({
-        align: 'right'
-    });
-
-    var left_side = left_side || null;
-    var right_side = right_side || null;
-
-    if (left_side != null && left_side instanceof JInterface) {
-        left.add(left_side);
-    } else if(left_side != null && left_side instanceof Object) {
-        left.add(left_side.control());
-    } else {
-        left.setText(left_side);
+    if (is_fixed) {
+        panel.setStyle({position: 'fixed', left: 0, top: 0, zIndex: 200, width: '100%'});
     }
 
-    if (right_side != null && right_side instanceof JInterface) {
-        right.add(right_side);
-    } else if(right_side != null && right_side instanceof Object) {
-        right.add(right_side.control());
-    } else {
-        right.setText(right_side);
+    if (obj instanceof JInterface) {
+        panel.add(obj);
+    } else if (obj instanceof Object) {
+        panel.add(obj.control());
     }
 
-    if (left_side != null) tr.add(left);
-    if (right_side != null) tr.add(right);
-    
-    table.add(tr);
-    panel.add(table);
-
-    panel.setStyle({
-        boxShadow: '0 3px 3px rgba(0, 0, 0, .4)'
-    });
+    this.add = function(obj) {
+        if (obj instanceof JInterface) {
+            panel.add(obj);
+        } else if (obj instanceof Object) {
+            panel.add(obj.control());
+        }
+        return this;
+    };
 
     this.setStyle = function(styles) {
         panel.setStyle(styles);
@@ -343,6 +325,11 @@ var Label = function (text, color, size, display) {
         return this;
     };
 
+    this.setStyle = function(o) {
+        c.setStyle(o);
+        return this;
+    };
+
     this.control = function () {
         return c;
     };
@@ -490,7 +477,7 @@ var Button = function (label, color, type, size) {
         return b;
     };
 
-    this.addIcon = function(ico) {
+    this.setIcon = function(ico) {
         // this is from the font awesome
         var ico = ico || null;
         if (ico != null) {
