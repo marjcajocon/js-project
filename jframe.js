@@ -149,7 +149,7 @@ JApplication.prototype.run = function(w) {
 };
 
 JApplication.prototype.navigate = function(url) {
-	history.pushState(null, null, url);
+	history.pushState(null, null, '/?u=' + url);
 	for (var i in this.routes) {
 		if (i == url) {
 			var prop = this.routes[i].prop || null;
@@ -164,13 +164,36 @@ JApplication.prototype.navigate = function(url) {
 	this.run(new JErrorPage());
 };
 
-JApplication.prototype.init = function() {
-	if(location.hash.trim() == "") {
-		location.href = "#";
-		this.navigate("#");
-		return;
+var ___route_manager = function() {
+	var u = location.href.split('?');
+	if (u.length <= 1) {
+		location.href = '?u=/'
+		return [false, null];
 	}
-	this.navigate(location.hash);
+	var u = u[1].split('=');
+	
+	if (u.length <= 1) {
+		location.href = '?u=/'
+		return [false, null];
+	}
+	if (u[0] != 'u') {
+		location.href = '?u=/'
+		return [false, null];
+	}
+	
+	return [true, u[1]];
+};
+
+JApplication.prototype.init = function() {
+	var url = ___route_manager();
+	if (url[0]) this.navigate(url[1]);
+
+	var self = this;
+
+	window.addEventListener('popstate', function() {
+		var url = ___route_manager();
+		if (url[0]) self.navigate(url[1]);
+	});
 };
 
 var JPanel = function() {
