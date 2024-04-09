@@ -581,10 +581,16 @@ var TextField = function (label, _float, type) {
 };
 
 /* Switch */
-var Switch = function(state) {
+var Switch = function(state, fn) {
     
     var state = state || false;
     if (typeof(state) != 'boolean') throw new TypeError('state must be a boolean : value: true or false');
+
+    var fn = fn || null;
+
+    if (fn != null && typeof(fn) != 'function') throw new TypeError('fn from switch must be a function');
+
+
 
     var on = '#AA00FF';
     var off = '#B0BEC5';
@@ -633,14 +639,19 @@ var Switch = function(state) {
         __state = !state;
     };
 
-    circle.addEvent('click', function() {
+
+    circle.addEvent('click', function(e) {
        state = !state;
        update(); 
+
+        if (fn != null) fn(!state);
     });
 
 
 
     panel.add(circle);
+
+
 
     this.setValue = function(ischeck) {
         if (typeof(ischeck) != 'boolean') throw new TypeError('ischeck is not bool');
