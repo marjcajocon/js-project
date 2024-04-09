@@ -141,7 +141,11 @@ JApplication.prototype.addRoute = function(url, w, prop) {
 };
 JApplication.prototype.run = function(w) {
 	this.clear();
-	this.add(w);
+	if (w instanceof JInterface) {
+		this.add(w);
+	} else if (w instanceof Object) {
+		this.add(w.control());
+	}
 };
 
 JApplication.prototype.navigate = function(url) {
