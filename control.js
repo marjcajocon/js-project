@@ -477,11 +477,13 @@ var Button = function (label, color, type, size) {
         return b;
     };
 
-    this.setIcon = function(ico) {
+    this.setIcon = function(ico, obj) {
         // this is from the font awesome
         var ico = ico || null;
+        var obj = obj || {};
         if (ico != null) {
             icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.setStyle(obj);
         }
 
         return this;
