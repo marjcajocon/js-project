@@ -62,8 +62,9 @@ var AppBar = function(left_side, right_side) {
         right.setText(right_side);
     }
 
-    tr.add(left);
-    tr.add(right);
+    if (left_side != null) tr.add(left);
+    if (right_side != null) tr.add(right);
+    
     table.add(tr);
     panel.add(table);
 
