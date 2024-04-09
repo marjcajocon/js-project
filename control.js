@@ -449,8 +449,12 @@ var Button = function (label, color, type, size) {
         if (!__isValidConfig(size, ControlConfig.Size)) throw new TypeError(size + ' is not valid! valid input: ' + ControlConfig.tostr(ControlConfig.Size));
     }
     /* End error checking */
+    var _label = new Label(label, 'light', 'button');
 
-    var b = new JButton(label).addClass('mui-btn');
+    var icon = new JI();
+    var b = new JButton()
+    .add(icon)
+    .add(_label.control()).addClass('mui-btn');
     if (color != '') {
         b.addClass('mui-btn');
         b.addClass('mui-btn--' + color);
@@ -477,6 +481,16 @@ var Button = function (label, color, type, size) {
 
     this.control = function () {
         return b;
+    };
+
+    this.addIcon = function(ico) {
+        // this is from the font awesome
+        var ico = ico || null;
+        if (ico != null) {
+            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+        }
+
+        return this;
     };
 };
 
