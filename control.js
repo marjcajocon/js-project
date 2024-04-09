@@ -116,12 +116,15 @@ var SnackBar = function() {
         tn = setTimeout(function() {
             self.hide();
         }, 2000);
+
+        return this;
     };
     
     this.hide = function() {
         panel.setStyle({
             display: 'none'
         });
+        return this;
     };
 
     this.control = function() {
@@ -352,10 +355,12 @@ var Container = function () {
 
     this.setStyle = function (obj_dic) {
         panel.setStyle(obj_dic);
+        return this;
     };
 
     this.addClass = function (classname) {
         panel.addClass(classname);
+        return this;
     };
 
     this.control = function () {
@@ -368,6 +373,7 @@ var Container = function () {
         } else {
             panel.add(j.control());
         }
+        return this;
     };
 };
 
@@ -622,6 +628,7 @@ var ComboBox = function (label) {
     this.clear = function() {
         tf.clear();
         tf.addOption('', '[ Select ' + label + ' ]');
+        return this;
     };
 
     this.add = function(key, value) {
@@ -884,6 +891,7 @@ var TextBox = function (label, _float) {
 
     this.addEvent = function (e, fn) {
         tf.addEvent(e, fn);
+        return this;
     };
 
     this.textfield = function () {
@@ -1000,6 +1008,7 @@ var Table = function (header, type) {
 
     this.clear = function () {
         tbody.clear();
+        return this;
     };
 
     this.addRow = function (arr) {
@@ -1021,6 +1030,7 @@ var Table = function (header, type) {
             tr.add(td);
         }
         tbody.add(tr);
+        return this;
     };
 
     this.control = function () {
@@ -1092,6 +1102,8 @@ var Tab = function (ids, type) {
         }
 
         i += 1;
+
+        return this;
     };
 
 
