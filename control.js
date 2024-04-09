@@ -548,7 +548,7 @@ var TextField = function (label, _float, type) {
     var type = type || 'text';
 
     if (_float != '') {
-        if (!__isValidConfig(_float, ControlConfig.TextFieldType)) throw new TypeError(type + ' is not valid! valid: ' + ControlConfig.TextFieldType);
+        if (!__isValidConfig(_float, ControlConfig.TextFieldType)) throw new TypeError(_float + ' is not valid! valid: ' + ControlConfig.TextFieldType);
     }
 
     var panel = new JPanel();
@@ -569,6 +569,73 @@ var TextField = function (label, _float, type) {
 
     this.addEvent = function (e, fn) {
         tf.addEvent(e, fn);
+        return this;
+    };
+
+    this.setAttr = function(o) {
+        tf.setAttr(o);
+        return this;
+    };
+
+    this.textfield = function () {
+        return tf;
+    };
+
+    this.control = function () {
+        return panel;
+    };
+};
+
+
+var ComboBox = function (label) {
+    var label = label || '';
+
+
+    var panel = new JPanel();
+    panel.addClass('mui-select');
+
+    var tf = new JComboBox()
+            .addOption('', '[ Select ' + label + ' ]');
+
+
+    panel.add(tf);
+
+    if (label != '') {
+        var labelo = new JLabel(label);
+        panel.add(labelo);
+    }
+
+    this.clear = function() {
+        tf.clear();
+        tf.addOption('', '[ Select ' + label + ' ]');
+    };
+
+    this.add = function(key, value) {
+        tf.addOption(key, value);
+        return this;
+    };
+
+    this.setValue = function(key) {
+        tf.getControl().value = key;
+        return this;
+    };
+
+    this.getValue = function() {
+        
+        return tf.getText();
+    };
+
+    this.addEvent = function (e, fn) {
+        var me = this;
+        tf.addEvent(e, function(evt) {
+            fn(evt, me);
+        });
+        return this;
+    };
+
+    this.setAttr = function(o) {
+        tf.setAttr(o);
+        return this;
     };
 
     this.textfield = function () {
