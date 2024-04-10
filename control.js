@@ -304,6 +304,8 @@ var NavBar = function(pos, bg) {
 var Label = function (text, color, size, display) {
     /* for typography  */
 
+    var text = text || '';
+
     var color = color || null;
     var size = size || null;
     var display = display || null;
@@ -343,7 +345,10 @@ var Label = function (text, color, size, display) {
         var ico = ico || null;
         var obj = obj || {};
         if (ico != null) {
-            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.addClass('fa').addClass('fa-' + ico);
+            if (text != '') {
+                icon.setStyle({marginRight: '5px'});
+            }
             icon.setStyle(obj);
         }
         return this;
@@ -529,7 +534,10 @@ var Button = function (label, color, type, size) {
         var ico = ico || null;
         var obj = obj || {};
         if (ico != null) {
-            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.addClass('fa').addClass('fa-' + ico);
+            if (label != '') {
+                icon.setStyle({marginRight: '5px'});
+            }
             icon.setStyle(obj);
         }
 
@@ -538,6 +546,7 @@ var Button = function (label, color, type, size) {
 };
 
 var ButtonLink = function (label) {
+    var label = label || '';
     var link = new JLink('');
 
     var icon = new JI();
@@ -555,7 +564,10 @@ var ButtonLink = function (label) {
         var ico = ico || null;
         var obj = obj || {};
         if (ico != null) {
-            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.addClass('fa').addClass('fa-' + ico);
+            if (label != '') {
+                icon.setStyle({marginRight: '5px'});
+            }
             icon.setStyle(obj);
         }
         return this;
@@ -574,6 +586,7 @@ var ButtonLink = function (label) {
 };
 
 var ButtonGroup = function (label, color, type, direction) {
+    var label = label || '';
     var panel = new JPanel().addClass('mui-dropdown');
 
     var direction = direction || '';
@@ -632,7 +645,10 @@ var ButtonGroup = function (label, color, type, direction) {
         var ico = ico || null;
         var obj = obj || {};
         if (ico != null) {
-            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.addClass('fa').addClass('fa-' + ico);
+            if (label != '') {
+                icon.setStyle({marginRight: '5px'});
+            }
             icon.setStyle(obj);
         }
 
