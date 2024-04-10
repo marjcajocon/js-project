@@ -149,7 +149,7 @@ JApplication.prototype.run = function(w) {
 };
 
 JApplication.prototype.navigate = function(url) {
-	history.pushState(null, null, '/?u=' + url);
+	history.pushState(null, null, '?u=' + url);
 	for (var i in this.routes) {
 		if (i == url) {
 			var prop = this.routes[i].prop || null;
@@ -470,7 +470,14 @@ var JTbody = function() {
 JTbody.prototype = Object.create(JInterface.prototype);
 
 
-JI = function() {
+var JI = function() {
 	this.c = _c('i');
 }
 JI.prototype = Object.create(JInterface.prototype);
+
+
+var JSpan = function() {
+	this.c = _c('span');
+};
+
+JSpan.prototype = Object.create(JInterface.prototype);
