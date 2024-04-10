@@ -1626,6 +1626,7 @@ var Http = function(url, data, callback) {
 
     this.setMethod = function(method) {
         this.method = method;
+        return this;
     };
     
     this.setData = function(data) {
