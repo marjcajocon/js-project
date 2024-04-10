@@ -519,11 +519,39 @@ var Button = function (label, color, type, size) {
 };
 
 var ButtonLink = function (label) {
-    var link = new JLink(label);
+    var link = new JLink('');
+
+    var icon = new JI();
+    var _label = new Label(label, 'dark-secondary', 'button');
+
+    link.add(icon);
+    link.add(_label.control());
+
+    this.setText = function(txt) {
+       _label.setText(txt);
+        return this;
+    };
+
+    this.setIcon = function(ico, obj) {
+        var ico = ico || null;
+        var obj = obj || {};
+        if (ico != null) {
+            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.setStyle(obj);
+        }
+        return this;
+    };
+
+    this.addEvent = function(e, fn) {
+        link.addEvent('click', fn);
+        return this;
+    };
 
     this.control = function () {
         return link;
     };
+
+
 };
 
 var ButtonGroup = function (label, color, type, direction) {
@@ -531,7 +559,7 @@ var ButtonGroup = function (label, color, type, direction) {
 
     var direction = direction || '';
 
-    var btn = new Button(label, color, type);
+    var btn = new Button('', color, type);
     btn.button().setAttr({ 'data-mui-toggle': 'dropdown' });
     panel.add(btn.control());
 
@@ -543,6 +571,11 @@ var ButtonGroup = function (label, color, type, direction) {
     }
 
     panel.add(ul);
+
+    var _label = new Label(label, 'light', 'button');
+
+    var icon = new JI();
+    btn.add(icon).add(_label);
 
     this.addButton = function () {
 
@@ -572,6 +605,19 @@ var ButtonGroup = function (label, color, type, direction) {
         }
 
         ul.add(li);
+        return this;
+    };
+
+    this.setIcon = function(ico, obj) {
+        // this is from the font awesome
+        var ico = ico || null;
+        var obj = obj || {};
+        if (ico != null) {
+            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.setStyle(obj);
+        }
+
+        return this;
     };
 
     this.control = function () {
