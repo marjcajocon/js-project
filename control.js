@@ -1434,8 +1434,8 @@ var Modal = function(obj) {
             'static': true, // maintain overlay when clicked (default: false)
             'onclose': function() {} // execute function when overlay is closed
         };
-
-        mui.overlay('on', options, grid.control().getControl());
+        var container = new Container();
+        mui.overlay('on', options, container.add(grid).control().getControl());
         return this;
     };
 
