@@ -1605,72 +1605,78 @@ var Drawer = function(type) {
 /* End Drawer  */
 
 
-/* AppHttp */
+/* Http */
 
-var Config = {
-    url: "",
-    token: localStorage.getItem("_token"),
-    fkey: localStorage.getItem("_fkey"),
-    getKey: function() {
-      return "HZRIHcFraxLP-s0HJtHO7vYRvyYSVeFKTZU1OopNY5A=";
-    }
-};
-  
-var AppHttp = function( _url, _data, _param, __callback ) {
-    var url = _url || null;
-    var data = _data || null;
-    var param = _param || {};
-    var __callback = __callback || null;
+var Http = function(url, data, callback) {
+    var url = url || null;
     
-    var method = param["method"] || "POST";
-    var headers = param["headers"] || [];
-  
+    var headers = {};
+
     var xml = new XMLHttpRequest();
-    xml.open( method, Config[ "url" ] + url );
-    if ( data instanceof FormData ) {
-      //xml.setRequestHeader("Content-Type", "application/json");
-    } else if ( typeof( data ) == "object" ) {
-      xml.setRequestHeader( "Content-Type", "application/json" );
-      data = JSON.stringify( data );
-    }
-    if ( Config.token != null ) {
-      xml.setRequestHeader( "Auth", '_token=' + Config.token );
-    }
-    for ( var h of headers ) {
-      xml.setRequestHeader( h[ 0 ], h[ 1 ] );
-    }
-    if ( method.toLowerCase() == "get" ) {
-      data = null;
-    } 
-    if ( Config.fkey != null ) {
-      if ( typeof( __callback ) == "function" ) {
-        if ( data != null ) {
-          if ( typeof( data ) == "object" ) {
-            data[ "token" ] = Config[ "token" ];
-            data = JSON.stringify( data );
-          } else {
-            data = JSON.parse( data );
-            data[ "token" ] = Config[ "token" ];
-            data = JSON.stringify( data );
-          }
+    
+
+    this.data = data || {};
+    this.method = 'POST';
+    this.callback = callback || null;
+    
+    this.addHeader = function(key, value) {
+        headers[key] = value;
+        return this;
+    };
+
+    this.setMethod = function(method) {
+        this.method = method;
+    };
+    
+    this.setData = function(data) {
+        this.data = data;  
+        return this;
+    };
+
+    this.send = function() {
+        
+        xml.open( this.method, url );
+        
+
+        
+        /* Data */
+        if (typeof(this.data) == 'object') {
+            this.data = JSON.stringify(this.data);
+            xml.setRequestHeader('Content-Type', 'application/json');
         }
-        var txt = new Text( Config.fkey );
-        xml.send( txt.encrypt( data ) );
-      } else {
-        xml.send( data );
-      }
-    } else {
-      xml.send( data );
+        
+        /* plot the header */
+        for (var key in headers) {
+            xml.setRequestHeader( key, headers[key] );
+        }
+        /* end plot headers */
+
+        xml.send(this.data);
+
+        return this;
+    };
+
+    this.load = function(fn) {
+        if (typeof(fn) != 'function') throw new Error('fn must be a callback function');
+        xml.onload = function() {
+            fn(this.response);
+        };
+        return this;
+    };
+
+    this.error = function(fn) {
+        xml.onerror = function() {
+            if (typeof(fn) != 'function') throw new Error('fn must be a callback function');
+            fn(this, true);
+        };
+        return this;
     }
-    // this is a callback function for the data
-    // this callback is the response encrypted data
-    if ( typeof( __callback ) == "function" ) {
-      var txt = new Text( Config.fkey );
-      xml.onload = function() {
-        __callback( txt.decrypt( this.response ) );
-      };
-    }
-    return xml;
+
+    this.abort = function() {
+        xml.abort();
+        return this;
+    };
+    
 };
 
-/* End AppHttp */
+/* end Http */
