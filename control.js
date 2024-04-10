@@ -491,6 +491,20 @@ var Button = function (label, color, type, size) {
         return b;
     };
 
+    this.clear = function() {
+        b.clear();
+        return this;
+    };
+
+    this.add = function(obj) {
+        if (obj instanceof JInterface) {
+            b.add(obj);
+        } else if(obj instanceof Object) {
+            b.add(obj.control());
+        }
+        return this;
+    };
+
     this.setIcon = function(ico, obj) {
         // this is from the font awesome
         var ico = ico || null;
