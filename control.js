@@ -1359,7 +1359,7 @@ var Modal = function(obj) {
 
     var panel = new Panel().setStyle({position: 'relative'});
 
-    var content = new Panel();
+    var content = new EmptyPanel();
 
     /*  create header */
     var header = new EmptyPanel();
@@ -1376,7 +1376,8 @@ var Modal = function(obj) {
     }
 
 
-    panel.add(header);
+    panel.add(header)
+    .add(new Divider());
     /* Create footer */
 
     panel.add(content);
