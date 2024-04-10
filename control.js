@@ -318,15 +318,34 @@ var Label = function (text, color, size, display) {
 
     var c = new JPanel().addClass('mui--text-' + color).addClass('mui--text-' + size);
     c.setStyle({ display: display });
-    c.setText(text);
+    // c.setText(text);
+
+
+    var icon = new JI();
+    
+    var txt = new JSpan().setText(text);
+    c.add(icon);
+    c.add(txt);
+
+
 
     this.setText = function(msg) {
-        c.setText(msg);
+        txt.setText(msg);
         return this;
     };
 
     this.setStyle = function(o) {
         c.setStyle(o);
+        return this;
+    };
+
+    this.setIcon = function(ico, obj) {
+        var ico = ico || null;
+        var obj = obj || {};
+        if (ico != null) {
+            icon.addClass('fa').addClass('fa-' + ico).setStyle({marginRight: '5px'});
+            icon.setStyle(obj);
+        }
         return this;
     };
 
