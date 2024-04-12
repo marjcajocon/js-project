@@ -1398,7 +1398,8 @@ var Modal = function(obj) {
             .cell(new EmptyPanel(), ['md-2']);
 
     grid.control().setStyle({
-        marginTop: '10%'
+        marginTop: '5%',
+        marginBottom: '5%'
     });
 
     close.addEvent('click', function() {
