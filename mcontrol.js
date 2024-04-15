@@ -1,4 +1,14 @@
 // for interface
+var mcreate_name = function() {
+  var t = '';
+  for (var i = 0; i < 20; i++) {
+    var c = 97 + Math.floor(Math.random() * 25);
+    t += String.fromCharCode(c);
+  }
+  return t;
+};
+
+
 var _ = {
   c: function(l) {
     return document.createElement(l);
@@ -20,14 +30,17 @@ Interface.prototype.getContainer = function() {
 
 Interface.prototype.hide = function() {
   this._c.style.display = "none";
+  return this;
 };
 
 Interface.prototype.show = function() {
   this._c.style.display = "block";
+  return this;
 };
 
 Interface.prototype.setId = function(id) {
   this.id = id;
+  return this;
 };
 
 Interface.prototype.getId = function() {
@@ -36,14 +49,17 @@ Interface.prototype.getId = function() {
 
 Interface.prototype.setBackgroundColor = function(color) {
   this.control.style.backgroundColor = color;
+  return this;
 };
 
 Interface.prototype.setFontColor = function(color) {
   this.control.style.color = color;
+  return this;
 };
 
 Interface.prototype.setFontStyle = function(font_family) {
   this.control.style.fontFamily = font_family;
+  return this;
 };
 
 Interface.prototype.addClass = function(_) {
@@ -57,6 +73,7 @@ Interface.prototype.addClass = function(_) {
   } else {
     console.log("Invalid remove class parameter");
   }
+  return this;
 };
 
 Interface.prototype.removeClass = function(_) {
@@ -70,12 +87,14 @@ Interface.prototype.removeClass = function(_) {
   } else  {
     console.log("Invalid remove class parameter");
   }
+  return this;
 };
 
 Interface.prototype.clear = function() {
   while (this._c.firstChild) {
     this._c.removeChild(this._c.firstChild);
   }
+  return this;
 };
 
 Interface.prototype.setBackgroundImage = function(img) {
@@ -103,20 +122,24 @@ Application.prototype.clear = function() {
   while(this._c.firstChild) {
     this._c.removeChild(this._c.firstChild);
    };
+   return this;
 };
 
 Application.prototype.open = function(panel) {
   this.clear();
   this._c.appendChild(panel.getContainer());
+  return this;
 };
 
 Application.prototype.add = function(obj) {
   this._c.appendChild(obj.getContainer());
+  return this;
 };
 
 Application.prototype.route = function(widget) {
   this.clear();
   this._c.appendChild(widget.getContainer());
+  return this;
 };
 
 /* End Application */
@@ -178,18 +201,21 @@ Table.prototype.clear = function() {
   while (this.tbody.firstChild) {
     this.tbody.removeChild(this.tbody.firstChild);
   }
+  return this;
 };
 
 Table.prototype._con_clear = function() {
   while (this._c.firstChild) {
     this._c.removeChild(this._c.firstChild);
   }
+  return this;
 };
 
 Table.prototype.show = function() {
   this._con_clear();
   this._c.style.display = "block";
   this._c.appendChild(this.table);
+  return this;
 };
 
 Table.prototype.getTable = function() {
@@ -200,6 +226,7 @@ Table.prototype.load = function() {
   // loader
   this._con_clear();
   this._c.appendChild(this.loader);
+  return this;
 };
 
 Table.prototype.row = function(data) {
@@ -243,6 +270,7 @@ Table.prototype.row = function(data) {
     
   }
   // end update the body
+  return this;
 };
 
 Table.prototype.prepend = function(data) {
@@ -272,6 +300,8 @@ Table.prototype.prepend = function(data) {
   }
 
   this.tbody.prepend(tr);
+
+  return this;
 };
 
 // add row 
@@ -301,6 +331,7 @@ Table.prototype.add = function(data) {
   }
 
   this.tbody.appendChild(tr);
+  return this;
 };
 
 
@@ -315,6 +346,7 @@ var CheckBox = function(_mark) {
   this._c = null;
   this._n = null;
   this._c = _.c("input");
+  this._c.setAttribute("name", mcreate_name());
   this._c.style.height = "20px";
   this._c.style.width = "20px";
   this._c.setAttribute('type', 'checkbox');
@@ -330,6 +362,7 @@ CheckBox.prototype = Object.create(Interface.prototype);
 
 CheckBox.prototype.setValue = function(mark_true_false) {
   this._n.checked = mark_true_false;
+  return this;
 };
 CheckBox.prototype.getValue = function(mark) {
   return this._n.checked;
@@ -342,6 +375,7 @@ CheckBox.prototype.addEventListener = function(evt, callback) {
     }
     this.events[evt] = evt;
   }
+  return this;
 };
 
 // end of checkbox
@@ -403,6 +437,7 @@ RadioButton.prototype.setValue = function(value) {
       break;
     }
   }
+  return this;
 };
 
 RadioButton.prototype.getValue = function() {
@@ -443,7 +478,7 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this._c = _.c("div");
   this._c.style.marginTop = "3px";
   this._c.setAttribute("class", "input-group");
-
+  
   var span = _.c("span");
   
   this.i = _.c("i");
@@ -459,6 +494,8 @@ var TextBox = function(label, type, icon, hint, placeholder) {
   this._n = _.c("input");
   this._n.setAttribute("class", "form-control");
   this._n.setAttribute("type", this.type);
+  this._n.setAttribute("name", mcreate_name());
+  this._n.setAttribute('autocomplete', 'off');
   this.control = this._n;
   if (this.hint != null) {
     this._n.setAttribute("data-toggle", "tooltip");
@@ -475,9 +512,11 @@ var TextBox = function(label, type, icon, hint, placeholder) {
 TextBox.prototype = Object.create(Interface.prototype);
 TextBox.prototype.setPlaceHolder = function(t) {
   this._n.setAttribute("placeholder", t);
+  return this;
 };
 TextBox.prototype.setValue = function(value) {
   this._n.value = value;
+  return this;
 };
 TextBox.prototype.getValue = function() {
   return this._n.value;
@@ -490,6 +529,7 @@ TextBox.prototype.addEventListener = function(evt, callback) {
     }
     this.events[evt] = evt;
   }
+  return this;
 };
 
 // end text box
@@ -503,6 +543,7 @@ var Label = function(label) {
 Label.prototype = Object.create(Interface.prototype);
 Label.prototype.setValue = function(value) {
   this._c.innerHTML = value;
+  return this;
 };
 
 
@@ -555,6 +596,7 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
   }
 
   this._n = _.c("select");
+  this._n.setAttribute("name", mcreate_name());
   this._n.setAttribute("class", "form-control");
   this._n.setAttribute("type", this.type);
   this.control = this._n;  
@@ -584,9 +626,11 @@ var ComboBox = function(option, label, type, icon, hint, placeholder) {
 ComboBox.prototype = Object.create(Interface.prototype);
 ComboBox.prototype.setPlaceHolder = function(t) {
   this._n.setAttribute("placeholder", t);
+  return this;
 };
 ComboBox.prototype.setValue = function(value) {
   this._n.value = value;
+  return this;
 }
 ComboBox.prototype.getValue = function() {
   return this._n.value;
@@ -599,7 +643,7 @@ ComboBox.prototype.addEventListener = function(evt, callback) {
     }
     this.events[evt] = evt;
   }
-  
+  return this;
 };
 ComboBox.prototype.clear = function() {
   // for (var x of this.options) {
@@ -609,6 +653,7 @@ ComboBox.prototype.clear = function() {
     var x = this.options[i];
     x.remove();
   }
+  return this;
 };
 ComboBox.prototype.add = function(key, value) {
   var option = _.c("option");
@@ -661,11 +706,13 @@ Button.prototype.addEventListener = function(evt, callback) {
     }
     this.events[evt] = evt;
   }
+  return this;
 };
 Button.prototype.setIcon = function(_i) {
   this._i.style.marginRight = "5px";
   this._i.removeAttribute("class");
   this._i.setAttribute("class", 'fa fa-' + _i);
+  return this;
 };
 // end button
 
@@ -696,6 +743,7 @@ Panel.prototype = Object.create(Interface.prototype);
 
 Panel.prototype.add = function(mcontrol_obj) {
   this._c.appendChild(mcontrol_obj.getContainer());
+  return this;
 };
 
 var Modal = function(title, icon) {
@@ -750,6 +798,7 @@ Modal.prototype = Object.create(Interface.prototype);
 Modal.prototype.add = function(obj_element) {
   // only the above classes can be appendChilded
   this.body.appendChild(obj_element.getContainer());    
+  return this;
 };
 
 
@@ -849,6 +898,7 @@ MessageBox.prototype.show = function(msg, _callback) {
   this._m.innerHTML = msg;
 
   this.call_back = _callback;
+  return this;
 };
 
 
@@ -1030,6 +1080,11 @@ var LoaderBox = function() {
 
 LoaderBox.prototype = Object.create(Interface.prototype);
 
+LoaderBox.prototype.show = function(loadertxt) {
+  this._c.style.display = "block";
+  this._label.innerHTML = loadertxt;
+  return this;
+};
 
 var Form = function() {
   this._c = _.c("div");
@@ -1063,6 +1118,7 @@ Form.prototype.add = function(o, n) {
   }
 
   this._c.appendChild(o.getContainer());
+  return this;
 };
 
 Form.prototype.clear = function() {
@@ -1071,6 +1127,7 @@ Form.prototype.clear = function() {
   for (var i = 0; i < input_len; i++) {
     input[i][1].setValue("");
   }
+  return this;
 };
 
 var x_storage = {
