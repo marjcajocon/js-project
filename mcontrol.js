@@ -99,17 +99,68 @@ Interface.prototype.clear = function() {
 
 Interface.prototype.setStyle = function(obj) {
   if (typeof(obj) != 'object') throw new TypeError('obj must be an object like dictionary');
-  
+
   for (var x in obj) {
     this.control.style[x] = obj[x];
   }
   return this;
 };
 
+Interface.prototype.setAttr = function(obj) {
+  if (typeof(obj) != 'object') throw new TypeError('obj must be an object like dictionary');
+
+  for (var x in obj) {
+    this.control.setAttribute(x, obj[x]);
+  }
+  return this;
+};
+
+Interface.prototype.getAttr = function(str) {
+  return this.control.attributes[str].nodeValue;;
+};
+
+
+
+
+
 Interface.prototype.setBackgroundImage = function(img) {
   // image goes here
 };
 // end for interface
+
+
+
+var Grid = function() {
+  
+  var panel = new Panel().addClass('row');
+
+  this._c = panel._c;  
+
+  this.cell = function(obj, size) {
+  
+    if (!(obj instanceof Interface)) {
+      throw new TypeError('obj is not supported! use Interface class');
+    }
+
+    if ( !( size instanceof Array ) ) {
+      throw new TypeError('size must be an array or list');
+    }
+
+    var td = new Panel();
+    for ( var x in size ) {
+      td.addClass('col-' + size[x]);
+    }
+    
+    td.add(obj);
+    
+    panel.add(td);
+
+    return this;
+  };
+  
+};
+
+Grid.prototype = Object.create(Interface.prototype);
 
 
 /* Application */ 
