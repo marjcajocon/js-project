@@ -97,6 +97,15 @@ Interface.prototype.clear = function() {
   return this;
 };
 
+Interface.prototype.setStyle = function(obj) {
+  if (typeof(obj) != 'object') throw new TypeError('obj must be an object like dictionary');
+  
+  for (var x in obj) {
+    this.control.style[x] = obj[x];
+  }
+  return this;
+};
+
 Interface.prototype.setBackgroundImage = function(img) {
   // image goes here
 };
