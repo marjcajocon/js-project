@@ -150,7 +150,7 @@ var Grid = function() {
     for ( var x in size ) {
       td.addClass('col-' + size[x]);
     }
-    
+
     td.add(obj);
     
     panel.add(td);
@@ -208,6 +208,8 @@ Application.prototype.route = function(widget) {
 
 // Table control
 var Table = function(header) {
+
+  this.option = [];
 
   this.table = null;
   this.tbody = null;
@@ -366,6 +368,9 @@ Table.prototype.prepend = function(data) {
 
 // add row 
 Table.prototype.add = function(data) {
+  
+  this.option.push(data);
+
   var tr = _.c("tr");
   // for (var y of data) {
   //   var td = _.c("td");
@@ -392,6 +397,22 @@ Table.prototype.add = function(data) {
 
   this.tbody.appendChild(tr);
   return this;
+};
+Table.prototype.getValue = function() {
+  var data = [];
+  var option = this.option;
+  var option_len = option.length;
+
+  for ( var i = 0; i < option_len; i++ ) {
+    var slen = option[i].length;
+    var sdata = [];
+    for (var j = 0; j < slen; j++) {
+      sdata.push(option[i][j].getValue());
+    }
+    data.push(sdata);
+  }
+
+  return data;
 };
 
 
