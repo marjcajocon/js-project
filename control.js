@@ -1003,9 +1003,12 @@ var TextBox = function (label, _float) {
 };
 
 
-var Grid = function () {
+var Grid = function (gap) {
     var panel = new JPanel().addClass('mui-row');
 
+    if (typeof(gap) != 'number') {
+        gap = null;
+    }
 
     this.cell = function (container, size) {
 
@@ -1046,6 +1049,7 @@ var Grid = function () {
         var size = size || []; /* md-no, sm-no, xs-no, lg-no  */ /* also : mui-col-md-offset-4  */
         var spanel = new JPanel();
         for (var x in size) {
+            if ( gap != null ) spanel.setStyle({padding: gap + 'px'});
             spanel.addClass('mui-col-' + size[x]);
             /* mui-col-md-offset-4  */
         }
