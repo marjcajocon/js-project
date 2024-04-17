@@ -426,6 +426,27 @@ var EmptyPanel = function () {
         }
         return this;
     };
+
+    this.setImage = function(path, style) {
+        var style = style || null;
+
+        panel.setStyle({
+            backgroundImage: 'url(' + path + ')',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center'
+        });
+
+        if (style != null) {
+           panel.setStyle(style); // for additional style
+        }
+
+        return this;
+    };
+
+    this.addEvent = function(evt, c) {
+        panel.addEvent(evt, c);
+    };
 };
 
 
