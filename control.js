@@ -1630,6 +1630,178 @@ var Drawer = function(type) {
 
 /* End Drawer  */
 
+/* Slider  */
+
+var ImageSlider = function(obj) {
+    var panel = new JPanel();
+
+    var obj = obj || null;
+
+    var const_h = 0;
+    var const_w = 0;
+
+    if (obj != null) {
+        if (!(obj instanceof Array)) {
+            throw new TypeError('obj must be array [width, height]');
+        } else {
+
+            const_w = obj[0];
+            const_h = obj[1];
+        }
+
+        panel.setStyle({
+            width: const_w + 'px',
+            height: const_h + 'px'
+        });
+    }
+
+    else {
+        panel.setStyle({
+            position: 'relative',
+            width: '100%',
+            height: '100vh',
+            transition: 'all 1s ease'
+        });
+
+        const_h = window.outerHeight;
+        const_w = window.outerWidth;
+    }
+
+    panel.setStyle({
+        'overflow': 'hidden'
+    });
+    
+    var timer = null;
+
+    var index = 0;
+
+    var img = [];
+    var paths = [];
+
+    var content = new EmptyPanel();
+
+    panel.add(content.control());
+
+    var total = 0;
+
+    this.add = function(path) {
+        paths.push(path);
+        
+        return this;
+    };
+
+    var __update = function() {
+
+        const_h = window.outerHeight;
+        const_w = window.outerWidth;
+        
+        //clear
+        img = [];
+        // clear
+        content.clear();
+        
+        for (var j in paths) {
+            var image = new EmptyPanel().setImage(paths[j]).setStyle({
+                width: const_w + 'px',
+                height: const_h + 'px',
+                float: 'left'
+            });
+            img.push(image);
+        }
+        // ** dummy
+        var image = new EmptyPanel().setImage(paths[0]).setStyle({
+            width: const_w + 'px',
+            height: const_h + 'px',
+            float: 'left'
+        });
+        img.push(image);
+        // ** end dumy
+
+
+
+        total = ((const_w + 1) * img.length);
+        content.setStyle({
+            width:  total + 'px',
+            height: '100%',
+            position: 'absolute',
+            left: '0px' 
+        });
+
+        for (var i in img) {
+            content.add(img[i]);
+        }
+    };
+
+    this.update = function() {
+
+
+
+        __update();
+        
+        return this;
+    };
+
+    this.setStyle = function(obj) {
+        panel.setStyle(obj);
+        return this;
+    };
+
+    this.control = function() {
+        return panel;
+    };
+
+    var __start =  function() {
+        // for (var i in img) {
+    
+        //     img[i].setStyle({
+        //         display: 'none'
+        //     });
+    
+        // }
+
+        // img[0].setStyle({display: 'inline-block'});
+        var w = (total - const_w) - 2;
+        
+        
+        content.setStyle({
+            left: -index + 'px'
+        });
+
+        index += 2;
+
+        if (w < index) {
+            index = 2;
+        }
+
+        
+        // if (index > img.length - 1) {
+        //     index = 0;
+        // }
+    };
+
+    this.start = function(speed) {
+        clearInterval(timer);
+        var speed = speed || 10;
+
+        if (typeof(speed) != 'number') throw new TypeError('speed must be a number!');
+
+        __start();
+        
+        timer = setInterval(function() {
+            __start();
+        }, speed);
+        return this;
+    };
+
+    this.stop = function() {
+        clearInterval(timer);
+        return this;
+    };
+
+};
+
+/* End Slider */
+
 
 /* Http */
 
