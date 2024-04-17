@@ -1218,10 +1218,10 @@ var Tab = function (ids, type) {
         
         if (fn != null && typeof(fn) == 'function') {
             if (i == 1) {
-                fn(title);
+                fn(content);
             }
             link.addEvent('click', function() {
-                fn(title);
+                fn(content);
             });
         }
 
@@ -1694,7 +1694,7 @@ var ImageSlider = function(obj) {
 
         const_h = window.outerHeight;
         const_w = window.outerWidth;
-        
+
         //clear
         img = [];
         // clear
