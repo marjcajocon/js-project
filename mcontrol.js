@@ -826,6 +826,10 @@ Panel.prototype.add = function(mcontrol_obj) {
   this._c.appendChild(mcontrol_obj.getContainer());
   return this;
 };
+Panel.prototype.addEventListener = function(e, fn) {
+  this._c.addEventListener(e, fn);
+  return this;
+};
 
 var Modal = function(title, icon) {
   this.title = title || null;
