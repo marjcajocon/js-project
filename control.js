@@ -1024,13 +1024,20 @@ var TextBox = function (label, _float) {
 };
 
 
-var Grid = function (gap) {
+var Grid = function (gap, cell) {
     var panel = new JPanel().addClass('mui-row');
 
     if (typeof(gap) != 'number') {
         gap = null;
     }
 
+    var cell = cell || null;
+
+    
+    
+
+
+    
     this.cell = function (container, size) {
 
         /* Checking Errors  */
@@ -1082,6 +1089,30 @@ var Grid = function (gap) {
 
         panel.add(spanel);
         
+        return this;
+    };
+
+    /* plotting cell */
+    if (cell != null) {
+        if (!(cell instanceof Array)) {
+            throw new TypeError('cell must array');
+        }
+
+
+        for (var i = 0; i < cell.length; i++) {
+            if (!(cell[i] instanceof Array)) {
+                throw new TypeError('cell must array of array, example: cell = [[panel, size]]');
+            }
+            this.cell(cell[i][0], cell[i][1]);
+        }
+    }
+
+    /* End plotting cell  */
+
+
+
+    this.setStyle = function(o) {
+        panel.setStyle(o);
         return this;
     };
 
