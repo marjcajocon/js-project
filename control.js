@@ -758,6 +758,15 @@ var TextField = function (label, _float, type) {
     this.control = function () {
         return panel;
     };
+
+    this.getValue = function() {
+        return tf.getText();
+    };
+
+    this.setValue = function(t) {
+        tf.setText(t);
+        return this;
+    }
 };
 
 
