@@ -361,7 +361,7 @@ var Label = function (text, color, size, display) {
 };
 
 
-var Container = function () {
+var Container = function (obj) {
     var panel = new JPanel().addClass('mui-container-fluid');
 
 
@@ -388,13 +388,24 @@ var Container = function () {
         return this;
     };
 
+     // constructor
+     if (obj != null) {
+        if (!(obj instanceof Array)) {
+            throw new TypeError('object must be array');
+        }
+
+        for (var i in obj) {
+            this.add(obj[i]);
+        }
+    }
+
     this.clear = function() {
         panel.clear();
         return this;
     };
 };
 
-var EmptyPanel = function () {
+var EmptyPanel = function (obj) {
     var panel = new JPanel();
 
 
@@ -427,6 +438,17 @@ var EmptyPanel = function () {
         return this;
     };
 
+    // constructor
+    if (obj != null) {
+        if (!(obj instanceof Array)) {
+            throw new TypeError('object must be array');
+        }
+
+        for (var i in obj) {
+            this.add(obj[i]);
+        }
+    }
+
     this.setImage = function(path, style) {
         var style = style || null;
 
@@ -450,7 +472,7 @@ var EmptyPanel = function () {
 };
 
 
-var Panel = function () {
+var Panel = function (obj) {
     var panel = new JPanel().addClass('mui-panel');
 
 
@@ -477,6 +499,18 @@ var Panel = function () {
         }
         return this;
     };
+
+    // constructor
+    if (obj != null) {
+        if (!(obj instanceof Array)) {
+            throw new TypeError('object must be array');
+        }
+
+        for (var i in obj) {
+            this.add(obj[i]);
+        }
+    }
+
     this.clear = function() {
         panel.clear();
         return this;
@@ -727,7 +761,7 @@ var TextField = function (label, _float, type) {
 };
 
 
-var ComboBox = function (label) {
+var ComboBox = function (label, obj) {
     var label = label || '';
 
 
@@ -755,6 +789,21 @@ var ComboBox = function (label) {
         tf.addOption(key, value);
         return this;
     };
+
+    // constructor
+     if (obj != null) {
+        if (!(obj instanceof Array)) {
+            throw new TypeError('object must be array');
+        }
+
+        for (var i in obj) {
+            if (!(obj[i] instanceof Array)) {
+                throw new TypeError('obj[i] must be an array');
+            }
+            this.add(obj[i][0], obj[i][1]);
+        }
+    }
+
 
     this.setValue = function(key) {
         tf.getControl().value = key;
@@ -1503,7 +1552,7 @@ var Modal = function(obj) {
 /* End Modal  */
 
 /* Form  */
-var Form = function() {
+var Form = function(obj) {
     var form = new JForm();
     var w = {};
 
@@ -1529,6 +1578,20 @@ var Form = function() {
         }
         return this;
     };
+
+     // constructor
+     if (obj != null) {
+        if (!(obj instanceof Array)) {
+            throw new TypeError('object must be array');
+        }
+
+        for (var i in obj) {
+            if (!(obj[i] instanceof Array)) {
+                throw new TypeError('obj[i] must be an array');
+            }
+            this.add(obj[i][0], obj[i][1]);
+        }
+    }
 
     this.clear = function() {
         for (var i in w) {
