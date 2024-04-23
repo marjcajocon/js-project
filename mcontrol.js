@@ -130,11 +130,14 @@ Interface.prototype.setBackgroundImage = function(img) {
 
 
 
-var Grid = function() {
+var Grid = function(pad) {
   
   var panel = new Panel().addClass('row');
 
+  var pad = pad || 0;
+
   this._c = panel._c;  
+
 
   this.cell = function(obj, size) {
   
@@ -149,6 +152,10 @@ var Grid = function() {
     var td = new Panel();
     for ( var x in size ) {
       td.addClass('col-' + size[x]);
+      if (pad != -1)
+        td.setStyle({
+          padding: pad + 'px'
+        });
     }
 
     td.add(obj);
@@ -742,6 +749,7 @@ ComboBox.prototype.add = function(key, value) {
   option.innerHTML = value;
   this._n.appendChild(option);
   this.options.push(option);
+  return this;
 };
 // end combobox
 // button
