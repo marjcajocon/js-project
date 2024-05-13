@@ -24,6 +24,10 @@
             form.addObj(new TextField("Fullname", "float", "small"))
             form.addObj(new TextField("Gender", "float", "small"));
 
+            form.submit(()=> {
+                alert(1);
+            });
+
             super([
                 new Button("Open", "primary", "raised")
                 .addEvent("click", e => {

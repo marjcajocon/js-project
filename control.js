@@ -1928,6 +1928,9 @@ var Dialog = function(obj, is_full) {
     this.show = function() {
         mui.overlay('on', {}, panel.getControl());
     };
+    this.hide = function() {
+        mui.overlay('off', {}, panel.getControl());
+    };
 };
 /* End Dialog */
 
@@ -2011,7 +2014,7 @@ var Http = function(url, data, callback) {
 /* es6*/
 
 class ModalForm extends Dialog {
-    constructor(title = "") {
+    constructor(title = "", fn) {
         super();
         this.setStyle({
             height: "98vh",
@@ -2024,18 +2027,27 @@ class ModalForm extends Dialog {
             width: "100%",
             height: "30px",
             borderBottom: "1px solid #ddd",
-            padding: "10px",
-            boxShadow: "0 0 3px rgba(0, 0, 0, 0.3)"
+            padding: "10px"
         });
 
         header.add(new Label(title, "dark", "title"));
 
         this.footer = new EmptyPanel().setStyle({
             width: "100%",
-            height: "40px",
+            height: "50px",
             borderTop: "1px solid #ddd",
-            marginTop: "auto"
+            marginTop: "auto",
+            padding: "2px"
         });
+
+        this.submitbtn = new Button("Submit", "primary", "raised");
+
+        this.footer.add(
+            this.submitbtn
+        );
+        this.footer.add(new Button("Cancel", "danger", "raised").addEvent("click", e => {
+            this.hide();
+        }));
 
         this.content = new EmptyPanel().setStyle({
             padding: "5px",
@@ -2052,6 +2064,11 @@ class ModalForm extends Dialog {
         } else {
             this.content.add(j.control());
         }
+        return this;
+    }
+
+    submit(fn) {
+        this.submitbtn.addEvent("click", fn);
         return this;
     }
 
