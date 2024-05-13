@@ -542,12 +542,13 @@ var Button = function (label, color, type, size) {
     var b = new JButton()
     .add(icon)
     .add(_label.control()).addClass('mui-btn');
-    if (color != '') {
-        b.addClass('mui-btn');
-        b.addClass('mui-btn--' + color);
-    }
+    b.addClass('mui-btn');
     if (type != '') {
         b.addClass('mui-btn--' + type);
+    }
+    if (color != '') {
+        
+        b.addClass('mui-btn--' + color);
     }
     if (size != '') {
         b.addClass('mui-btn--' + size);
@@ -1906,6 +1907,30 @@ var ImageSlider = function(obj) {
 /* End Slider */
 
 
+/* Dialog  */
+var Dialog = function(obj, is_full) {
+    var panel = new JPanel().addClass("cdialog");
+    
+    this.add = function(j) {
+        if (j instanceof JInterface) {
+            panel.add(j);
+        } else {
+            panel.add(j.control());
+        }
+        return this;
+    };
+
+    this.setStyle = function(style) {
+        panel.setStyle(style);
+        return this;
+    };
+    
+    this.show = function() {
+        mui.overlay('on', {}, panel.getControl());
+    };
+};
+/* End Dialog */
+
 /* Http */
 
 var Http = function(url, data, callback) {
@@ -1982,3 +2007,54 @@ var Http = function(url, data, callback) {
 };
 
 /* end Http */
+
+/* es6*/
+
+class ModalForm extends Dialog {
+    constructor(title = "") {
+        super();
+        this.setStyle({
+            height: "98vh",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column" 
+        });
+
+        const header = new EmptyPanel().setStyle({
+            width: "100%",
+            height: "30px",
+            borderBottom: "1px solid #ddd",
+            padding: "10px",
+            boxShadow: "0 0 3px rgba(0, 0, 0, 0.3)"
+        });
+
+        header.add(new Label(title, "dark", "title"));
+
+        this.footer = new EmptyPanel().setStyle({
+            width: "100%",
+            height: "40px",
+            borderTop: "1px solid #ddd",
+            marginTop: "auto"
+        });
+
+        this.content = new EmptyPanel().setStyle({
+            padding: "5px",
+            overflowY: "auto",
+            flex: "1"
+        });
+
+        this.add(header).add(this.content).add(this.footer);        
+    }
+
+    addObj(j) {
+        if (j instanceof JInterface) {
+            this.content.add(j);
+        } else {
+            this.content.add(j.control());
+        }
+        return this;
+    }
+
+};
+
+/* end es6*/ 
