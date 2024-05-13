@@ -536,12 +536,13 @@ var Button = function (label, color, type, size) {
         if (!__isValidConfig(size, ControlConfig.Size)) throw new TypeError(size + ' is not valid! valid input: ' + ControlConfig.tostr(ControlConfig.Size));
     }
     /* End error checking */
-    var _label = new Label(label, 'light', 'button');
+    var _label = new JSpan();
+    _label.setText(label);
 
     var icon = new JI();
     var b = new JButton()
     .add(icon)
-    .add(_label.control()).addClass('mui-btn');
+    .add(_label).addClass('mui-btn');
     b.addClass('mui-btn');
     if (type != '') {
         b.addClass('mui-btn--' + type);
@@ -2017,7 +2018,7 @@ class ModalForm extends Dialog {
     constructor(title = "", fn) {
         super();
         this.setStyle({
-            height: "98vh",
+            // height: "98vh",
             position: "relative",
             display: "flex",
             flexDirection: "column" 
@@ -2026,7 +2027,6 @@ class ModalForm extends Dialog {
         const header = new EmptyPanel().setStyle({
             width: "100%",
             height: "30px",
-            borderBottom: "1px solid #ddd",
             padding: "10px"
         });
 
@@ -2035,22 +2035,21 @@ class ModalForm extends Dialog {
         this.footer = new EmptyPanel().setStyle({
             width: "100%",
             height: "50px",
-            borderTop: "1px solid #ddd",
             marginTop: "auto",
             padding: "2px"
         });
 
-        this.submitbtn = new Button("Submit", "primary", "raised");
+        this.submitbtn = new Button("Submit", "primary", "flat");
 
         this.footer.add(
             this.submitbtn
         );
-        this.footer.add(new Button("Cancel", "danger", "raised").addEvent("click", e => {
+        this.footer.add(new Button("Cancel", "danger", "flat").addEvent("click", e => {
             this.hide();
         }));
 
         this.content = new EmptyPanel().setStyle({
-            padding: "5px",
+            padding: "10px",
             overflowY: "auto",
             flex: "1"
         });
