@@ -1,6 +1,8 @@
 function Widget(c) {
             var l = document.createElement(c);
 
+
+
             this.add = function (widget) {
                 l.appendChild(widget.get_widget());
                 return this;
@@ -16,6 +18,11 @@ function Widget(c) {
 
             this.get_widget = function () {
                 return l;
+            };
+
+            this.addEventListener = function (event, callback) {
+                l.addEventListener(event, callback);
+                return this;
             };
 
         }
