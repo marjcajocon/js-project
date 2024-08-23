@@ -26,6 +26,22 @@ class Widget {
     return this;
   }
 
+  setAttr(attrs = {}) {
+    for (const item in attrs) {
+      this.control.setAttribute(item, attrs[item]);
+    }
+    return this;    
+  }
+
+  setValue(v) {
+    this.control.value = v
+    return this;
+  }
+
+  getValue() {
+    return this.control.value;
+  }
+
   show() {
     this.control.style.display = 'inline-block';
     return this;
@@ -129,7 +145,12 @@ class FieldSet extends Widget {
 }
 
 
+class List extends Widget {
+  constructor() {
+    super('ul');
 
+  }
+}
 
 // Window
 class Window extends Widget {
