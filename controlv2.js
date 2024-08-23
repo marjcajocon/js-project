@@ -148,7 +148,14 @@ class FieldSet extends Widget {
 class List extends Widget {
   constructor() {
     super('ul');
+  }
 
+  addItem(param = '') {
+    if (typeof(param) == 'string') {
+      const li = document.createElement('li');
+      li.innerHTML = param;
+      this.control.appendChild(li);
+    }
   }
 }
 
