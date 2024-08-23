@@ -159,6 +159,37 @@ class List extends Widget {
   }
 }
 
+class Table extends Widget {
+  constructor(param) {
+    super('table');
+
+    if (typeof(param) != 'object') return;
+
+    const { header } = param;
+
+    const thead = document.createElement('thead');
+
+    const tr = document.createElement('tr');
+    thead.appendChild(tr);
+    for (const item in header) {
+      const th = document.createElement('th');
+
+      th.innerHTML = item;
+      tr.appendChild(th);
+      console.log(item);
+    }
+
+    this.control.appendChild(thead);
+    
+  }
+
+  addItem(data) {
+
+  }
+
+
+}
+
 // Window
 class Window extends Widget {
   constructor({ app = null, title = '', width = null, height = null }) {
