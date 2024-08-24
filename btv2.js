@@ -314,6 +314,8 @@ class panel extends Panel {
   addItem(obj) {
     this.panel_body.add(obj);
   }
+
+
 }
 
 
@@ -603,3 +605,79 @@ class table extends Panel {
 }
 
 /// table
+
+
+// modal
+
+class dialog extends Panel {
+  constructor(title = '', size = 'md') {
+    if (typeof(c_size[size]) == 'undefined') throw new Error(`Error: available ${JSON.stringify(c_size)}`);
+
+    super();
+    
+    this.setAttr({
+      class: 'modal fade',
+      role: 'dialog'
+    });
+    
+    const dialog = new Panel().setAttr({
+      class: `modal-dialog modal-${c_size[size]}`
+    });
+
+    const content = new Panel().setAttr({
+      class: 'modal-content'
+    });
+
+    const header = new Panel().setAttr({
+      class: 'modal-header'
+    });
+
+    const h = new _H5().setAttr({
+      class: 'modal-title'
+    }); 
+
+    h.setHTML(title);
+
+    
+    const close = new button('x', 'white').setAttr({
+      class: 'close'
+    });
+
+
+    header.add(close);
+    header.add(h);
+
+
+    content.add(header);
+    this.body_1 = new Panel().setAttr({
+      class: 'modal-body'
+    });
+    content.add(this.body_1);
+
+    dialog.add(content);
+
+    this.add(dialog);
+    this.body.append(this.control);
+
+    close.addEventListener('click', () => {
+      this.close();
+    });
+  }
+
+  addItem(item) {
+    this.body_1.add(item);
+  }
+
+  open() {
+    this.setAttr({
+      class: 'modal fade in'
+    });
+
+    this.show();
+  }
+
+  close() {
+    
+    this.delete();
+  }
+}
