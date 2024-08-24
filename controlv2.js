@@ -4,17 +4,38 @@ class Widget {
     this.control = document.createElement(h);
     this.body = document.body;
 
+    this.widgets = [];
   }
 
   clear() {
-    
     while (this.control.firstChild) {
       
       this.control.firstChild.remove();
       
     }
 
+    for (const item of this.widgets) {
+      if (typeof(item.dispose) == 'function') {
+        item.dispose();
+      }
+
+      item.clear();
+    }
+
     return this;
+  }
+
+  remove(index = 0) {
+
+    if (typeof(this.widgets[index]) != 'undefined') {
+      this.widgets[index].control.remove();
+    }
+
+    this.widgets.splice(index, 1);
+  }
+
+  delete() {
+    this.control.remove();
   }
 
   setStyle(styles = {}) {
@@ -52,7 +73,14 @@ class Widget {
     return this;
   }
 
+  setHTML(html) {
+    this.control.innerHTML = html;
+    return this;
+  }
+
   add(widget) {
+    this.widgets.push(widget);
+
     this.control.appendChild(widget.control);
     return this;
   }
@@ -64,11 +92,30 @@ class Widget {
   }
 }
 
+// Empty
+class Empty extends Widget {
+  constructor() {
+    super('span');
+    
+
+  }
+}
+
+// Panel
+
+class Panel extends Widget {
+  constructor() {
+    super('div');
+
+
+  }
+}
+
 // Text 
 class Text extends Widget {
   constructor(param = '') {
 
-    super('label');
+    super('span');
     if (typeof(param) == 'string') {
       this.control.innerHTML = param;
     }
@@ -76,6 +123,15 @@ class Text extends Widget {
     if (typeof(param) != 'object') return;
 
 
+  }
+}
+
+
+// Link
+
+class Link extends Widget {
+  constructor() {
+    super('a');
   }
 }
 
@@ -107,9 +163,14 @@ class Button extends Widget {
 // TextField 
 
 class TextField extends Widget {
-  constructor() {
+  constructor(param) {
     super('input');
+    if (typeof(param) != 'object') return;
 
+    const { type } = param;
+    this.setAttr({
+      type: type
+    });
   }
 }
 
@@ -145,59 +206,97 @@ class FieldSet extends Widget {
 }
 
 
+class _Li extends Widget {
+  constructor() {
+    super('li');
+  }
+}
+
+class _Ul extends Widget {
+  constructor() {
+    super('ul');
+  }
+}
+
 class List extends Widget {
   constructor() {
     super('ul');
   }
 
-  addItem(param = '') {
-    if (typeof(param) == 'string') {
-      const li = document.createElement('li');
-      li.innerHTML = param;
-      this.control.appendChild(li);
-    }
+  addItem(obj) {
+    const li = new _Li();
+    li.add(obj);
+    this.add(li);
+    return this;
   }
 }
 
-class Table extends Widget {
-  constructor(param) {
+// Table tr thead, td, 
+
+class _Table extends Widget {
+  constructor() {
     super('table');
-
-    if (typeof(param) != 'object') return;
-
-    const { header } = param;
-
-    const thead = document.createElement('thead');
-
-    const tr = document.createElement('tr');
-    thead.appendChild(tr);
-    for (const item in header) {
-      const th = document.createElement('th');
-
-      th.innerHTML = item;
-      tr.appendChild(th);
-      console.log(item);
-    }
-
-    this.control.appendChild(thead);
-    
   }
-
-  addItem(data) {
-
-  }
-
-
 }
+
+class _Thead extends Widget {
+  constructor() {
+    super('thead');
+  }
+}
+
+class _Tr extends Widget {
+  constructor() {
+    super('tr');
+  }
+}
+
+class _Th extends Widget {
+  constructor() {
+    super('th');
+  }
+}
+
+class _Td extends Widget {
+  constructor() {
+    super('td');
+  }
+}
+
+class _Tbody extends Widget {
+  constructor() {
+    super('tbody');
+  }
+}
+
+class _Tfoot extends Widget {
+  constructor() {
+    super('tfoot');
+  }
+}
+// end of Table
 
 // Window
 class Window extends Widget {
-  constructor({ app = null, title = '', width = null, height = null }) {
+  constructor(param) {
     super('div');
-
+    this.setStyle({
+      width: '100%',
+      height: '100%',
+      position: 'relative'
+    });
+    if (typeof(param) == 'object') {
+      const { app = null, title = '', width = null, height = null } = param;
+    }
     this.hide();
     this.body.appendChild(this.control);
   }
+
+  navigate(obj) {
+    this.clear();
+    this.add(obj);
+  } 
+
   run() {
     this.show();
   }
