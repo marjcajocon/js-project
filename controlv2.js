@@ -47,6 +47,15 @@ class Widget {
     return this;
   }
 
+  addClass(cs) {
+    this.control.classList.add(cs);
+    return this;
+  }
+
+  removeClass(cs) {
+    this.control.classList.remove(cs);
+  }
+
   setAttr(attrs = {}) {
     for (const item in attrs) {
       this.control.setAttribute(item, attrs[item]);
