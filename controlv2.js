@@ -294,6 +294,12 @@ class _H5 extends Widget {
   }
 }
 
+class _I extends Widget {
+  constructor() {
+    super('i');
+  }
+}
+
 // Window
 class Window extends Widget {
   constructor(param) {
