@@ -844,3 +844,29 @@ class column extends Panel {
 
 
 // font awesome
+export { 
+  icon, 
+  flex, 
+  screen, 
+  container, 
+  button, 
+  dropdown, 
+  buttongroup, 
+  alert, 
+  badge, 
+  label, 
+  text, 
+  progressbar, 
+  pagination, 
+  breadcrumb, 
+  panel, 
+  dropdown2,
+  appbar, 
+  textfield, 
+  textbox, 
+  table, 
+  dialog, 
+  tab, 
+  row, 
+  column 
+};
