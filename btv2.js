@@ -19,6 +19,13 @@ const c_size = {
   'xs': 'xs'
 };
 
+class icon extends _I {
+  constructor(ico = '') {
+    super();
+    this.setAttr({ class: `fa fa-${ico}` });
+  }
+}
+
 class flex extends Panel {
   constructor(align = 'center', height = '') {
     super();
@@ -833,3 +840,7 @@ class column extends Panel {
 
 
 }
+
+
+
+// font awesome
