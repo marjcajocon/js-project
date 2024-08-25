@@ -38,28 +38,52 @@ class Widget {
     this.control.remove();
   }
 
-  setStyle(styles = {}) {
+  setStyle(styles = {}, value = '') {
 
-    for (const item in styles) {
-      this.control.style[item] = styles[item];
+    if (typeof(styles) == 'object') {
+      for (const item in styles) {
+        this.control.style[item] = styles[item];
+      }
+    } else if (typeof(styles) == 'string') {
+      this.control.style[styles] = value;
     }
 
     return this;
   }
 
   addClass(cs) {
-    this.control.classList.add(cs);
+    if (typeof(cs) == 'string') {
+      this.control.classList.add(cs);
+    } else if (cs instanceof Array) {
+      for (const item of cs) {
+        if (typeof(item) == 'string') {
+          this.control.classList.add(item);
+        }
+      }
+    }
     return this;
   }
 
   removeClass(cs) {
-    this.control.classList.remove(cs);
+    if (typeof(cs) == 'string') {
+      this.control.classList.remove(cs);
+    } else if (cs instanceof Array) {
+      for (const item of cs) {  
+        if (typeof(item) == 'string') {
+          this.control.classList.remove(item);
+        }
+      }
+    }
     return this;
   }
 
-  setAttr(attrs = {}) {
-    for (const item in attrs) {
-      this.control.setAttribute(item, attrs[item]);
+  setAttr(attrs = {}, value = '') {
+    if (typeof(attrs) == 'object') {
+      for (const item in attrs) {
+        this.control.setAttribute(item, attrs[item]);
+      }
+    } else if (typeof(attrs) == 'string') {
+      this.control.setAttribute(attrs, value);
     }
     return this;    
   }
@@ -89,9 +113,20 @@ class Widget {
   }
 
   add(widget) {
-    this.widgets.push(widget);
 
-    this.control.appendChild(widget.control);
+    if (widget instanceof Widget) {
+      this.widgets.push(widget);
+
+      this.control.appendChild(widget.control);
+    } else if (widget instanceof Array) {
+      for (const item of widget) {
+        if (item instanceof Widget) {
+          this.widgets.push(item);
+          this.control.appendChild(item.control);
+        }
+      }
+    }
+
     return this;
   }
 
@@ -299,6 +334,18 @@ class _I extends Widget {
     super('i');
   }
 }
+
+class _P extends Widget {
+  constructor() {
+    super('p');
+  }
+}
+
+class _H extends Widget {
+  constructor(size = '5') {
+    super(`h${size}`);
+  }
+} 
 
 // Window
 class Window extends Widget {
