@@ -88,7 +88,8 @@ class dropdown extends Panel {
     }));
 
     btn.setAttr({
-      'data-toggle': 'dropdown'
+      'data-toggle': 'dropdown',
+      'aria-expanded': 'false'
     });
 
     this.add(btn);
@@ -104,12 +105,14 @@ class dropdown extends Panel {
       toggle = !toggle;
 
       if (toggle) {
-        this.ul.setStyle({
-          display: 'block'
+        this.addClass('open');
+        btn.setAttr({
+          'aria-expanded': 'true'
         });
       } else {
-        this.ul.setStyle({
-          display: 'none'
+        this.removeClass('open');
+        btn.setAttr({
+          'aria-expanded': 'false'
         });
       }
 
@@ -243,7 +246,7 @@ class progressbar extends Panel {
   }
 }
 // pagination
-class pagination extends List {
+class pagination extends _Ul {
   constructor(size = 'sm') {
     super();
 
@@ -252,12 +255,34 @@ class pagination extends List {
     this.setAttr({
       class: `pagination pagination-${c_size[size]}`
     });
+
+    this.items = [];
+  }
+  clearActive() {
+    for (const item of this.items) {
+      item.removeClass('active');
+    }
   }
 
-  addPage(title) {
-    const link = new Link();
+  addItem(title, fn) {
+    const link = new Link().setStyle({
+      cursor: 'pointer'
+    });
     link.setHTML(title);
-    this.addItem(link);
+
+    const li = new _Li();
+    li.add(link);
+
+
+    if (typeof(fn) == 'function') {
+      li.addEventListener('click', () => {
+        this.clearActive();
+        li.addClass('active');
+        fn(title);
+      });
+    }
+    this.items.push(li);
+    this.add(li);
     return this;
   }
 }
@@ -677,7 +702,7 @@ class dialog extends Panel {
   }
 
   close() {
-    
+    this.clear();
     this.delete();
   }
 }
