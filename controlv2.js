@@ -54,6 +54,7 @@ class Widget {
 
   removeClass(cs) {
     this.control.classList.remove(cs);
+    return this;
   }
 
   setAttr(attrs = {}) {
