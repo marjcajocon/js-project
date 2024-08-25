@@ -778,3 +778,57 @@ class tab extends Panel {
   }
 
 }
+
+
+// column 
+class column extends Panel {
+  constructor(lists, align = 'left') {
+    super();
+      
+    this.setStyle({
+      position: 'relative',
+      width: '100%'
+    });
+
+    if (lists instanceof Array) {
+      for (const item of lists) {
+        if (item instanceof Widget) {
+          item.setStyle({
+            float: align
+          });
+          this.add(item);
+        }
+      }
+    }
+
+
+  }
+
+
+}
+
+class row extends Panel {
+  constructor(lists, align = 'left') {
+    super();
+      
+    this.setStyle({
+      position: 'relative',
+      height: '100%'
+    });
+
+    if (lists instanceof Array) {
+      for (const item of lists) {
+        if (item instanceof Widget) {
+          item.setStyle({
+            display: 'block'
+          });
+          this.add(item);
+        }
+      }
+    }
+
+
+  }
+
+
+}
