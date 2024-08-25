@@ -780,8 +780,9 @@ class tab extends Panel {
 }
 
 
-// column 
-class column extends Panel {
+// column same with flutter
+
+class row extends Panel {
   constructor(lists, align = 'left') {
     super();
       
@@ -806,8 +807,8 @@ class column extends Panel {
 
 
 }
-
-class row extends Panel {
+// same with flutter
+class column extends Panel {
   constructor(lists, align = 'left') {
     super();
       
