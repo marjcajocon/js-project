@@ -706,3 +706,75 @@ class dialog extends Panel {
     this.delete();
   }
 }
+
+// Tab
+
+class tab extends Panel {
+  constructor() {
+    super();
+
+    this.ul = new _Ul().setAttr({
+      class: 'nav nav-tabs'
+    });
+
+    this.add(this.ul);
+
+    this.content = new Panel().setAttr({
+      class: 'tab-content'
+    });
+
+    this.add(this.content);
+
+    this.items = [];
+    this.contents = [];
+  }
+
+  clearContent() {
+    for (const item of this.contents) {
+      item.removeClass('in').removeClass('active');
+    }
+  }
+
+  clearItem() {
+    for (const item of this.items) {
+      item.removeClass('active');
+    }
+  }
+
+  addItem(h, item) {
+    const li = new _Li();
+    const a = new Link().setStyle({
+      cursor: 'pointer'
+    });
+
+    a.setHTML(h);
+
+    li.add(a);
+
+    const content = new Panel().setAttr({
+      class: 'tab-pane fade'
+    });
+
+    if (item instanceof Widget) {
+      content.add(item);
+    }
+
+
+    this.content.add(content);
+
+    li.addEventListener('click', () => {
+      this.clearItem();
+      this.clearContent();
+      li.addClass('active');
+      content.addClass('in').addClass('active');
+
+    });
+    
+
+    this.ul.add(li);
+    this.items.push(li);
+    this.contents.push(content);
+    return this;
+  }
+
+}
