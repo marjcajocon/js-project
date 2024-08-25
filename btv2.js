@@ -697,13 +697,20 @@ class dialog extends Panel {
   }
 
   addItem(item) {
-    this.body_1.add(item);
+    if (item instanceof Widget) {
+      this.body_1.add(item);
+    } else if (item instanceof Array) {
+      for (const i of item) {
+        this.body_1.add(i);
+      }
+    }
+
+    return this;
   }
 
   open() {
-    this.setAttr({
-      class: 'modal fade in'
-    });
+
+    this.addClass(['modal', 'fade', 'in']);
 
     this.show();
   }
@@ -841,6 +848,30 @@ class column extends Panel {
 
 }
 
+class para extends _P {
+  constructor(htm = '') {
+    super();
+    if (typeof(htm) == 'string') {
+      this.setHTML(htm);
+    }
+  }
+}
+
+
+class intro extends Panel {
+  constructor(title = '', content = '') {
+    super();
+    this.addClass('jumbotron');
+
+    const h1 = new _H(1);
+    h1.setHTML(title);
+
+    this.add(h1);
+
+    this.add(new para(content));
+
+  }
+}
 
 
 // font awesome
@@ -868,5 +899,7 @@ export {
   dialog, 
   tab, 
   row, 
-  column 
+  column,
+  para,
+  intro
 };
