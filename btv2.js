@@ -402,7 +402,7 @@ class dropdown2 extends _Li {
 
 // navbar
 
-class navbar extends Panel {
+class appbar extends Panel {
   constructor(title = '', right = false) {
     super();
 
