@@ -417,7 +417,7 @@ class appbar extends Panel {
       class: 'navbar navbar-default'
     });
 
-    const con = new container();
+    const con = new container().setStyle({ position: 'relative' });
 
     const header = new Panel().setAttr({
       class: 'navbar-header'
@@ -436,12 +436,13 @@ class appbar extends Panel {
       class: `nav navbar-nav navbar-${right ? 'right' : ''}`
     });
 
-    con.add(header);
+    if (title != '') {
+      con.add(header);
+      con.add(this.ul);
+    }
 
-
-    con.add(this.ul);
+    this.con = con;
     this.add(con);
-
   }
 
   addItem(title = '', fn = null) {
@@ -470,6 +471,12 @@ class appbar extends Panel {
     }
 
     return this;
+  }
+
+  action(obj) {
+    if (obj instanceof Widget) {
+      this.con.add(obj);
+    }
   }
 
 }
@@ -796,6 +803,21 @@ class tab extends Panel {
 
 // column same with flutter
 
+class sizedbox extends Panel {
+  constructor({
+    width = 0,
+    height = 0
+  }) {
+
+    super();
+
+    this.setStyle({
+      width: `${width}px`,
+      height: `${height}px`
+    });
+  }
+};
+
 class row extends Panel {
   constructor(lists, align = 'left') {
     super();
@@ -900,6 +922,7 @@ export {
   tab, 
   row, 
   column,
+  sizedbox,
   para,
   intro
 };
