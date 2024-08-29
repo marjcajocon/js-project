@@ -347,6 +347,18 @@ class _H extends Widget {
   }
 } 
 
+class _Select extends Widget {
+  constructor() {
+    super('select');
+  }
+}
+
+class _Option extends Widget {
+  constructor() {
+    super('option');
+  }
+}
+
 // Window
 class Window extends Widget {
   constructor(param) {
