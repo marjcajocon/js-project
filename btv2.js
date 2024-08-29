@@ -410,11 +410,11 @@ class dropdown2 extends _Li {
 // navbar
 
 class appbar extends Panel {
-  constructor(title = '', right = false) {
+  constructor(title = '', right = false, inverse = false) {
     super();
 
     this.setAttr({
-      class: 'navbar navbar-default'
+      class: `navbar navbar-${inverse ? 'inverse' : 'default'}`
     });
 
     const con = new container().setStyle({ position: 'relative' });
@@ -521,7 +521,52 @@ class textfield extends Panel {
   }
 }
 
+// combobox
 
+class combobox extends Panel {
+
+  constructor(param) {
+    super();
+
+    if (typeof(param) == 'string') {
+      this.add(new text(param).setStyle({
+        letterSpacing: '2px',
+        color: '#8d8d8d'
+      }));
+    }
+
+
+
+    this.tf = new _Select();
+
+    this.tf.setAttr({
+      class: 'form-control',
+      name: 'name'
+    });
+
+    this.add(this.tf);
+  }
+
+  addItem(key, value) {
+    const option = new _Option();
+    option.setAttr({
+      value: key
+    });
+    option.setHTML(value);
+    this.tf.add(option);
+
+    return this;
+  }
+
+  getText() {
+    return this.tf.getValue();
+  }
+
+  setText(v) {
+    this.tf.setValue(v);
+    return this;
+  }
+}
 
 // textfield
 class textbox extends Panel {
@@ -924,5 +969,6 @@ export {
   column,
   sizedbox,
   para,
-  intro
+  intro,
+  combobox
 };
