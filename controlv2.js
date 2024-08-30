@@ -359,6 +359,12 @@ class _Option extends Widget {
   }
 }
 
+class _Iframe extends Widget {
+  constructor() {
+    super('iframe');
+  }
+}
+
 // Window
 class Window extends Widget {
   constructor(param) {
@@ -389,7 +395,7 @@ class Window extends Widget {
 class Http {
   constructor(param) {
     
-    const { method = 'GET', url = '', body = null, header = {} } = param;
+    const { method = 'GET', url = '', body = null, header = { 'content-type': 'application/json' } } = param;
 
     this.xml = new XMLHttpRequest();
     this.xml.open(method, url);
