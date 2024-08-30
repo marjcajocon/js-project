@@ -15,6 +15,7 @@ class Widget {
     }
 
 
+    // tree clearing algo
 
     for (const item of this.widgets) {
       if (typeof(item.dispose) == 'function') {
@@ -22,6 +23,7 @@ class Widget {
       }
 
       item.clear();
+      item.widgets = [];
     }
 
     this.widgets = []; // clearing up the widgets after the clear to avoid loading
