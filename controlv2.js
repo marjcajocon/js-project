@@ -14,6 +14,8 @@ class Widget {
       
     }
 
+
+
     for (const item of this.widgets) {
       if (typeof(item.dispose) == 'function') {
         item.dispose();
@@ -21,6 +23,8 @@ class Widget {
 
       item.clear();
     }
+
+    this.widgets = []; // clearing up the widgets after the clear to avoid loading
 
     return this;
   }
