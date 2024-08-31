@@ -750,6 +750,8 @@ class dialog extends Panel {
     content.add(header);
     this.body_1 = new Panel().setAttr({
       class: 'modal-body'
+    }).setStyle({
+      overflowY: 'auto'
     });
     content.add(this.body_1);
 
@@ -776,6 +778,11 @@ class dialog extends Panel {
       }
     }
 
+    return this;
+  }
+
+  setStyle(styles = {}) {
+    this.body_1.setStyle(styles);
     return this;
   }
 
