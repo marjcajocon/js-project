@@ -709,11 +709,13 @@ class table extends Panel {
 // modal
 
 class dialog extends Panel {
-  constructor(title = '', size = 'md') {
+  constructor(title = '', size = 'md', parent_obj = null) {
     if (typeof(c_size[size]) == 'undefined') throw new Error(`Error: available ${JSON.stringify(c_size)}`);
 
     super();
     
+    this.parent_obj = null;
+
     this.setAttr({
       class: 'modal fade',
       role: 'dialog'
@@ -761,12 +763,22 @@ class dialog extends Panel {
     this.body.append(this.control);
 
     close.addEventListener('click', () => {
+      
+      if (this.parent_obj != null) {
+        this.parent_obj.dispose();
+      }
+
       this.close();
+      
     });
 
     // content.addEventListener('mousedown', () => {
 
     // });
+  }
+
+  init(parent_obj) {
+    this.parent_obj = parent_obj;
   }
 
   addItem(item) {
@@ -797,6 +809,7 @@ class dialog extends Panel {
     this.clear();
     this.delete();
   }
+
 }
 
 // Tab
@@ -987,6 +1000,14 @@ class grid extends Panel {
   }
 }
 
+
+class drawer extends Panel {
+  constructor() {
+    super();
+  }
+
+ 
+}
 
 // font awesome
 export { 
