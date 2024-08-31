@@ -34,6 +34,7 @@ class Widget {
   remove(index = 0) {
 
     if (typeof(this.widgets[index]) != 'undefined') {
+      this.widgets[index].clear();
       this.widgets[index].control.remove();
     }
 
@@ -41,7 +42,7 @@ class Widget {
   }
 
   delete() {
-    
+
     this.clear();
     this.control.remove();
   }
