@@ -41,6 +41,8 @@ class Widget {
   }
 
   delete() {
+    
+    this.clear();
     this.control.remove();
   }
 
