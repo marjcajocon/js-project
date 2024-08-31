@@ -769,7 +769,7 @@ class dialog extends Panel {
       }
 
       this.close();
-      
+
     });
 
     // content.addEventListener('mousedown', () => {
@@ -1004,9 +1004,71 @@ class grid extends Panel {
 class drawer extends Panel {
   constructor() {
     super();
+      
+    this.parent_obj = null;
+
+    this.setStyle({
+      'position': 'fixed',
+      'top': '0',
+      'left': '0',
+      height: '100%',
+      width: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      zIndex: '100'
+    });
+
+    this.side_bar = new Panel().setStyle({
+      width: '400px',
+      height: '100%',
+      backgroundColor: 'white',
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.3)'
+    });
+
+    this.side_bar.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    this.addEventListener('click', (e) => {
+      this.hide();
+    });
+
+
+    this.add(this.side_bar);
+    this.body.appendChild(this.control);
+    this.close();
   }
 
- 
+  init(parent_obj) {
+
+    return this;
+  }
+
+  open() {
+    
+    this.show();
+    return this;
+  }
+
+  close() {
+    this.hide();
+    return this;
+  }
+  
+  drawerStyle(styles = {}) {
+    this.side_bar.setStyle(styles);
+    return this;
+  }
+
+  addItem(obj) {
+    if (obj instanceof Widget) {
+      this.side_bar.add(obj);
+    }
+    return this;
+  }
+
 }
 
 // font awesome
@@ -1039,5 +1101,6 @@ export {
   para,
   intro,
   combobox,
-  grid
+  grid,
+  drawer
 };
