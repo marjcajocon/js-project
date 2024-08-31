@@ -345,6 +345,7 @@ class panel extends Panel {
 
   addItem(obj) {
     this.panel_body.add(obj);
+    return this;
   }
 
 
@@ -509,6 +510,10 @@ class textfield extends Panel {
     });
 
     this.add(this.tf);
+  }
+
+  focus() {
+    this.tf.control.focus();
   }
 
   getText() {
@@ -756,6 +761,10 @@ class dialog extends Panel {
     close.addEventListener('click', () => {
       this.close();
     });
+
+    // content.addEventListener('mousedown', () => {
+
+    // });
   }
 
   addItem(item) {
@@ -950,6 +959,27 @@ class intro extends Panel {
   }
 }
 
+class grid extends Panel {
+  constructor() {
+    super();
+    this.addClass('row');
+  }
+
+  addItem(obj, sizes = []) {
+    if (obj instanceof Widget) {
+      for (const size of sizes) {
+        if (typeof(size) == 'string') {
+          obj.addClass(`col-${size}`);
+        }
+      }
+      this.add(obj);
+    } else {
+      throw new Error('Invalid obj in Grid.addItem(obj, sizeds = [])');  
+    }
+    return this;
+  }
+}
+
 
 // font awesome
 export { 
@@ -980,5 +1010,6 @@ export {
   sizedbox,
   para,
   intro,
-  combobox
+  combobox,
+  grid
 };
