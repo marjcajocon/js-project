@@ -7,6 +7,7 @@ class Widget {
     this.widgets = [];
   }
 
+
   clear() {
     while (this.control.firstChild) {
       
@@ -42,7 +43,6 @@ class Widget {
   }
 
   delete() {
-
     this.clear();
     this.control.remove();
   }
