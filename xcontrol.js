@@ -1071,6 +1071,33 @@ class drawer extends Panel {
 
 }
 
+class tabcontent extends Panel {
+  constructor(param) {
+    super();
+    this.setStyle({
+      width: '100%',
+      minHeight: '50px',
+      borderLeft: '1px solid #dddddd',
+      borderRight: '1px solid #dddddd',
+      borderBottom: '1px solid #dddddd'
+    });
+
+
+    if (param instanceof Widget) {
+      this.add(param);
+    } else if (param instanceof Array) {
+      for (const item of param) {
+        if (item instanceof Widget) {
+          this.add(item);
+        }
+      }
+    }
+
+  }
+}
+
+
+
 // font awesome
 export { 
   icon, 
@@ -1095,6 +1122,7 @@ export {
   table, 
   dialog, 
   tab, 
+  tabcontent,
   row, 
   column,
   sizedbox,
