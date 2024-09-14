@@ -19,14 +19,14 @@ const c_size = {
   'xs': 'xs'
 };
 
-class icon extends _I {
+class CIcon extends _I {
   constructor(ico = '') {
     super();
     this.setAttr({ class: `fa fa-${ico}` });
   }
 }
 
-class flex extends Panel {
+class CFlex extends Panel {
   constructor(align = 'center', height = '') {
     super();
 
@@ -40,7 +40,7 @@ class flex extends Panel {
   }
 }
 
-class screen extends Panel {
+class CScreen extends Panel {
   constructor() {
     super();
 
@@ -52,7 +52,7 @@ class screen extends Panel {
   }
 }
 
-class container extends Panel {
+class CContainer extends Panel {
   constructor(fluid = true) {
     super();
     this.setAttr({
@@ -63,7 +63,7 @@ class container extends Panel {
 }
 
 // button
-class button extends Button {
+class CButton extends Button {
   constructor(title = '', type = 'basic', size = 'sm') {
     super(title);
 
@@ -79,7 +79,7 @@ class button extends Button {
 }
 
 // dropdown button
-class dropdown extends Panel {
+class CDropDown extends Panel {
   constructor(title = '', type = 'blue') {
     super();
 
@@ -87,7 +87,7 @@ class dropdown extends Panel {
       class: 'dropdown'
     });
 
-    const btn = new button(title, type);
+    const btn = new CButton(title, type);
     btn.add(new Empty().setStyle({
       marginLeft: '2px'
     }).setAttr({
@@ -153,7 +153,7 @@ class dropdown extends Panel {
 
 // button group
 
-class buttongroup extends Panel {
+class CButtonGroup extends Panel {
   constructor(type = '', size = 'sm') {
     super();
 
@@ -166,7 +166,7 @@ class buttongroup extends Panel {
 }
 
 // alert
-class alert extends Panel {
+class CAlert extends Panel {
   constructor(htm = '', type = 'white') {
     super();
 
@@ -183,7 +183,7 @@ class alert extends Panel {
 // textfield
 
 // badge
-class badge extends Empty {
+class CBadge extends Empty {
   constructor(htm) {
     super();
 
@@ -197,7 +197,7 @@ class badge extends Empty {
 
 // label
 
-class label extends Empty {
+class CLabel extends Empty {
   constructor(htm = '', type = 'white') {
     super();
     
@@ -211,7 +211,7 @@ class label extends Empty {
   }
 }
 
-class text extends Empty {
+class CText extends Empty {
   constructor(title = '') {
     super();
     this.setHTML(title);
@@ -221,7 +221,7 @@ class text extends Empty {
 
 // progressbar
 
-class progressbar extends Panel {
+class CProgressBar extends Panel {
   constructor(type = 'green') {
     super();
 
@@ -253,7 +253,7 @@ class progressbar extends Panel {
   }
 }
 // pagination
-class pagination extends _Ul {
+class CPagination extends _Ul {
   constructor(size = 'sm') {
     super();
 
@@ -294,7 +294,7 @@ class pagination extends _Ul {
   }
 }
 // breadcrumb
-class breadcrumb extends List {
+class CBreadCrumb extends List {
   constructor() {
     super();
 
@@ -317,7 +317,7 @@ class breadcrumb extends List {
 
 // Panel 
 
-class panel extends Panel {
+class CPanel extends Panel {
   constructor(title = '', type = 'blue') {
   
     if (typeof(c_type[type]) == 'undefined') throw new Error(`Error: available ${JSON.stringify(c_type)}`);
@@ -353,7 +353,7 @@ class panel extends Panel {
 
 
 // 
-class dropdown2 extends _Li {
+class CDropDown2 extends _Li {
   constructor(title = '') {
     super();
 
@@ -410,7 +410,7 @@ class dropdown2 extends _Li {
 
 // navbar
 
-class appbar extends Panel {
+class CAppBar extends Panel {
   constructor(title = '', right = false, inverse = false) {
     super();
 
@@ -418,7 +418,7 @@ class appbar extends Panel {
       class: `navbar navbar-${inverse ? 'inverse' : 'default'}`
     });
 
-    const con = new container().setStyle({ position: 'relative' });
+    const con = new CContainer().setStyle({ position: 'relative' });
 
     const header = new Panel().setAttr({
       class: 'navbar-header'
@@ -483,12 +483,12 @@ class appbar extends Panel {
 }
 
 // textfield
-class textfield extends Panel {
+class CTextField extends Panel {
   constructor(param, type = 'text', placeholder = '') {
     super();
 
     if (typeof(param) == 'string') {
-      this.add(new text(param).setStyle({
+      this.add(new CText(param).setStyle({
         letterSpacing: '2px',
         color: '#8d8d8d'
       }));
@@ -528,13 +528,13 @@ class textfield extends Panel {
 
 // combobox
 
-class combobox extends Panel {
+class CComboBox extends Panel {
 
   constructor(param) {
     super();
 
     if (typeof(param) == 'string') {
-      this.add(new text(param).setStyle({
+      this.add(new CText(param).setStyle({
         letterSpacing: '2px',
         color: '#8d8d8d'
       }));
@@ -574,12 +574,12 @@ class combobox extends Panel {
 }
 
 // textfield
-class textbox extends Panel {
+class CTextBox extends Panel {
   constructor(param) {
     super();
 
     if (typeof(param) == 'string') {
-      this.add(new text(param).setStyle({
+      this.add(new CText(param).setStyle({
         letterSpacing: '2px',
         color: '#8d8d8d'
       }));
@@ -609,7 +609,7 @@ class textbox extends Panel {
 }
 
 
-class table extends Panel {
+class CTable extends Panel {
   constructor(param) {
     super();
 
@@ -708,7 +708,7 @@ class table extends Panel {
 
 // modal
 
-class dialog extends Panel {
+class CDialog extends Panel {
   constructor(title = '', size = 'md', parent_obj = null) {
     if (typeof(c_size[size]) == 'undefined') throw new Error(`Error: available ${JSON.stringify(c_size)}`);
 
@@ -740,7 +740,7 @@ class dialog extends Panel {
     h.setHTML(title);
 
     
-    const close = new button('x', 'white').setAttr({
+    const close = new CButton('x', 'white').setAttr({
       class: 'close'
     });
 
@@ -814,7 +814,7 @@ class dialog extends Panel {
 
 // Tab
 
-class tab extends Panel {
+class CTab extends Panel {
   constructor() {
     super();
 
@@ -887,7 +887,7 @@ class tab extends Panel {
 
 // column same with flutter
 
-class sizedbox extends Panel {
+class CSizedBox extends Panel {
   constructor({
     width = 0,
     height = 0
@@ -902,7 +902,7 @@ class sizedbox extends Panel {
   }
 };
 
-class row extends Panel {
+class CRow extends Panel {
   constructor(lists, align = 'left') {
     super();
       
@@ -928,7 +928,7 @@ class row extends Panel {
 
 }
 // same with flutter
-class column extends Panel {
+class CColumn extends Panel {
   constructor(lists, align = 'left') {
     super();
       
@@ -954,7 +954,7 @@ class column extends Panel {
 
 }
 
-class para extends _P {
+class CPara extends _P {
   constructor(htm = '') {
     super();
     if (typeof(htm) == 'string') {
@@ -964,7 +964,7 @@ class para extends _P {
 }
 
 
-class intro extends Panel {
+class CIntro extends Panel {
   constructor(title = '', content = '') {
     super();
     this.addClass('jumbotron');
@@ -974,12 +974,12 @@ class intro extends Panel {
 
     this.add(h1);
 
-    this.add(new para(content));
+    this.add(new CPara(content));
 
   }
 }
 
-class grid extends Panel {
+class CGrid extends Panel {
   constructor() {
     super();
     this.addClass('row');
@@ -1001,7 +1001,7 @@ class grid extends Panel {
 }
 
 
-class drawer extends Panel {
+class CDrawer extends Panel {
   constructor() {
     super();
       
@@ -1071,7 +1071,7 @@ class drawer extends Panel {
 
 }
 
-class tabcontent extends Panel {
+class CTabContent extends Panel {
   constructor(param) {
     super();
     this.setStyle({
@@ -1100,35 +1100,35 @@ class tabcontent extends Panel {
 
 // font awesome
 export { 
-  icon, 
-  flex, 
-  screen, 
-  container, 
-  button, 
-  dropdown, 
-  buttongroup, 
-  alert, 
-  badge, 
-  label, 
-  text, 
-  progressbar, 
-  pagination, 
-  breadcrumb, 
-  panel, 
-  dropdown2,
-  appbar, 
-  textfield, 
-  textbox, 
-  table, 
-  dialog, 
-  tab, 
-  tabcontent,
-  row, 
-  column,
-  sizedbox,
-  para,
-  intro,
-  combobox,
-  grid,
-  drawer
+  CIcon, 
+  CFlex, 
+  CScreen, 
+  CContainer, 
+  CButton, 
+  CDropDown, 
+  CButtonGroup, 
+  CAlert, 
+  CBadge, 
+  CLabel, 
+  CText, 
+  CProgressBar, 
+  CPagination, 
+  CBreadCrumb, 
+  CPanel, 
+  CDropDown2,
+  CAppBar, 
+  CTextField, 
+  CTextBox, 
+  CTable, 
+  CDialog, 
+  CTab, 
+  CTabContent,
+  CRow, 
+  CColumn,
+  CSizedBox,
+  CPara,
+  CIntro,
+  CComboBox,
+  CGrid,
+  CDrawer
 };
