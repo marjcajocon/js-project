@@ -840,7 +840,7 @@ class CTab extends Panel {
     }
   }
 
-  clearItem() {
+  clear() {
     for (const item of this.items) {
       item.removeClass('active');
     }
@@ -868,7 +868,7 @@ class CTab extends Panel {
     this.content.add(content);
 
     li.addEventListener('click', () => {
-      this.clearItem();
+      this.clear();
       this.clearContent();
       li.addClass('active');
       content.addClass('in').addClass('active');
