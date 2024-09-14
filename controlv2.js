@@ -374,6 +374,14 @@ class _Iframe extends Widget {
   }
 }
 
+// form
+
+class _Form extends Widget {
+  constructor() {
+    super('form');
+  }
+}
+
 // Window
 class Window extends Widget {
   constructor(param) {
