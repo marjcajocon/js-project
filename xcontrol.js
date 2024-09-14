@@ -1096,7 +1096,11 @@ class CTabContent extends Panel {
   }
 }
 
-
+class CForm extends _Form {
+  constructor() {
+    super();
+  }
+}
 
 // font awesome
 export { 
@@ -1130,5 +1134,6 @@ export {
   CIntro,
   CComboBox,
   CGrid,
-  CDrawer
+  CDrawer,
+  CForm
 };
