@@ -99,7 +99,7 @@ class CDropDown extends Panel {
       'aria-expanded': 'false'
     });
 
-    this.add(btn);
+    super.add(btn);
 
     this.ul = new _Ul();
     this.ul.setAttr({
@@ -130,7 +130,7 @@ class CDropDown extends Panel {
 
   }
 
-  addItem(title = '', fn = null) {
+  add(title = '', fn = null) {
     const li = new _Li();
 
     const link = new Link().setStyle({
@@ -271,7 +271,7 @@ class CPagination extends _Ul {
     }
   }
 
-  addItem(title, fn) {
+  add(title, fn) {
     const link = new Link().setStyle({
       cursor: 'pointer'
     });
@@ -289,7 +289,7 @@ class CPagination extends _Ul {
       });
     }
     this.items.push(li);
-    this.add(li);
+    super.add(li);
     return this;
   }
 }
@@ -303,7 +303,7 @@ class CBreadCrumb extends List {
     });
   }
 
-  addPage(title = '', fn = null) {
+  add(title = '', fn = null) {
     const link = new Link();
     link.setHTML(title);
 
@@ -335,15 +335,15 @@ class CPanel extends Panel {
       class: 'panel-body'
     });
 
-    this.add(heading);
-    this.add(this.panel_body);
+    super.add(heading);
+    super.add(this.panel_body);
 
     this.setAttr({
       class: `panel panel-${c_type[type]}`
     });
   }
 
-  addItem(obj) {
+  add(obj) {
     this.panel_body.add(obj);
     return this;
   }
@@ -383,11 +383,11 @@ class CDropDown2 extends _Li {
       }
     });
 
-    this.add(a);
-    this.add(this.ul);
+    super.add(a);
+    super.add(this.ul);
   }
 
-  addItem(title = '', fn = null) {
+  add(title = '', fn = null) {
     const li = new _Li();
 
     const a = new Link().setHTML(title).setStyle({
@@ -443,10 +443,10 @@ class CAppBar extends Panel {
     }
 
     this.con = con;
-    this.add(con);
+    super.add(con);
   }
 
-  addItem(title = '', fn = null) {
+  add(title = '', fn = null) {
 
     if (typeof(title) == 'string') {
       const li = new _Li();
@@ -534,7 +534,7 @@ class CComboBox extends Panel {
     super();
 
     if (typeof(param) == 'string') {
-      this.add(new CText(param).setStyle({
+      super.add(new CText(param).setStyle({
         letterSpacing: '2px',
         color: '#8d8d8d'
       }));
@@ -549,10 +549,10 @@ class CComboBox extends Panel {
       name: 'name'
     });
 
-    this.add(this.tf);
+    super.add(this.tf);
   }
 
-  addItem(key, value) {
+  add(key, value) {
     const option = new _Option();
     option.setAttr({
       value: key
@@ -644,7 +644,7 @@ class CTable extends Panel {
     
     tbl.add(this.tbody);
 
-    this.add(tbl);
+    super.add(tbl);
 
 
     this.items = [];
@@ -655,7 +655,7 @@ class CTable extends Panel {
     this.items.splice(index, 1);
   }
 
-  addItem(items = null, styles = [], clazz = {}) {
+  add(items = null, styles = [], clazz = {}) {
     if (typeof(items) == 'object') {
       const tr = new _Tr();
       let i = 0;
@@ -759,7 +759,7 @@ class CDialog extends Panel {
 
     dialog.add(content);
 
-    this.add(dialog);
+    super.add(dialog);
     this.body.append(this.control);
 
     close.addEventListener('click', () => {
@@ -781,7 +781,7 @@ class CDialog extends Panel {
     this.parent_obj = parent_obj;
   }
 
-  addItem(item) {
+  add(item) {
     if (item instanceof Widget) {
       this.body_1.add(item);
     } else if (item instanceof Array) {
@@ -822,13 +822,13 @@ class CTab extends Panel {
       class: 'nav nav-tabs'
     });
 
-    this.add(this.ul);
+    super.add(this.ul);
 
     this.content = new Panel().setAttr({
       class: 'tab-content'
     });
 
-    this.add(this.content);
+    super.add(this.content);
 
     this.items = [];
     this.contents = [];
@@ -840,13 +840,13 @@ class CTab extends Panel {
     }
   }
 
-  clearItem() {
+  clear() {
     for (const item of this.items) {
       item.removeClass('active');
     }
   }
 
-  addItem(h, item) {
+  add(h, item) {
     const li = new _Li();
     const a = new Link().setStyle({
       cursor: 'pointer'
@@ -868,7 +868,7 @@ class CTab extends Panel {
     this.content.add(content);
 
     li.addEventListener('click', () => {
-      this.clearItem();
+      this.clear();
       this.clearContent();
       li.addClass('active');
       content.addClass('in').addClass('active');
@@ -985,14 +985,14 @@ class CGrid extends Panel {
     this.addClass('row');
   }
 
-  addItem(obj, sizes = []) {
+  add(obj, sizes = []) {
     if (obj instanceof Widget) {
       for (const size of sizes) {
         if (typeof(size) == 'string') {
           obj.addClass(`col-${size}`);
         }
       }
-      this.add(obj);
+      super.add(obj);
     } else {
       throw new Error('Invalid obj in Grid.addItem(obj, sizeds = [])');  
     }
@@ -1036,7 +1036,7 @@ class CDrawer extends Panel {
     });
 
 
-    this.add(this.side_bar);
+    super.add(this.side_bar);
     this.body.appendChild(this.control);
     this.close();
   }
@@ -1062,7 +1062,7 @@ class CDrawer extends Panel {
     return this;
   }
 
-  addItem(obj) {
+  add(obj) {
     if (obj instanceof Widget) {
       this.side_bar.add(obj);
     }
@@ -1100,6 +1100,13 @@ class CForm extends _Form {
   constructor() {
     super();
   }
+
+  add(obj) {
+    super.add(obj);
+    
+    return this;
+  }
+
 }
 
 // font awesome
