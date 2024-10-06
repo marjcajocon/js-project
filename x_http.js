@@ -22,7 +22,7 @@ var xhttp = function(url, param) {
                 x_param["header"] = param["header"];
             }
         }
-        
+
         var xml = new XMLHttpRequest();
         xml.open(x_param["method"], url);
 
@@ -46,6 +46,14 @@ var xhttp = function(url, param) {
             error: function(fn) {
                 xml.addEventListener("error", function() {
                     fn(this);
+                });
+                return this;
+            },
+            done: function(fn) {
+                xml.addEventListener("readystatechange", function() {
+                    if (this.readyState == 4) {
+                        fn();
+                    }
                 });
                 return this;
             }
