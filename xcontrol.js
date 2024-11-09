@@ -563,13 +563,12 @@ class CComboBox extends Panel {
     return this;
   }
 
-  getText() {
+  value(v) {
+    if (typeof(v) === "string") {
+      this.tf.setValue(v);
+      return this;
+    }
     return this.tf.getValue();
-  }
-
-  setText(v) {
-    this.tf.setValue(v);
-    return this;
   }
 }
 
