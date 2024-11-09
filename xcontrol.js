@@ -713,6 +713,9 @@ class CDialog extends Panel {
     if (typeof(c_size[size]) == 'undefined') throw new Error(`Error: available ${JSON.stringify(c_size)}`);
 
     super();
+
+    this.resolve   = null;
+    this.resolvefn = null;
     
     this.parent_obj = null;
 
@@ -768,7 +771,8 @@ class CDialog extends Panel {
         this.parent_obj.dispose();
       }
 
-      this.close();
+      this.hide();
+      this.resolvefn(this.resolve);
 
     });
 
@@ -798,14 +802,20 @@ class CDialog extends Panel {
     return this;
   }
 
-  open() {
+  show() {
 
     this.addClass(['modal', 'fade', 'in']);
 
-    this.show();
+    super.show();
+
+    const promise = new Promise((resolve, reject) => {
+      this.resolvefn = resolve;
+    }); 
+    
+    return promise;
   }
 
-  close() {
+  hide() {
     this.clear();
     this.delete();
   }
