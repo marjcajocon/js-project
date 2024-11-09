@@ -516,14 +516,14 @@ class CTextField extends Panel {
     this.tf.control.focus();
   }
 
-  getText() {
+  value(v) {
+    if (typeof(v) === "string") {
+      this.tf.setValue(v);
+      return this;
+    }
     return this.tf.getValue();
   }
 
-  setText(v) {
-    this.tf.setValue(v);
-    return this;
-  }
 }
 
 // combobox
@@ -598,13 +598,13 @@ class CTextBox extends Panel {
     this.add(this.tf);
   }
 
-  getText() {
-    return this.tf.getValue();
-  }
 
-  setText(v) {
-    this.tf.setValue();
-    return this;
+  value(v) {
+    if (typeof(v) === "string") {
+      this.tf.setValue(v);
+      return this;
+    }
+    return this.tf.getValue();
   }
 }
 
