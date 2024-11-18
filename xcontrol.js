@@ -814,9 +814,12 @@ class CDialog extends Panel {
     return promise;
   }
 
-  hide() {
+  hide(resolve = null) {
+
     this.clear();
     this.delete();
+
+    this.resolvefn(resolve);
   }
 
 }
@@ -855,7 +858,7 @@ class CTab extends Panel {
     }
   }
 
-  add(h, item) {
+  add(h, fn) {
     const li = new _Li();
     const a = new Link().setStyle({
       cursor: 'pointer'
@@ -869,9 +872,9 @@ class CTab extends Panel {
       class: 'tab-pane fade'
     });
 
-    if (item instanceof Widget) {
-      content.add(item);
-    }
+    // if (item instanceof Widget) {
+    //   content.add(item);
+    // }
 
 
     this.content.add(content);
@@ -881,7 +884,10 @@ class CTab extends Panel {
       this.clearContent();
       li.addClass('active');
       content.addClass('in').addClass('active');
-
+      if (typeof(fn) === "function") {
+        content.clear();
+        fn(content);
+      }
     });
     
 
