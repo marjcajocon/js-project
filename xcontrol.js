@@ -1124,6 +1124,249 @@ class CForm extends _Form {
 
 }
 
+
+
+
+
+/// material Button
+class MButton extends Button {
+  constructor(html) {
+    super();
+    // <!-- <button class="mdc-button mdc-button--raised">
+    //   <span class="mdc-button__ripple"></span>
+    //   <span class="mdc-button__focus-ring"></span>
+    //   <span class="mdc-button__label">Contained Button</span>
+    // </button>
+    super.addClass(["mdc-button"]);
+    const ripple = new Empty().addClass("mdc-button__ripple");
+    const focus_ring = new Empty().addClass("mdc-button__focus-ring");
+    this.label = new Empty().addClass("mmdc-button__label").setHTML(html);
+    super.add([ ripple, focus_ring, this.label ]);
+  }
+  add(obj) {
+    if (typeof(obj) === "string") {
+      this.label.setHTML(obj);
+    } else {
+      this.label.add(obj);
+    }
+    return this;
+  }
+  setIcon(icon_txt) {
+    super.addClass("mdc-button--icon-trailing");
+    const icon = new _I();
+    icon.addClass(["fa", `fa-${icon_txt}`, "mdc-button__icon"]).setStyle({
+      marginLeft: "5px"
+    });
+    super.add(icon);
+    return this;
+  }
+}
+
+class MOutlinedButton extends MButton {
+  constructor() {
+    super();
+    super.addClass("mdc-button--outlined");
+  }
+}
+
+class MContainedButton extends MButton {
+  constructor() {
+    super();
+    super.addClass("mdc-button--raised");
+  }
+}
+// end material button
+
+
+//Material textfield
+class MTextField extends _Label {
+  constructor(type = "text", hint = "") {
+    super();
+    // <label class="mdc-text-field mdc-text-field--filled">
+    //   <span class="mdc-text-field__ripple"></span>
+    //   <span class="mdc-floating-label" id="my-label-id">Hint text</span>
+    //   <input class="mdc-text-field__input" type="text" aria-labelledby="my-label-id">
+    //   <span class="mdc-line-ripple"></span>
+    // </label>
+
+    this.addClass(["mdc-text-field", "mdc-text-field--filled"]);
+    const ripple = new Empty().addClass("mdc-text-field__ripple");
+    const float = new Empty().addClass(["mdc-floating-label"]).setAttr("id", "").setHTML(hint);
+    this.input = new TextField({type: type}).addClass("mdc-text-field__input").setAttr("my-label-id", "");
+    const line_ripple = new Empty();
+    
+    this.add([
+      ripple, float, this.input, line_ripple
+    ]);
+
+    this.tf = new mdc.textField.MDCTextField(this.control);
+  }
+
+  value(tf = null) {
+    if (tf != null) {
+      this.tf.value = tf;
+    } 
+    return this.tf.value;
+  }
+}
+
+class MOutlinedTextField extends _Label {
+  constructor(type = "text", hint = "") {
+    super();
+    this.addClass(["mdc-text-field", "mdc-text-field--outlined"]);
+    const not_outline = new Empty().addClass("mdc-notched-outline");
+    const leading = new Empty().addClass("mdc-notched-outline__leading");
+    
+    const notch = new Empty().addClass("mdc-notched-outline__notch");
+    
+    const notch_sub = new Empty().addClass("mdc-floating-label");
+    
+    notch_sub.setHTML(hint);
+    
+    notch.add(notch_sub);
+    
+    const trailing = new Empty().addClass("mdc-notched-outline__trailing");
+    // leading.add(trailing);
+
+
+    not_outline.add([leading, notch, trailing]);
+
+    const input = new TextField({type: type}).addClass("mdc-text-field__input");
+
+    this.add([
+      not_outline, input
+    ]);
+
+    this.tf = new mdc.textField.MDCTextField(this.control);
+  }
+
+  value(tf = null) {
+    if (tf != null) {
+      this.tf.value = tf;
+    } 
+    return this.tf.value;
+  }
+  
+}
+
+
+class MTextBox extends _Label {
+  constructor() {
+
+    
+    supper();
+  }
+}
+
+
+class MSlider extends Panel {
+
+  constructor(value = 0, step = 1, min = 0, max = 100) {
+    super();
+    this.addClass(["mdc-slider"]);
+    const track = new Panel().addClass("mdc-slider__track")
+          .add([
+            new Panel().addClass("mdc-slider__track--inactive"),
+            new Panel().addClass("mdc-slider__track--active")
+              .add(new Panel().addClass("mdc-slider__track--active_fill"))
+          ]);
+
+
+    const thumb = new Panel().addClass("mdc-slider__thumb");
+   
+        
+    thumb.add(new Panel().addClass("mdc-slider__thumb-knob"));
+    
+    this.input = new TextField({type: "range"})
+                .setAttr("min", min)
+                .setAttr("max", max)
+                .setAttr("value", value)
+                .setAttr("step", step)
+                .setAttr("name", "volume")
+                .setAttr("aria-label", "Testing")
+                .addClass("mdc-slider__input");
+    
+    thumb.add(this.input);
+    
+                
+    
+    this.add([track, thumb]);
+    
+
+    setTimeout(() => {
+      const slider = new mdc.slider.MDCSlider(this.control);
+    }, 100);
+
+
+  }
+
+  value(value = null) {
+    if(value != null) {
+      this.input.setValue(value);
+    }
+    return this.input.getValue();
+  }
+}
+
+class MSwitch extends Empty {
+  constructor() {
+    super();
+    const button = new Button()
+                  .addClass(["mdc-switch", "mdc-switch--unselected"])
+                  .setAttr("type", "button")
+                  .setAttr("role", "switch")
+                  .setAttr("aria-checked", "false");
+    button.add(
+            new Panel().addClass("mdc-switch__track")
+          )
+          .add(
+            new Panel()                .addClass("mdc-switch__handle-track")
+                       .add(new Panel().addClass("mdc-switch__shadow").add(new Panel().addClass("mdc-elevation-overlay")))
+                       .add(new Panel().addClass("mdc-switch__ripple"))
+                       .add(new Panel().addClass("mdc-switch__icons")
+                                       .add(new Svg().addClass(["mdc-switch__icon", "mdc-switch__icon--on"]).setAttr("viewBox", "0 0 24 24").add(new Path().setAttr("d", "M19.69,5.23L8.96,15.96l-4.23-4.23L2.96,13.5l6,6L21.46,7L19.69,5.23z")))
+                                       .add(new Svg().addClass(["mdc-switch__icon", "mdc-switch__icon--off"]).setAttr("viewBox", "0 0 24 24").add(new Path().setAttr("d", "M20 13H4v-2h16v2z")))              
+                        )
+                        // .add(new Panel().addClass("mdc-switch__icons")
+                        //                .add(new Svg().addClass(["mdc-switch__icon", "mdc-switch__icon--on"]).setAttr("viewBox", "0 0 24 24").add(new Path().setAttr("d", "M19.69,5.23L8.96,15.96l-4.23-4.23L2.96,13.5l6,6L21.46,7L19.69,5.23z")))
+                        //                .add(new Svg().addClass(["mdc-switch__icon", "mdc-switch__icon--off"]).setAttr("viewBox", "0 0 24 24").add(new Path().setAttr("d", "M20 13H4v-2h16v2z")))              
+                        // )
+          )
+          .add(
+            new Empty().addClass("mdc-switch__focus-ring-wrapper").add(new Panel().addClass("mdc-switch__focus-ring"))
+          );
+
+    this.add(button);
+    this.add(new _Label().setHTML("off/on"));
+
+    new mdc.switchControl.MDCSwitch(button.control);
+  }
+}
+
+export {
+  MButton,
+  MOutlinedButton,
+  MContainedButton
+};
+
+
+export {
+  MTextField,
+  MOutlinedTextField,
+  MTextBox
+};
+
+export {
+  MSlider
+}
+
+export {
+  MSwitch
+}
+
+
+
+
 // font awesome
 export { 
   CIcon, 
