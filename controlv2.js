@@ -344,6 +344,12 @@ class _I extends Widget {
   }
 }
 
+class _Label extends Widget {
+  constructor() {
+    super("label");
+  }
+}
+
 class _P extends Widget {
   constructor() {
     super('p');
@@ -412,12 +418,18 @@ class Window extends Widget {
 class Http {
   constructor(param) {
     
-    const { method = 'GET', url = '', body = null, header = { 'content-type': 'application/json' } } = param;
+    let { method = 'GET', url = '', body = null, header = {} } = param;
 
     this.xml = new XMLHttpRequest();
     this.xml.open(method, url);
     
     if (typeof(header) == 'object') {
+
+      if (typeof(body) === "object") {
+        header["Content-Type"] = "application/json";
+        body = JSON.stringify(body);
+      }
+
       for (const key in header) {
         this.xml.setRequestHeader(key, header[key]);
       }
