@@ -388,6 +388,18 @@ class _Form extends Widget {
   }
 }
 
+class Svg extends Widget {
+  constructor() {
+    super("svg");
+  }
+}
+
+class Path extends Widget {
+  constructor() {
+    super("path");
+  }
+}
+
 // Window
 class Window extends Widget {
   constructor(param) {
