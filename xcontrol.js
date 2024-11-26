@@ -1292,9 +1292,9 @@ class MSlider extends Panel {
     
     this.add([track, thumb]);
     
-
+    this.slider = null;
     setTimeout(() => {
-      const slider = new mdc.slider.MDCSlider(this.control);
+      this.slider = new mdc.slider.MDCSlider(this.control);
     }, 100);
 
 
