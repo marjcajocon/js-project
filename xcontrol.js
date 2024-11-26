@@ -1339,7 +1339,21 @@ class MSwitch extends Empty {
     this.add(button);
     this.add(new _Label().setHTML("off/on"));
 
-    new mdc.switchControl.MDCSwitch(button.control);
+    this.tf = new mdc.switchControl.MDCSwitch(button.control);
+
+  }
+
+  value(value = null) {
+    if (value != null) {
+      this.tf.selected = value;
+    }
+    return this.tf.selected;
+  }
+
+  onChange(fn) {
+    this.tf.root.addEventListener("click", () => {
+      fn(this.tf.selected);
+    });
   }
 }
 
