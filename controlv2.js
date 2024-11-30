@@ -400,6 +400,12 @@ class Path extends Widget {
   }
 }
 
+class Image extends Widget {
+  constructor() {
+    super("image");
+  }
+}
+
 // Window
 class Window extends Widget {
   constructor(param) {
