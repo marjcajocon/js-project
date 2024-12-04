@@ -1,7 +1,159 @@
 class Widget {
-    constructor(tagName) {
-        this.tagName = tagName;
+  constructor(element) {
+    this.control = document.createElement(element);
+    this.body = document.body;
+    this.widgets = [];
+  }
+  clear() {
+    while (this.control.firstChild) {
+      
+      this.control.firstChild.remove();
+      
     }
+
+
+    // tree clearing algo
+
+    for (const item of this.widgets) {
+      if (typeof(item.dispose) == 'function') {
+        item.dispose();
+      }
+
+      item.clear();
+      item.widgets = [];
+    }
+
+    this.widgets = []; // clearing up the widgets after the clear to avoid loading
+
+    return this;
+  }
+
+  remove(index = 0) {
+
+    if (typeof(this.widgets[index]) != 'undefined') {
+      this.widgets[index].clear();
+      this.widgets[index].control.remove();
+    }
+
+    this.widgets.splice(index, 1);
+  }
+
+  delete() {
+    this.clear();
+    this.control.remove();
+  }
+
+  setStyle(styles = {}, value = '') {
+
+    if (typeof(styles) == 'object') {
+      for (const item in styles) {
+        this.control.style[item] = styles[item];
+      }
+    } else if (typeof(styles) == 'string') {
+      this.control.style[styles] = value;
+    }
+
+    return this;
+  }
+
+  addClass(cs) {
+    if (typeof(cs) == 'string') {
+      this.control.classList.add(cs);
+    } else if (cs instanceof Array) {
+      for (const item of cs) {
+        if (typeof(item) == 'string') {
+          this.control.classList.add(item);
+        }
+      }
+    }
+    return this;
+  }
+
+  removeClass(cs) {
+    if (typeof(cs) == 'string') {
+      this.control.classList.remove(cs);
+    } else if (cs instanceof Array) {
+      for (const item of cs) {  
+        if (typeof(item) == 'string') {
+          this.control.classList.remove(item);
+        }
+      }
+    }
+    return this;
+  }
+
+  setAttr(attrs = {}, value = '') {
+    if (typeof(attrs) == 'object') {
+      for (const item in attrs) {
+        this.control.setAttribute(item, attrs[item]);
+      }
+    } else if (typeof(attrs) == 'string') {
+      this.control.setAttribute(attrs, value);
+    }
+    return this;    
+  }
+
+  setValue(v) {
+    this.control.value = v
+    return this;
+  }
+
+  getValue() {
+    return this.control.value;
+  }
+
+  value() {
+
+  }
+
+  show() {
+    this.control.style.display = 'inline-block';
+    return this;
+  }
+
+  hide() {
+    this.control.style.display = 'none';
+    return this;
+  }
+
+  setHTML(html) {
+    this.control.innerHTML = html;
+    return this;
+  }
+
+  add(widget) {
+
+    if (widget instanceof Widget) {
+      this.widgets.push(widget);
+
+      this.control.appendChild(widget.control);
+    } else if (widget instanceof Array) {
+      for (const item of widget) {
+        if (item instanceof Widget) {
+          this.widgets.push(item);
+          this.control.appendChild(item.control);
+        }
+      }
+    }
+
+    return this;
+  }
+
+  addEventListener(evt, fn) {
+    this.control.addEventListener(evt, fn);
+
+    return this;
+  }
+
+  on(evt, fn) {
+    this.control.addEventListener(evt, fn);
+
+    return this;
+  }
+
+  
+
+
 }
 
 class Html extends Widget { constructor() { super("html"); } }
@@ -116,13 +268,13 @@ class Summary extends Widget { constructor() { super("summary"); } }
 class Dialog extends Widget { constructor() { super("dialog"); } }
 
 export {
-    Html, Head, Body, Title, Base, Link, Meta, Style, Script, Noscript, Template,
-    Section, Nav, Article, Aside, H1, H2, H3, H4, H5, H6, Header, Footer, Address,
-    P, Hr, Pre, Blockquote, Ol, Ul, Li, Dl, Dt, Dd, Figure, Figcaption, Main, Div,
-    A, Em, Strong, Small, S, Cite, Q, Dfn, Abbr, Ruby, Rt, Rp, B, I, U, Mark, Bdi,
-    Bdo, Span, Br, Wbr, Ins, Del, Img, Iframe, Embed, Object, Param, Video, Audio,
-    Source, Track, Canvas, Map, Area, Svg, Math, Table, Caption, Colgroup, Col,
-    Tbody, Thead, Tfoot, Tr, Td, Th, Form, Label, Input, Button, Select, Datalist,
-    Optgroup, Option, Textarea, Fieldset, Legend, Progress, Meter, Output, Details,
-    Summary, Dialog
+  Html, Head, Body, Title, Base, Link, Meta, Style, Script, Noscript, Template,
+  Section, Nav, Article, Aside, H1, H2, H3, H4, H5, H6, Header, Footer, Address,
+  P, Hr, Pre, Blockquote, Ol, Ul, Li, Dl, Dt, Dd, Figure, Figcaption, Main, Div,
+  A, Em, Strong, Small, S, Cite, Q, Dfn, Abbr, Ruby, Rt, Rp, B, I, U, Mark, Bdi,
+  Bdo, Span, Br, Wbr, Ins, Del, Img, Iframe, Embed, Object, Param, Video, Audio,
+  Source, Track, Canvas, Map, Area, Svg, Math, Table, Caption, Colgroup, Col,
+  Tbody, Thead, Tfoot, Tr, Td, Th, Form, Label, Input, Button, Select, Datalist,
+  Optgroup, Option, Textarea, Fieldset, Legend, Progress, Meter, Output, Details,
+  Summary, Dialog
 };
