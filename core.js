@@ -9,7 +9,6 @@ class Widget {
   getContainer() {
     // this function is a wrapper for the mcontrol legacy in payroll system 
     /// in the future this must not used
-    console.warn(`Widget.getContainer() will be deppreciated in the future`);
     return this.control;
   }
 
@@ -26,7 +25,6 @@ class Widget {
 
 
     // tree clearing algo
-
     for (const item of this.widgets) {
       if (typeof(item.dispose) == 'function') {
         item.dispose();
