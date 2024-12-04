@@ -153,7 +153,7 @@ class Widget {
     return this;
   }
 
-  on(evt, fn) {
+  action(evt, fn) {
     this.control.addEventListener(evt, fn);
 
     return this;
