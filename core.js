@@ -88,6 +88,11 @@ class Widget {
     return this;
   }
 
+
+  attr() {
+    
+  }
+
   setAttr(attrs = {}, value = '') {
     if (typeof(attrs) == 'object') {
       for (const item in attrs) {
