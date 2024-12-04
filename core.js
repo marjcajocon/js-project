@@ -305,7 +305,7 @@ class Window extends Widget {
 
 // core
 export {
-  html, head, body, title, base, Link, meta, style, script, noscript, template,
+  html, head, body, title, base, link, meta, style, script, noscript, template,
   section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address,
   p, hr, pre, blockquote, ol, ul, li, dl, dt, dd, figure, figcaption, main, div,
   a, em, strong, small, s, cite, q, dfn, abbr, ruby, rt, rp, b, i, u, mark, bdi,
