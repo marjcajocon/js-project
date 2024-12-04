@@ -1,5 +1,6 @@
 class Widget {
   constructor(element) {
+    this.name = element;
     this.control = document.createElement(element);
     this.body = document.body;
     this.widgets = [];
@@ -102,16 +103,51 @@ class Widget {
     return this.control.value;
   }
 
-  value() {
-
+  __escape(text) {
+    if (typeof text !== 'string') {
+        return text; // if not a string, return as is
+    }
+    const htmlEntities = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    };
+    return text.replace(/[&<>"']/g, function (match) {
+        return htmlEntities[match];
+    });
   }
 
-  html() {
+  value(value = null) {
+    if (this.name === "input") {
 
+      if (value != null) {
+        this.value = value;
+        return null;
+      } 
+
+      return this.control.value;
+      
+    }
+
+    throw new TypeError(`${this.name} dont have value method`);
   }
 
-  text() {
+  html(html = null) {
+    if (html != null) {
+      this.control.innerHTML = html;
+      return this;
+    }
+    return this.control.innerHTML;;
+  }
 
+  text(text = null) {
+    if (text != null) {
+      this.control.innerHTML = this.__escape(text);
+      return this;
+    }
+    return this.control.innerText;
   }
 
   show() {
