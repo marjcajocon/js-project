@@ -277,6 +277,9 @@ class dialog extends Widget { constructor() { super("dialog"); } }
 
 
 
+
+//std
+
 class Window extends Widget {
   constructor(param) {
     super('div');
@@ -302,6 +305,64 @@ class Window extends Widget {
   }
 }
 
+// std
+
+class Http {
+  constructor(param) {
+    
+    let { method = 'GET', url = '', body = null, header = {} } = param;
+
+    this.xml = new XMLHttpRequest();
+    this.xml.open(method, url);
+    
+    if (typeof(header) == 'object') {
+
+      if (typeof(body) === "object") {
+        header["Content-Type"] = "application/json";
+        body = JSON.stringify(body);
+      }
+
+      for (const key in header) {
+        this.xml.setRequestHeader(key, header[key]);
+      }
+    }
+
+    this.xml.send(body);
+  }
+
+  async load() {
+    const promise = new Promise((resolve, reject) => {
+      this.xml.addEventListener('load', function() {
+        resolve(this.response);
+      });
+
+      this.xml.addEventListener('error', function() {
+        reject('Error or check your connectivity');
+      });
+
+    });
+    
+    return await promise;
+  }
+
+  progress(fn) {
+    if (typeof(fn) == 'function') {
+      this.xml.addEventListener('progress', (e) => {
+        fn(e);
+      });
+    }
+  }
+
+  upload_progress(fn) {
+    if (typeof(fn) == 'function') {
+      this.xml.upload.addEventListener('progress', (e) => {
+        fn(e);
+      });
+    }
+  }
+
+}
+
 
 // core
 export {
@@ -318,5 +379,6 @@ export {
 
 // std 
 export {
-  Window
+  Window,
+  Http
 };
