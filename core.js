@@ -5,6 +5,18 @@ class Widget {
     this.body = document.body;
     this.widgets = [];
   }
+  
+  getContainer() {
+    // this function is a wrapper for the mcontrol legacy in payroll system 
+    /// in the future this must not used
+    console.warn(`Widget.getContainer() will be deppreciated in the future`);
+    return this.control;
+  }
+
+  control() {
+    return this.control;
+  }
+
   clear() {
     while (this.control.firstChild) {
       
