@@ -1,6 +1,6 @@
 class Widget {
   constructor(element) {
-    this.name = element;
+    this.obj = element;
     this.control = document.createElement(element);
     this.body = document.body;
     this.widgets = [];
@@ -55,6 +55,11 @@ class Widget {
     }
 
     return this;
+  }
+
+
+  class(cs) {
+    // add class will must remove in the future
   }
 
   addClass(cs) {
@@ -120,7 +125,7 @@ class Widget {
   }
 
   value(value = null) {
-    if (this.name === "input") {
+    if (this.obj === "input") {
 
       if (value != null) {
         this.value = value;
@@ -399,6 +404,8 @@ class Http {
 
 }
 
+// interface
+export {Widget};
 
 // core
 export {
