@@ -98,6 +98,10 @@ class Widget {
     }
     return this;    
   }
+  
+  getAttr(key) {
+    return this.control.getAttribute(key);
+  }
 
   setValue(v) {
     this.control.value = v
