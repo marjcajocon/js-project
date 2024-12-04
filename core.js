@@ -56,6 +56,17 @@ class Widget {
     this.control.remove();
   }
 
+  style(styles = {}, value = '') {
+    if (typeof(styles) == 'object') {
+      for (const item in styles) {
+        this.control.style[item] = styles[item];
+      }
+    } else if (typeof(styles) == 'string') {
+      this.control.style[styles] = value;
+    }
+    return this;
+  }
+
   setStyle(styles = {}, value = '') {
 
     if (typeof(styles) == 'object') {
@@ -70,8 +81,22 @@ class Widget {
   }
 
 
-  class(cs) {
+  class(cs = null) {
     // add class will must remove in the future
+    if (cs != null) {
+      if (typeof(cs) == 'string') {
+        this.control.classList.add(cs);
+      } else if (cs instanceof Array) {
+        for (const item of cs) {
+          if (typeof(item) == 'string') {
+            this.control.classList.add(item);
+          }
+        }
+      }
+      return this;
+    }
+
+    // return the list of class
   }
 
   addClass(cs) {
@@ -101,8 +126,19 @@ class Widget {
   }
 
 
-  attr() {
-    
+  attr(attrs = null, value = '') {
+    if (attrs != null) {
+      if (typeof(attrs) == 'object') {
+        for (const item in attrs) {
+          this.control.setAttribute(item, attrs[item]);
+        }
+      } else if (typeof(attrs) == 'string') {
+        this.control.setAttribute(attrs, value);
+      }
+      return this;
+    } else {
+      // get the value of the attr
+    }
   }
 
   setAttr(attrs = {}, value = '') {
@@ -146,10 +182,10 @@ class Widget {
   }
 
   value(value = null) {
-    if (this.obj === "input") {
+    if (this.obj === "input" || this.obj === "select") {
 
       if (value != null) {
-        this.value = value;
+        this.control.value = value;
         return null;
       } 
 
