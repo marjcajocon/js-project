@@ -64,7 +64,21 @@ class DialogModal extends Dialog {
     if (icon != null) {
       header.add(new b().class([ "fa", `fa-${icon}` ]).style({ letterSpacing: "2px" }));
     }
-    header.add(new b().html(title).style({ marginLeft: "5px" }).style({ letterSpacing: "2px" }));
+    header.add(new b().html(title).style({ marginLeft: "5px" }).style({ letterSpacing: "2px" })).add(
+      new button().html(`X`).style({
+        position: "absolute",
+        right: "5px",
+        top: "5px",
+        width: "30px",
+        height: "30px",
+        border: "1px solid #ddd",
+        backgroundColor: "#ff5656",
+        color: "white",
+        borderRadius: "3px"
+      }).action("click", () => {
+        this.hide(null);
+      })
+    );
 
     this.content = new div();
 
