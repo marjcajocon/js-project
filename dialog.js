@@ -53,7 +53,12 @@ class DialogModal extends Dialog {
 
     const header = new div().style({
       width: "100%",
-      padding: "10px"
+      padding: "10px",
+      position: "sticky",
+      lefft: 0,
+      top: 0,
+      zIndex: "10",
+      backgroundColor: "white"
     });
 
     if (icon != null) {
