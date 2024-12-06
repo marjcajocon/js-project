@@ -137,9 +137,9 @@ export class NavBar extends Widget {
 
   
 
-  constructor(title = null, logo = null, ids = "") {
+  constructor(title = null, logo = null, ids = "", color = "success") {
     super("nav");
-    this.class(["navbar", "navbar-expand-sm", "bg-primary", "navbar-dark", "fixed-top"]); // fixed-top
+    this.class(["navbar", "navbar-expand-sm", `bg-${color}`, `navbar-dark`, "fixed-top"]); // fixed-top
     this.ids = ids;
 
     const container_fluid = new div().class("container-fluid");
