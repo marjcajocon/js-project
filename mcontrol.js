@@ -132,6 +132,12 @@ import { button, div, i, label, li, p, span, ul, Widget, a, select, option, inpu
 // };
 // // end for interface
 
+export class Container extends div {
+  constructor() {
+    super();
+    this.class("container-fluid");
+  }
+}
 
 export class NavBar extends Widget {
 
