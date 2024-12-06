@@ -1,14 +1,20 @@
-import { button, div, p } from "../plugin/core.js";
+import { button, div, hr, p, span } from "../plugin/core.js";
 import { Button, Label, ModalV2, Panel } from "../plugin/mcontrol.js";
 
 
 class Dialog extends div {
-  constructor() {
+  constructor(width = null) {
     super();
     this.class("core-dialog");
 
     
     this.square = new div().class(["core-dialog-sq", "c-fade"]);
+    
+    if (width != null) {
+      this.square.style({
+        width: `${width}px`
+      });
+    }
 
     this.resolve = null;
     this.reject = null;
@@ -39,8 +45,39 @@ class Dialog extends div {
     }, 100);
   }
 
-
 }
+
+class DialogModal extends Dialog {
+  constructor(title = null, icon = null, width = null) {
+    super(width);
+
+    const header = new div().style({
+      width: "100%",
+      padding: "10px"
+    });
+
+    if (icon != null) {
+      header.add(new span().class([ "fa", `fa-${icon}` ]));
+    }
+    header.add(new span().html(title).style({ marginLeft: "5px" }));
+
+    this.content = new div();
+
+
+    super.add([
+      header,
+      this.content
+    ]);
+  }
+
+  add(obj) {
+    this.content.add(obj);
+    return this;
+  }
+}
+
+
+
 
 class DialogConfirm2 extends Dialog {
   constructor(label = "Confirm", ok_msg = "Yes", cancel_msg = "No") {
@@ -264,4 +301,4 @@ const Confirm = async (title) => {
 };
 
 
-export { Alert, Confirm };
+export { Alert, Confirm, DialogModal };
