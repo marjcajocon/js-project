@@ -1,3 +1,4 @@
+
 class Widget {
   constructor(element) {
     this.obj = element;
@@ -371,6 +372,8 @@ class details extends Widget { constructor() { super("details"); } }
 class summary extends Widget { constructor() { super("summary"); } }
 class dialog extends Widget { constructor() { super("dialog"); } }
 
+class center extends Widget { constructor() { super("center"); } }
+
 
 
 
@@ -472,7 +475,7 @@ export {
   source, track, canvas, map, area, svg, math, table, caption, colgroup, col,
   tbody, thead, tfoot, tr, td, th, form, label, input, button, select, datalist,
   optgroup, option, textarea, fieldset, legend, progress, meter, output, details,
-  summary, dialog
+  summary, dialog, center
 };
 
 // std 
