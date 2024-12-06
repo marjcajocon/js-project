@@ -1,3 +1,4 @@
+import { img } from "./core.js";
 import { button, div, i, label, li, p, span, ul, Widget, a, select, option, input, table, tbody, thead, tr, th, td } from "./core.js";
 
 // for interface
@@ -131,6 +132,90 @@ import { button, div, i, label, li, p, span, ul, Widget, a, select, option, inpu
 // };
 // // end for interface
 
+
+export class NavBar extends Widget {
+
+  
+
+  constructor(title = null, logo = null, ids = "") {
+    super("nav");
+    this.class(["navbar", "navbar-expand-sm", "bg-primary", "navbar-dark"]);
+    this.ids = ids;
+
+    const container_fluid = new div().class("container-fluid");
+    
+    if (logo != null) {
+      const brand = new a().class("navbar-brand").add(new img().attr({
+        src: logo, style: "width: 50px;", class: "rounded-pill"
+      }));
+      container_fluid.add(brand);
+    } else if ( title != null ) {
+      const brand = new a().class("navbar-brand").html(title);
+      container_fluid.add(brand);
+    }
+
+    // <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+    //   <span class="navbar-toggler-icon"></span>
+    // </button>
+
+    const colapsed_btn = new button().class([ "navbar-toggler" ]).attr({ type: "button", "data-bs-toggle": "collapse" })
+    .add(new span().class("navbar-toggler-icon")).attr("data-bs-target", `#${this.ids}`);
+
+    const colapsed_con = new div().class(["collapse", "navbar-collapse"]).attr("id", this.ids);
+
+
+    this.nav = new ul().class("navbar-nav");
+
+    colapsed_con.add(this.nav);
+
+
+    container_fluid.add([
+      colapsed_btn,
+      colapsed_con
+    ]);
+
+    // here is the link of the navbar
+    // <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    //   <ul class="navbar-nav">
+    //     <li class="nav-item">
+    //       <a class="nav-link" href="#">Link</a>
+    //     </li>
+    //     <li class="nav-item">
+    //       <a class="nav-link" href="#">Link</a>
+    //     </li>
+    //     <li class="nav-item">
+    //       <a class="nav-link" href="#">Link</a>
+    //     </li>
+    //   </ul>
+    // </div>
+
+    
+
+    super.add([
+      container_fluid
+    ]);
+    
+
+    // <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+    //   <div class="container-fluid">
+    //     <a class="navbar-brand" href="#">
+    //       <img src="img_avatar1.png" alt="Logo" style="width:40px;" class="rounded-pill">
+    //     </a>
+    //   </div>
+    // </nav>
+
+
+
+
+    // blue: 2e7cf6
+  }
+
+  addMenu(link, fn) {
+    const item = new li().class("nav-item").add(new a().class("nav-link").html(link).attr("href", "#"));
+    this.nav.add(item);
+    return this;
+  }
+}
 
 
 export class Grid extends Widget {
