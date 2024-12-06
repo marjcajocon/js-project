@@ -433,7 +433,7 @@ class Http {
       });
 
       this.xml.addEventListener('error', function() {
-        reject('Error or check your connectivity');
+        resolve(null);
       });
 
     });
