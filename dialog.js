@@ -1,4 +1,4 @@
-import { button, div, hr, p, span } from "../plugin/core.js";
+import { b, button, div, hr, p, span } from "../plugin/core.js";
 import { Button, Label, ModalV2, Panel } from "../plugin/mcontrol.js";
 
 
@@ -57,9 +57,9 @@ class DialogModal extends Dialog {
     });
 
     if (icon != null) {
-      header.add(new span().class([ "fa", `fa-${icon}` ]));
+      header.add(new b().class([ "fa", `fa-${icon}` ]).style({ letterSpacing: "2px" }));
     }
-    header.add(new span().html(title).style({ marginLeft: "5px" }));
+    header.add(new b().html(title).style({ marginLeft: "5px" }).style({ letterSpacing: "2px" }));
 
     this.content = new div();
 
