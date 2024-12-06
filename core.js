@@ -300,7 +300,8 @@ class dd extends Widget { constructor() { super("dd"); } }
 class figure extends Widget { constructor() { super("figure"); } }
 class figcaption extends Widget { constructor() { super("figcaption"); } }
 class main extends Widget { constructor() { super("main"); } }
-class div extends Widget { constructor() { super("div"); } }
+
+class div extends Widget { constructor(obj) { super("div"); this.add(obj);} }
 
 class a extends Widget { constructor() { super("a"); } }
 class em extends Widget { constructor() { super("em"); } }
