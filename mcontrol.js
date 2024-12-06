@@ -139,7 +139,7 @@ export class NavBar extends Widget {
 
   constructor(title = null, logo = null, ids = "") {
     super("nav");
-    this.class(["navbar", "navbar-expand-sm", "bg-primary", "navbar-dark"]);
+    this.class(["navbar", "navbar-expand-sm", "bg-primary", "navbar-dark", "fixed-top"]); // fixed-top
     this.ids = ids;
 
     const container_fluid = new div().class("container-fluid");
@@ -1849,7 +1849,7 @@ class BasicTab extends Panel {
     li_.add(a_);
     this.ul_.add(li_);
     this.list.push(a_);
-
+    a_.attr("href", "#");
     li_.addEventListener("click", () => {
       this._clearactive();
       this.content.clear();
@@ -1861,7 +1861,7 @@ class BasicTab extends Panel {
       this._clearactive();
       this.content.clear();
       // li_.add("active");
-      li_.widgets[0].add("active");
+      a_.class("active");
       fn(this.content);
     }
   }
