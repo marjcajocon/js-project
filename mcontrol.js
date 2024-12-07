@@ -754,6 +754,94 @@ export class Label extends Widget {
   }
 }
 
+export class ComboBox2 extends Widget {
+  constructor(lbl = "",  icon = null, hint = null) {
+    super();
+    
+    if (icon) {
+
+      this.class("input-group");
+
+      this.icon = icon; // Icon class
+      this._lb = lbl; // Label text
+      this.events = {}; // Object to store event listeners
+
+      // Create main container
+      const addon = new span().class("input-group-text");
+      if (icon != null) {
+        addon.add(
+          new i().attr("class", `fa fa-${icon}`)
+        );
+      } else if (lbl != "") {
+        addon.text(lbl);
+      }
+
+      
+
+      super.add(addon);
+
+      this.tf = new select().attr({
+        class: "form-control",
+        placeholder: this.placeholder
+      });
+      super.add(this.tf);  
+
+    } else {
+
+
+      // from no icon only
+
+      this.class(["form-floating", "mb-3", "m5-3"]);
+
+      //this.placeholder = placeholder; // Placeholder text
+      this.icon = icon; // Icon class
+      //this._lb = label; // Label text
+      this.events = {}; // Object to store event listeners
+
+  
+      
+
+      this.tf = new select().attr({
+        class: "form-control"
+      });
+      
+
+      super.add(this.tf);  
+
+      super.add(new label().html(lbl));
+    }
+
+    
+
+
+  }
+
+  add(key, value) {
+    const opt = new option();
+
+    opt.attr("value", key);
+    opt.text(value);
+    this.tf.add(opt);
+  }
+
+  setValue(key) {
+    this.tf.value(key);
+  }
+
+  getValue() {
+    return this.tf.value();
+  }
+
+  addEventListener(evt, callback) {
+    const isEventDefined = typeof this.events[evt] === "undefined";
+    if (isEventDefined) {
+      this.tf.addEventListener(evt, callback);
+      this.events[evt] = evt; // Store the event to avoid duplicate listeners
+    }
+    return this;
+  }
+}
+
 // comboBox
 export class ComboBox extends Widget {
   constructor(option = [], label, type = "text", icon = null, hint = null, placeholder = "") {
