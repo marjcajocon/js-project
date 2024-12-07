@@ -143,31 +143,48 @@ export class NavBar extends Widget {
 
   
 
-  constructor(title = null, logo = null, ids = "", color = "success") {
+  constructor(title = null, logo = null, ids = "", color = "success", fn = null) {
     super("nav");
     this.class(["navbar", "navbar-expand-sm", `bg-${color}`, `navbar-dark`, "fixed-top"]); // fixed-top
     this.ids = ids;
 
     const container_fluid = new div().class("container-fluid");
     
+    let brand = new a().class("navbar-brand");
+
     if (logo != null) {
-      const brand = new a().class("navbar-brand").add(new img().attr({
+      brand.add(new img().attr({
         src: logo, style: "width: 50px;", class: "rounded-pill"
       }));
-      container_fluid.add(brand);
-    } else if ( title != null ) {
-      const brand = new a().class("navbar-brand").html(title);
-      container_fluid.add(brand);
+    } 
+    
+    if ( title != null ) {
+      brand.add(new span().html(title));
     }
+
+    container_fluid.add(brand);
 
     // <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
     //   <span class="navbar-toggler-icon"></span>
     // </button>
 
-    const colapsed_btn = new button().class([ "navbar-toggler" ]).attr({ type: "button", "data-bs-toggle": "collapse" })
-    .add(new span().class("navbar-toggler-icon")).attr("data-bs-target", `#${this.ids}`);
+    const colapsed_btn = new button().class("c-toggle").add(new span().class("navbar-toggler-icon")).style({
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      color: "white",
+      border: "1px solid rgba(255, 255, 255, 0.3)",
+      height: "40px",
+      width: "40px",
+      position: "absolute",
+      right: "10px",
+      top: "15px"
+    });
 
-    const colapsed_con = new div().class(["collapse", "navbar-collapse"]).attr("id", this.ids);
+    let show = true;
+    colapsed_btn.action("click", () => {
+      if (fn != null) { fn(show); show = !show;}
+    });
+
+    const colapsed_con = new div();
 
 
     this.nav = new ul().class("navbar-nav");
