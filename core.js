@@ -6,6 +6,16 @@ class Widget {
     this.widgets = [];
   }
   
+  hasClass(className) {
+    const clist = this.control.classList;
+    for (const item of clist) {
+      if (item == className) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   getContainer() {
     // this function is a wrapper for the mcontrol legacy in payroll system 
     /// in the future this must not used
