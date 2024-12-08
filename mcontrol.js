@@ -1,5 +1,5 @@
-import { b, center, hr, iframe, img } from "./core.js";
-import { button, div, i, label, li, p, span, ul, Widget, a, select, option, input, table, tbody, thead, tr, th, td } from "./core.js";
+import { b, center, hr, iframe, img, td, thead, tr } from "./core.js";
+import { button, div, i, label, li, p, span, ul, Widget, a, select, option, input, table, tbody, th } from "./core.js";
 export class InlinePanel extends span {
   constructor() {
     super();
@@ -139,6 +139,45 @@ export class Application extends Widget {
   route(widget) {
     this.clear();
     this.add(widget);
+    return this;
+  }
+}
+class Table2 extends table {
+  constructor(header = [], th_bg = "success") {
+    super();
+    this.class("table");
+    const _thead = new thead().class(`table-${th_bg}`);
+    const _tr = new tr();
+    for (const item of header) {
+      const _th = new th().html(item);
+      _tr.add(_th);
+    }
+    _thead.add(_tr);
+    this.tbody = new tbody();
+    super.add([ _thead, this.tbody ]);
+  }
+  prepend() {
+
+  }
+  add(values = []) {
+    const _tr = new tr();
+    for (const item of values) {
+      const _td = new td();
+      if (typeof(item) == "string") {
+        _td.text(item);
+      } else if(item instanceof Widget) {
+        _td.add(item);
+      } else {
+        _td.text(`${item}`);
+      }
+      _tr.add(_td);
+    }
+    this.tbody.add(_tr);
+
+    return _tr;
+  }
+  clear() {
+    this.tbody.clear();// clear the table content
     return this;
   }
 }
@@ -436,7 +475,7 @@ export class Bold extends b {
     super();
   }
 }
-export class ComboBox2 extends Widget {
+export class ComboBox2 extends div {
   constructor(lbl = "",  icon = null, hint = null) {
     super();   
     if (icon) {
@@ -1276,7 +1315,24 @@ class DropdownTab extends Panel {
   }
 
 }
+class Card extends div {
+  constructor(obj = null) {
+    super();
+    this.style({
+      width: "100%",
+      padding: "5px",
+      backgroundColor: "#fffbd1",
+      borderRadius: "5px",
+      boxShadow: "0 0 3px rgba(0, 0, 0, 0.3)"
+    });
+    if (obj != null) {
+      super.add(obj);
+    }
+  }
+}
 export {
+  Table2,
+  Card,
   BasicTab,
   DropdownTab
 };
