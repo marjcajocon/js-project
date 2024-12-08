@@ -1,4 +1,4 @@
-import { img } from "./core.js";
+import { b, center, hr, iframe, img } from "./core.js";
 import { button, div, i, label, li, p, span, ul, Widget, a, select, option, input, table, tbody, thead, tr, th, td } from "./core.js";
 
 // for interface
@@ -131,6 +131,55 @@ import { button, div, i, label, li, p, span, ul, Widget, a, select, option, inpu
 //   // image goes here
 // };
 // // end for interface
+
+
+export class InlinePanel extends span {
+  constructor() {
+    super();
+  }
+}
+
+
+export class ListGroup extends ul {
+  constructor() {
+    super();
+    
+  }
+}
+
+export class ListGroupItem extends li {
+  constructor() {
+    super();
+  }
+}
+
+
+export class Link extends a {
+  constructor() {
+    super();
+  }
+}
+
+export class Header extends Widget {
+  constructor(variant) {
+    super(variant);
+  }
+
+}
+
+
+export class Divider extends hr {
+  constructor() {
+    super();
+  }
+}
+
+
+export class Image extends img {
+  constructor() {
+    super();
+  }
+}
 
 export class Container extends div {
   constructor() {
@@ -730,29 +779,48 @@ export class TextBox extends Widget {
 
 // end text box
 
-export class Label extends Widget {
-  constructor(label = "") {
-    super("label"); // Call the parent class constructor
-    this._lb = label; // Store the label value
-    this._c = this.control; // Create a label element
-    this._c.innerHTML = this._lb; // Set the label text
-    this.control = this._c; // Reference to the control element
-    this.events = {}; // Initialize an event dictionary
-  }
 
-  setValue(value) {
-    this._c.innerHTML = value; // Update the label text
-    return this;
-  }
-
-  addEventListener(evt, callback) {
-    if (typeof this.events[evt] === "undefined") {
-      this._c.addEventListener(evt, callback); // Add the event listener
-      this.events[evt] = evt; // Store the event to prevent duplicate listeners
-    }
-    return this;
+export class Label extends label {
+  constructor() {
+    super();
   }
 }
+
+export class Center extends center {
+  constructor() {
+    super();
+  }
+}
+
+export class Bold extends b {
+  constructor() {
+    super();
+  }
+}
+
+// export class Label extends Widget {
+//   constructor(label = "") {
+//     super("label"); // Call the parent class constructor
+//     this._lb = label; // Store the label value
+//     this._c = this.control; // Create a label element
+//     this._c.innerHTML = this._lb; // Set the label text
+//     this.control = this._c; // Reference to the control element
+//     this.events = {}; // Initialize an event dictionary
+//   }
+
+//   setValue(value) {
+//     this._c.innerHTML = value; // Update the label text
+//     return this;
+//   }
+
+//   addEventListener(evt, callback) {
+//     if (typeof this.events[evt] === "undefined") {
+//       this._c.addEventListener(evt, callback); // Add the event listener
+//       this.events[evt] = evt; // Store the event to prevent duplicate listeners
+//     }
+//     return this;
+//   }
+// }
 
 export class ComboBox2 extends Widget {
   constructor(lbl = "",  icon = null, hint = null) {
@@ -804,6 +872,7 @@ export class ComboBox2 extends Widget {
       this.tf = new select().attr({
         class: "form-control"
       });
+      
       
 
       super.add(this.tf);  
@@ -1051,6 +1120,12 @@ export class Iframe extends Widget {
     widget.forEach(item => {
       this.control.appendChild(item.getContainer());
     });
+  }
+}
+
+export class Frame extends iframe {
+  constructor() {
+    super();
   }
 }
 
