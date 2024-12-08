@@ -1,222 +1,62 @@
 import { b, center, hr, iframe, img } from "./core.js";
 import { button, div, i, label, li, p, span, ul, Widget, a, select, option, input, table, tbody, thead, tr, th, td } from "./core.js";
-
-// for interface
-// const mcreate_name = function () {
-//   var t = '';
-//   for (var i = 0; i < 20; i++) {
-//     var c = 97 + Math.floor(Math.random() * 25);
-//     t += String.fromCharCode(c);
-//   }
-//   return t;
-// };
-
-
-// const _ = {
-//   c: function (l) {
-//     return document.createElement(l);
-//   },
-//   e: function (a, c) {
-//     o.addEventListener(_, c);
-//   }
-// };
-
-// export var Interface = function () { };
-
-// Interface.prototype.id = null;
-// Interface.prototype.container = null;
-// Interface.prototype.control = null;
-
-// Interface.prototype.getContainer = function () {
-//   return this._c;
-// };
-
-// Interface.prototype.hide = function () {
-//   this._c.style.display = "none";
-//   return this;
-// };
-
-// Interface.prototype.show = function () {
-//   this._c.style.display = "inline-block";
-//   return this;
-// };
-
-// // Interface.prototype.setId = function (id) {
-// //   this.id = id;
-// //   return this;
-// // };
-
-// // Interface.prototype.getId = function () {
-// //   return this.id;
-// // };
-
-// // Interface.prototype.setBackgroundColor = function (color) {
-// //   this.control.style.backgroundColor = color;
-// //   return this;
-// // };
-
-// // Interface.prototype.setFontColor = function (color) {
-// //   this.control.style.color = color;
-// //   return this;
-// // };
-
-// // Interface.prototype.setFontStyle = function (font_family) {
-// //   this.control.style.fontFamily = font_family;
-// //   return this;
-// // };
-
-// Interface.prototype.addClass = function (_) {
-//   if (typeof (_) == "string") {
-//     this.control.classList.add(_);
-//   } else if (_ instanceof Array) {
-//     for (var i = 0; i < _.length; i++) {
-//       var x = _[i];
-//       this.control.classList.add(x);
-//     }
-//   } else {
-//     console.log("Invalid remove class parameter");
-//   }
-//   return this;
-// };
-
-// Interface.prototype.removeClass = function (_) {
-//   if (typeof (_) == "string") {
-//     this.control.classList.remove(_);
-//   } else if (_ instanceof Array) {
-//     for (var i = 0; i < _.length; i++) {
-//       var x = _[i];
-//       this.control.classList.remove(x);
-//     }
-//   } else {
-//     console.log("Invalid remove class parameter");
-//   }
-//   return this;
-// };
-
-// Interface.prototype.clear = function () {
-//   while (this._c.firstChild) {
-//     this._c.removeChild(this._c.firstChild);
-//   }
-  
-//   return this;
-// };
-
-// Interface.prototype.setStyle = function (obj) {
-//   if (typeof (obj) != 'object') throw new TypeError('obj must be an object like dictionary');
-
-//   for (var x in obj) {
-//     this.control.style[x] = obj[x];
-//   }
-//   return this;
-// };
-
-// Interface.prototype.setAttr = function (obj) {
-//   if (typeof (obj) != 'object') throw new TypeError('obj must be an object like dictionary');
-
-//   for (var x in obj) {
-//     this.control.setAttribute(x, obj[x]);
-//   }
-//   return this;
-// };
-
-// Interface.prototype.getAttr = function (str) {
-//   return this.control.attributes[str].nodeValue;;
-// };
-
-
-
-
-
-// Interface.prototype.setBackgroundImage = function (img) {
-//   // image goes here
-// };
-// // end for interface
-
-
 export class InlinePanel extends span {
   constructor() {
     super();
   }
 }
-
-
 export class ListGroup extends ul {
   constructor() {
-    super();
-    
+    super();   
   }
 }
-
 export class ListGroupItem extends li {
   constructor() {
     super();
   }
 }
-
-
 export class Link extends a {
   constructor() {
     super();
   }
 }
-
 export class Header extends Widget {
   constructor(variant) {
     super(variant);
   }
-
 }
-
-
 export class Divider extends hr {
   constructor() {
     super();
   }
 }
-
-
 export class Image extends img {
   constructor() {
     super();
   }
 }
-
 export class Container extends div {
   constructor() {
     super();
     this.class("container-fluid");
   }
 }
-
 export class NavBar extends Widget {
-
-  
-
   constructor(title = null, logo = null, ids = "", color = "success", fn = null) {
     super("nav");
     this.class(["navbar", "navbar-expand-sm", `bg-${color}`, `navbar-dark`, "fixed-top"]); // fixed-top
     this.ids = ids;
-
     const container_fluid = new div().class("container-fluid");
-    
     let brand = new a().class("navbar-brand");
-
     if (logo != null) {
       brand.add(new img().attr({
         src: logo, style: "width: 50px;", class: "rounded-pill"
       }));
     } 
-    
     if ( title != null ) {
       brand.add(new span().html(title));
     }
-
     container_fluid.add(brand);
-
-    // <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-    //   <span class="navbar-toggler-icon"></span>
-    // </button>
-
     const colapsed_btn = new button().class("c-toggle").add(new span().class("navbar-toggler-icon")).style({
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       color: "white",
@@ -227,84 +67,39 @@ export class NavBar extends Widget {
       right: "10px",
       top: "15px"
     });
-
     let show = true;
     colapsed_btn.action("click", () => {
       if (fn != null) { fn(show); show = !show;}
     });
-
     const colapsed_con = new div();
-
-
     this.nav = new ul().class("navbar-nav");
-
     colapsed_con.add(this.nav);
-
-
     container_fluid.add([
       colapsed_btn,
       colapsed_con
     ]);
-
-    // here is the link of the navbar
-    // <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    //   <ul class="navbar-nav">
-    //     <li class="nav-item">
-    //       <a class="nav-link" href="#">Link</a>
-    //     </li>
-    //     <li class="nav-item">
-    //       <a class="nav-link" href="#">Link</a>
-    //     </li>
-    //     <li class="nav-item">
-    //       <a class="nav-link" href="#">Link</a>
-    //     </li>
-    //   </ul>
-    // </div>
-
-    
-
     super.add([
       container_fluid
     ]);
-    
-
-    // <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-    //   <div class="container-fluid">
-    //     <a class="navbar-brand" href="#">
-    //       <img src="img_avatar1.png" alt="Logo" style="width:40px;" class="rounded-pill">
-    //     </a>
-    //   </div>
-    // </nav>
-
-
-
-
-    // blue: 2e7cf6
   }
-
   addMenu(link, fn) {
     const item = new li().class("nav-item").add(new a().class("nav-link").html(link).attr("href", "#"));
     this.nav.add(item);
     return this;
   }
 }
-
-
 export class Grid extends Widget {
   constructor(pad = 0) {
     super("div"); // Call the parent class's constructor if necessary
     this.addClass("row");
-
     this.panel = this;
     this.pad = pad;
     this._c = this.panel._c; // Store the inner container reference
   }
-
   cell(obj, size) {
     if (!(size instanceof Array)) {
       throw new TypeError('size must be an array or list'); // Check if size is an array
     }
-
     const td = new Panel(); // Create a new panel for the cell
     for (let x of size) {
       td.addClass(`col-${x}`); // Add column class based on size
@@ -314,20 +109,14 @@ export class Grid extends Widget {
         });
       }
     }
-
     td.add(obj); // Add the object to the cell
     this.panel.add(td); // Add the cell to the main panel
-
     return this; // Allow for method chaining
   }
 }
-
-
-/* Application */
 export class Application extends Widget {
   constructor() {
     super("div"); // Call the parent class's constructor if necessary
-
     this.body = document.getElementsByTagName("body")[0];
     this._c = this.control;
     this.body.appendChild(this._c);
@@ -338,74 +127,42 @@ export class Application extends Widget {
     this._c.style.position = "relative";
 
   }
-
-  // clear() {
-  //   while (this._c.firstChild) {
-  //     this._c.removeChild(this._c.firstChild);
-  //   }
-  //   return this;
-  // }
-
-
-
   open(panel) {
     this.clear();
-    // this._c.appendChild(panel.getContainer());
     this.add(panel);
     return this;
   }
-
   add(obj) {
-    // this._c.appendChild(obj.getContainer());
     super.add(obj);
     return this;
   }
-
   route(widget) {
     this.clear();
-    // this._c.appendChild(widget.getContainer());
     this.add(widget);
     return this;
   }
 }
-
-/* End Application */
-
-
-
-// Table control
 export class Table extends Widget {
   constructor(header, style = []) {
     super("div"); // Call the parent class's constructor
-
     this.option = []; // Options or data storage for the table
     this.table = null; // Table element
     this.tbody = null; // Table body element
     this.__header = header; // Store header information
     this.loader = null; // Loader element
-
-    // Initialize loader
     this.loader = new div().control;
     this.loader.style.padding = "10px";
     this.loader.innerHTML = '<span class="loader"></span>';
-
-    // Table creation
     this._c = this.control; // Create a container for the table
     this.table = new table().control; // Create the table element
     this.table.setAttribute("class", "table"); // Set class for the table
     this.tbody = new tbody().control; // Create table body element
-
     this.control = this.table; // Reference to the table control
-
-    // Create table header
     const _thead = new thead().control;
     const _tr = new tr().control;
-
-    // Generate header cells based on provided header data
     for (let i = 0; i < header.length; i++) {
       const _th = new th().control;
       _th.innerHTML = header[i];
-
       if (i < style.length) {
         for (let key in style[i]) {
           _th.style[key] = style[i][key]; // Apply styles to header cells
@@ -413,173 +170,134 @@ export class Table extends Widget {
       }
       _tr.appendChild(_th); // Append header cell to header row
     }
-
     _thead.appendChild(_tr); // Append header row to thead
     this.table.appendChild(_thead); // Append thead to table
     this.table.appendChild(this.tbody); // Append tbody to table
     this._c.appendChild(this.table); // Append table to container
   }
-
   clear() {
     while (this.tbody.firstChild) {
       this.tbody.removeChild(this.tbody.firstChild); // Clear existing table rows
     }
     return this;
   }
-
   _con_clear() {
     while (this._c.firstChild) {
       this._c.removeChild(this._c.firstChild); // Clear container
     }
     return this;
   }
-
   show() {
     this._con_clear();
     this._c.style.display = "block"; // Make the table visible
     this._c.appendChild(this.table); // Append table to container
     return this;
   }
-
   getTable() {
     return this.table; // Return the table element
   }
-
   load() {
     this._con_clear();
     this._c.appendChild(this.loader); // Show loader in container
     return this;
   }
-
   row(data) {
     this.clear(); // Clear current rows
     for (let i = 0; i < data.length; i++) {
       const _tr = new tr(); // Create a new row
       const x = data[i];
-
       for (let j = 0; j < x.length; j++) {
         const _td = new td(); // Create a cell
         const y = x[j];
         _td.style.cursor = "pointer";
-        
         if (typeof (y) === "object") {
           _td.appendChild(y); // If the cell data is an object (like a button), append it directly
         } else {
           _td.innerHTML = y; // Otherwise, set text content
         }
-        
         _tr.appendChild(_td); // Append cell to row
       }
       this.tbody.appendChild(_tr); // Append row to table body
     }
     return this;
   }
-
   prepend(data) {
     const _tr = new tr(); // Create a new row
     for (let i = 0; i < data.length; i++) {
       const y = data[i];
       const _td = new td(); // Create a cell
-      td.style.cursor = "pointer";
-      
+      td.style.cursor = "pointer";   
       if (typeof (y) === "object") {
         _td.appendChild(y); // Append object directly
       } else {
         _td.innerHTML = y; // Set inner HTML for string content
       }
-      
       _tr.appendChild(_td); // Append cell to row
     }
-    
     this.tbody.prepend(_tr); // Prepend the new row to the table body
     return this;
   }
-
   add(data, style = [], tr_style = {}) {
     this.option.push(data); // Push new data into options
-
     const _tr = new tr().control; // Create a new row
     for (let i = 0; i < data.length; i++) {
       const y = data[i];
       const _td = new td().control; // Create a cell
       _td.style.cursor = "pointer";
-
       if (i < style.length) {
         for (let key in style[i]) {
           _td.style[key] = style[i][key]; // Apply cell styles
         }
       }
-
       if (typeof (y) === "object") {
         _td.appendChild(y.getContainer()); // Append object if present
       } else {
         _td.innerHTML = y; // Append string content
       }
-      
       _tr.appendChild(_td); // Append to row
     }
-
     if (tr_style) {
       for (let item in tr_style) {
         _tr.style[item] = tr_style[item]; // Apply styles to the row
       }
     }
-
     this.tbody.appendChild(_tr); // Append the row to the table body
     return this;
   }
-
   getValue() {
     const data = [];
     const optionLen = this.option.length;
-
     for (let i = 0; i < optionLen; i++) {
       const sdata = [];
       const slen = this.option[i].length;
-      
       for (let j = 0; j < slen; j++) {
         sdata.push(this.option[i][j].getValue()); // Extract values
       }
-      
       data.push(sdata); // Push row data into results
     }
-    
     return data; // Return collected data
   }
 }
-
-// end of the table
-
-// CheckBox
-
 export class CheckBox extends Widget {
   constructor(_mark = false) {
     super("input"); // Call the parent class's constructor
-
     const mark = _mark; // Set the initial checked state
-
     this._c = new input().control; // Create the checkbox input element
-    // this._c.setAttribute("name", mcreate_name()); // Set a unique name for the checkbox
     this._c.style.height = "20px"; // Set height
     this._c.style.width = "20px"; // Set width
     this._c.setAttribute("type", "checkbox"); // Set input type to checkbox
     this._c.checked = mark; // Set initial checked state
     this._n = this._c; // Reference to the checkbox element
-
     this.control = this._c; // Reference to the checkbox control
-
     this.events = {}; // Object to store event listeners
   }
-
   setValue(mark_true_false) {
     this._n.checked = mark_true_false; // Set the checked state
     return this;
   }
-
   getValue() {
     return this._n.checked; // Return the current checked state
   }
-
   addEventListener(evt, callback) {
     if (typeof this.events[evt] === "undefined") {
       this._n.addEventListener(evt, callback); // Add the event listener
@@ -588,56 +306,40 @@ export class CheckBox extends Widget {
     return this;
   }
 }
-// end of checkbox
-// Radio button
-
 export class RadioButton extends Widget {
   constructor(name = "") {
     super("div"); // Call the parent class's constructor
-
     this.name = name; // Set the name property
     this._c = this.control; // Create main container for radio buttons
     this.control = this._c; // Reference to the main control
     this.events = {}; // Initialize an event dictionary
     this.el = []; // Array to store radio button elements
   }
-
   add(label_, value) {
     const c = this._c; // Reference to main container
-
     const p = new div().control; // Create a wrapper for the radio input
     p.style.position = "relative"; // Set position for the wrapper
-
     const rad = new input().control; // Create radio input element
     rad.style.height = "20px"; // Set height
     rad.style.width = "20px"; // Set width
     rad.style.position = "absolute"; // Set position
     rad.style.top = "3px"; // Adjust top position
-
     const id_val = label_.replace(" ", "").trim(); // Create a unique id based on label
     rad.setAttribute("type", "radio");
     rad.setAttribute("name", this.name); // Set the name attribute for grouping
     rad.setAttribute("value", value); // Set the value
     rad.setAttribute("id", id_val); // Set the id
-
     const labelf = new label(); // Create label element
     labelf.setAttribute("for", id_val); // Associate label with radio button
     labelf.innerText = label_; // Set the label text
     labelf.style.marginLeft = "23px"; // Add some left margin
     labelf.style.marginTop = "7px"; // Add some top margin
-
-    // Append the radio button and label to the wrapper
     p.appendChild(rad);
     p.appendChild(labelf);
-    
-    // Append the wrapper to the main container
     c.appendChild(p);
-    
     this.el.push(rad); // Store reference to the radio button
   }
-
   setValue(value) {
-    // Set the checked state based on the provided value
     for (const r of this.el) {
       if (r.value === value) {
         r.checked = true; // Check the radio button
@@ -646,9 +348,7 @@ export class RadioButton extends Widget {
     }
     return this;
   }
-
   getValue() {
-    // Return the value of the checked radio button
     for (const r of this.el) {
       if (r.checked) {
         return r.value; // Return the value of the checked button
@@ -657,32 +357,17 @@ export class RadioButton extends Widget {
     return ""; // Return empty string if none are checked
   }
 }
-// end Radio button
-
-// text box
 export class TextBox extends Widget {
   constructor(lbl = "", type = "text", icon = null, hint = null, placeholder = "") {
     super("div"); // Call the parent class's constructor
-
-
-    // <div class="input-group">
-    //   <span class="input-group-text">@</span>
-    //   <input type="text" class="form-control" placeholder="Username">
-    // </div> 
-    
-
     if (icon) {
-
       this.class("input-group");
-
       this.placeholder = placeholder; // Placeholder text
       this.hint = hint; // Tooltip hint
       this.icon = icon; // Icon class
       this.type = type; // Input type
       this._lb = label; // Label text
       this.events = {}; // Object to store event listeners
-
-      // Create main container
       const addon = new span().class("input-group-text");
       if (icon != null) {
         addon.add(
@@ -691,83 +376,43 @@ export class TextBox extends Widget {
       } else if (lbl != "") {
         addon.text(lbl);
       }
-
-      
-
       this.add(addon);
-
       this.tf = new input().attr({
         type: type,
         class: "form-control",
         placeholder: this.placeholder
       });
       this.add(this.tf);  
-
     } else {
-
-
-      // from no icon only
-
       this.class(["form-floating", "mb-3", "m5-3"]);
-
-      //this.placeholder = placeholder; // Placeholder text
       this.hint = hint; // Tooltip hint
       this.icon = icon; // Icon class
       this.type = type; // Input type
-      //this._lb = label; // Label text
       this.events = {}; // Object to store event listeners
-
-      // Create main container
-      // const addon = new span().class("input-group-text");
-      // if (icon != null) {
-      //   addon.add(
-      //     new i().attr("class", `fa fa-${icon}`)
-      //   );
-      // } else if (label != "") {
-      //   addon.text(label);
-      // }
-
-      
-
-      // this.add(addon);
-
-      
-
       this.tf = new input().attr({
         type: type,
         class: "form-control",
         placeholder: ""
       });
-      
-
       this.add(this.tf);  
-
       this.add(new label().html(lbl));
     }
-
-
   }
-
   setPlaceHolder(t) {
     this.tf.attr("placeholder", t); // Update placeholder
     return this;
   }
-
   setValue(value) {
     this.tf.value(value); // Update value
     return this;
   }
-
   getValue() {
     return this.tf.value(); // Get the current value
   }
-
   setStyle(styles) {
-    // Apply the styles to the main container
     this.tf.style(styles);
     return this;
   }
-
   addEventListener(evt, callback) {
     if (typeof this.events[evt] === "undefined") {
       this.tf.addEventListener(evt, callback); // Add the event listener
@@ -776,65 +421,29 @@ export class TextBox extends Widget {
     return this;
   }
 }
-
-// end text box
-
-
 export class Label extends label {
   constructor() {
     super();
   }
 }
-
 export class Center extends center {
   constructor() {
     super();
   }
 }
-
 export class Bold extends b {
   constructor() {
     super();
   }
 }
-
-// export class Label extends Widget {
-//   constructor(label = "") {
-//     super("label"); // Call the parent class constructor
-//     this._lb = label; // Store the label value
-//     this._c = this.control; // Create a label element
-//     this._c.innerHTML = this._lb; // Set the label text
-//     this.control = this._c; // Reference to the control element
-//     this.events = {}; // Initialize an event dictionary
-//   }
-
-//   setValue(value) {
-//     this._c.innerHTML = value; // Update the label text
-//     return this;
-//   }
-
-//   addEventListener(evt, callback) {
-//     if (typeof this.events[evt] === "undefined") {
-//       this._c.addEventListener(evt, callback); // Add the event listener
-//       this.events[evt] = evt; // Store the event to prevent duplicate listeners
-//     }
-//     return this;
-//   }
-// }
-
 export class ComboBox2 extends Widget {
   constructor(lbl = "",  icon = null, hint = null) {
-    super();
-    
+    super();   
     if (icon) {
-
       this.class("input-group");
-
       this.icon = icon; // Icon class
       this._lb = lbl; // Label text
       this.events = {}; // Object to store event listeners
-
-      // Create main container
       const addon = new span().class("input-group-text");
       if (icon != null) {
         addon.add(
@@ -843,64 +452,35 @@ export class ComboBox2 extends Widget {
       } else if (lbl != "") {
         addon.text(lbl);
       }
-
-      
-
       super.add(addon);
-
       this.tf = new select().attr({
         class: "form-control",
         placeholder: this.placeholder
       });
       super.add(this.tf);  
-
     } else {
-
-
-      // from no icon only
-
       this.class(["form-floating", "mb-3", "m5-3"]);
-
-      //this.placeholder = placeholder; // Placeholder text
       this.icon = icon; // Icon class
-      //this._lb = label; // Label text
       this.events = {}; // Object to store event listeners
-
-  
-      
-
       this.tf = new select().attr({
         class: "form-control"
       });
-      
-      
-
       super.add(this.tf);  
-
       super.add(new label().html(lbl));
     }
-
-    
-
-
   }
-
   add(key, value) {
     const opt = new option();
-
     opt.attr("value", key);
     opt.text(value);
     this.tf.add(opt);
   }
-
   setValue(key) {
     this.tf.value(key);
   }
-
   getValue() {
     return this.tf.value();
   }
-
   addEventListener(evt, callback) {
     const isEventDefined = typeof this.events[evt] === "undefined";
     if (isEventDefined) {
@@ -910,25 +490,18 @@ export class ComboBox2 extends Widget {
     return this;
   }
 }
-
-// comboBox
 export class ComboBox extends Widget {
   constructor(option = [], label, type = "text", icon = null, hint = null, placeholder = "") {
     super("div"); // Call the parent class constructor
-    this.class("input-group");
-    
+    this.class("input-group");   
     this.option = option; // Array of options
     this.options = []; // To store option elements
     this.placeholder = placeholder;
     this.hint = hint;
     this.icon = icon;
     this.type = type;
-
     this._lb = label; // Label text
     this.events = {};
-
-    // Initialize the main control element
-     // Create main container
      const addon = new span().class("input-group-text");
      if (icon != null) {
        addon.add(
@@ -937,36 +510,27 @@ export class ComboBox extends Widget {
      } else if (label != "") {
        addon.text(label);
      }
- 
-      
      this.tf = new select().attr({
        class: "form-control"
      });
      super.add([addon, this.tf]);
-
      if (option instanceof Array) {
       for (const item of option) {
         this.add(item[0], item[1]);
       }
      }
-    // Set the main control reference
-    // this.control = this._c;
   }
-
   setPlaceHolder(t) {
     this.tf.attr("placeholder", t);
     return this;
   }
-
   setValue(value) {
     this.tf.value(value);
     return this;
   }
-
   getValue() {
     return this.tf.value();
   }
-
   addEventListener(evt, callback) {
     const isEventDefined = typeof this.events[evt] === "undefined";
     if (isEventDefined) {
@@ -975,74 +539,48 @@ export class ComboBox extends Widget {
     }
     return this;
   }
-
-  clear() {
-    
+  clear() { 
     this.tf.clear();
     this.options = []; // Clear the options array
     return this;
   }
-
   add(key, value) {
     const option_ = new option();
     option_.attr("value", key);
     option_.text(value);
-
     this.tf.add(option_);
-
     this.options.push(option_); // Store the reference to the option element
     return this;
   }
 }
-// end combobox
-// button
-
-
-// Button Done
 export class Button extends Widget {
   constructor(name = "", type = "default", icon = "", hint = null) {
     super("button");
-
     this.name = name;
     this.type = type;
     this.icon = icon;
     this.hint = hint;
-
     this.events = {}; // To track event listeners
-
-    // Create button element
-
     if (type == "default") {
       this.type = "success";
     }
-
     if (this.type) {
       this.control.setAttribute("class", `btn btn-${this.type}`);
     }
-
-    // Create icon element
     this._i = new i().control;
     if (this.icon) {
       this._i.setAttribute("class", `fa fa-${this.icon}`);
       this._i.style.marginRight = "5px";
     }
-
-    // Add tooltip if hint is provided
     if (this.hint) {
       this.control.setAttribute("data-toggle", "tooltip");
       this.control.setAttribute("title", this.hint);
     }
-
-    // Create name element
     const nameElement = new span().control;
-    nameElement.innerHTML = this.name;
-
-    // Append icon and name to the button
-    
+    nameElement.innerHTML = this.name; 
     this.control.appendChild(this._i);
     this.control.appendChild(nameElement);
   }
-
   addEventListener(evt, callback) {
     if (!this.events[evt]) {
       this.action(evt, callback);
@@ -1050,108 +588,58 @@ export class Button extends Widget {
     }
     return this;
   }
-
   setIcon(icon) {
     this._i.style.marginRight = "5px";
     this._i.setAttribute("class", `fa fa-${icon}`);
     return this;
   }
 }
-// end button
-
-
-// modal
-/*
-
-  var dialog_con = _.c("div");
-  dialog_con.setAttribute("class", "dialog_container");
-  var dialog = _.c("div");
-  dialog.setAttribute("class", "dialog_modal");
-
-*/
-
 export class Panel extends Widget {
   constructor(widget = []) {
     super("div"); // Call the parent class constructor
     this._c = this.control; // Assuming _.c creates a DOM element
     this.control = this._c;
-
-    // Appending initial widgets
     widget.forEach(item => {
       this.control.appendChild(item.getContainer());
     });
   }
-
   add(mcontrol_obj) {
-    // if (Array.isArray(mcontrol_obj)) {
-    //   mcontrol_obj.forEach(item => {
-    //     try {
-    //       this._c.appendChild(item.getContainer());
-    //     } catch (e) {
-    //       this._c.appendChild(item); // Append the item directly if getContainer fails
-    //     }
-    //   });
-    // } else { 
-    //   try {
-    //     this._c.appendChild(mcontrol_obj.getContainer());
-    //   } catch (e) {
-    //     this._c.appendChild(mcontrol_obj); // Append the item directly if getContainer fails
-    //   }
-    // }
     super.add(mcontrol_obj);
     return this; // Allow method chaining
   }
-
   addEventListener(event, fn) {
     this._c.addEventListener(event, fn);
     return this; // Allow method chaining
   }
 }
-
-
-// iframe
 export class Iframe extends Widget {
   constructor(widget = []) {
     super("iframe"); // Call the parent class constructor
     this._c = this.control; // Assuming _.c creates a DOM element
     this.control = this._c;
-
-    // Appending initial widgets
     widget.forEach(item => {
       this.control.appendChild(item.getContainer());
     });
   }
 }
-
 export class Frame extends iframe {
   constructor() {
     super();
   }
 }
-
-// Modal done
 export class Modal extends Widget {
   constructor(title, icon = '', isFullScreen = false) {
     super("div");
-
     this.title = title || '';
     this.icon = icon;
     this.isFullScreen = isFullScreen;
-
     this.dialog = null; // Dialog element
     this.body = null; // Content body
     this.type = null; // Optional type
-    this.close = null; // Close button
-    
-
-    // Initialize the class
-    
+    this.close = null; // Close button 
     this.control.setAttribute("class", "dialog_container");
-
     this.dialog = new div().control;
     this.dialog.setAttribute("class", "dialog_modal");
-
-    // Close button setup
     this.close = new button().control;
     this.close.innerHTML = 'x';
     this.close.style.height = "23px";
@@ -1160,39 +648,22 @@ export class Modal extends Widget {
     this.close.style.right = "10px";
     this.close.style.top = "3px";
     this.close.style.fontSize = "9pt";
-
     if (!this.type) {
       this.close.addEventListener("click", () => this.hide());
     }
-
-    // Title setup
     const titleElement = new div().control;
     titleElement.classList.add("title");
     titleElement.style.position = "relative";
     titleElement.innerHTML = `<i class="fa fa-${this.icon}"></i>${this.icon ? ' ' : ''}${this.title}`;
     titleElement.appendChild(this.close);
-
     this.dialog.appendChild(titleElement);
-
-    // Body content
     this.body = new div().control;
     this.body.style.padding = "10px";
     this.body.style.position = "relative";
     this.dialog.appendChild(this.body);
-
-    // Append dialog to the main container
     this.control.appendChild(this.dialog);
-
-    // this.control = this.dialog;
     this._c = this.control;
-    //this.control = this.dialog;
   }
-
-  /**
-   * Adds content to the modal body.
-   * @param {Object|Array} objElement - A single element or an array of elements to add.
-   * @returns {Modal} The modal instance for chaining.
-   */
   add(objElement) {
     if (Array.isArray(objElement)) {
       objElement.forEach((element) => {
@@ -1203,45 +674,29 @@ export class Modal extends Widget {
     }
     return this;
   }
-
-  /**
-   * Hides the modal.
-   */
   hide() {
     this.control.style.display = 'none';
   }
-
-  /**
-   * Shows the modal.
-   */
   show() {
     this.control.style.display = 'block';
   }
 }
-// end Modal done
-
-// ModalV2 done
 export class ModalV2 extends Modal {
-  constructor(title, icon, is_full_screen = false) {
-    
+  constructor(title, icon, is_full_screen = false) {   
     super(title, icon, is_full_screen);
-    
     this.type = 1;
     this.resolve = null;
     this.resolvefn = null;
     this.control = this.dialog;
     document.body.append(this._c);
   }
-
   mwidth(minus) {
     this.setStyle({
         width: `${window.innerWidth - minus}px`
     });
   }
-
   async show() {
     this._c.style.display = 'block';
-
     const promise = new Promise((resolve, reject) => {
       this.resolvefn = resolve;
       this.close.addEventListener("click", () => {
@@ -1249,12 +704,9 @@ export class ModalV2 extends Modal {
         this._c.remove();
       });
     });
-
     return await promise;
   }
-  
   hide(resolve = null) {
-
     if (this.resolve == true) { 
       this.resolvefn(this.resolve);
     } else {
@@ -1263,19 +715,9 @@ export class ModalV2 extends Modal {
     this._c.remove();
   }
 }
-
-// done Modalv2 done
-
-
-
-// alerts 
-
-// MessageBox done
-
 export class MessageBox extends Widget {
   constructor() {
     super("div");
-
     this._c = this.control;
     this._c.style.display = "none";
     this._c.style.backgroundColor = "rgba(0, 0, 0, 0.12)";
@@ -1285,7 +727,6 @@ export class MessageBox extends Widget {
     this._c.style.position = "fixed";
     this._c.style.left = "0";
     this._c.style.top = "0";
-
     this._d = new div().control;
     this._d.style.position = "absolute";
     this._d.style.width = "360px";
@@ -1298,7 +739,6 @@ export class MessageBox extends Widget {
     this._d.style.margin = "auto";
     this._d.style.borderRadius = "10px";
     this._d.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.5)";
-
     this._k = new button().control;
     this._k.innerHTML = "OK";
     this._k.style.width = "100px";
@@ -1312,7 +752,6 @@ export class MessageBox extends Widget {
     this._k.style.right = "0";
     this._k.style.bottom = "10px";
     this._k.style.margin = "auto";
-
     this._lb = new label().control;
     this._lb.style.position = "absolute";
     this._lb.style.left = "0";
@@ -1325,7 +764,6 @@ export class MessageBox extends Widget {
     this._lb.style.textAlign = "center";
     this._lb.style.color = "#8f8787";
     this._lb.style.fontWeight = "bold";
-
     this._m = new p().control;
     this._m.style.position = "absolute";
     this._m.style.left = "0";
@@ -1337,31 +775,18 @@ export class MessageBox extends Widget {
     this._m.style.height = "20pt";
     this._m.style.textAlign = "center";
     this._m.style.color = "#8f8787";
-
     this._d.appendChild(this._lb);
     this._d.appendChild(this._m);
     this._d.appendChild(this._k);
-
     this._c.appendChild(this._d);
-
     this.callback = null;
-
     this._k.addEventListener("click", () => {
       this.hide();
       if (this.callback) {
         this.callback();
       }
     });
-
-    ///this.control = this._d;
   }
-
-  /**
-   * Displays the message box with the given message and callback.
-   * @param {string} msg - The message to display.
-   * @param {function} callback - Optional callback to execute on button click.
-   * @returns {MessageBox} The current instance for chaining.
-   */
   show(msg = '', callback = undefined) {
     const type = "A l e r t !";
     this._c.style.display = "block";
@@ -1370,24 +795,14 @@ export class MessageBox extends Widget {
     this.callback = callback;
     return this;
   }
-
-  /**
-   * Hides the message box.
-   */
   hide() {
     this._c.style.display = "none";
   }
 }
-
-// MessageBox done
-
-// ConfirmBox Done
 export class ConfirmBox extends Widget {
   constructor() {
     super("div");
     this._c = this.control;
-
-    // Main container
     Object.assign(this._c.style, {
       display: "none",
       backgroundColor: "rgba(0, 0, 0, 0.12)",
@@ -1398,8 +813,6 @@ export class ConfirmBox extends Widget {
       left: "0",
       top: "0",
     });
-
-    // Dialog box
     this._d = new div().control;
     Object.assign(this._d.style, {
       position: "absolute",
@@ -1414,8 +827,6 @@ export class ConfirmBox extends Widget {
       borderRadius: "10px",
       boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
     });
-
-    // OK button
     this._k = new button().control;
     Object.assign(this._k.style, {
       width: "100px",
@@ -1426,8 +837,6 @@ export class ConfirmBox extends Widget {
       border: "1px solid rgba(255, 255, 255, 0.3)",
     });
     this._k.innerHTML = "OK";
-
-    // Close button
     this._cls = new button().control;
     Object.assign(this._cls.style, {
       width: "100px",
@@ -1438,8 +847,6 @@ export class ConfirmBox extends Widget {
       border: "1px solid rgba(255, 255, 255, 0.3)",
     });
     this._cls.innerHTML = "Close";
-
-    // Button container
     this._b = new div().control;
     Object.assign(this._b.style, {
       position: "absolute",
@@ -1452,8 +859,6 @@ export class ConfirmBox extends Widget {
     });
     this._b.appendChild(this._k);
     this._b.appendChild(this._cls);
-
-    // Label
     this._lb = new label().control;
     Object.assign(this._lb.style, {
       position: "absolute",
@@ -1468,8 +873,6 @@ export class ConfirmBox extends Widget {
       color: "#8f8787",
       fontWeight: "bold",
     });
-
-    // Message
     this._m = new p().control;
     Object.assign(this._m.style, {
       position: "absolute",
@@ -1483,38 +886,19 @@ export class ConfirmBox extends Widget {
       textAlign: "center",
       color: "#8f8787",
     });
-
-    // Assemble dialog
     this._d.appendChild(this._lb);
     this._d.appendChild(this._m);
     this._d.appendChild(this._b);
-
-    // Add dialog to container
     this._c.appendChild(this._d);
-
-    // Initialize callback
     this.callback = null;
-
-    // Event listeners
     this._cls.addEventListener("click", () => {
       this.hide();
     });
-
     this._k.addEventListener("click", () => {
       this.hide();
       if (this.callback) this.callback(true);
     });
-
-
-    // this.control = this._d;
-    
   }
-
-  /**
-   * Shows the confirmation box with a message and optional callback.
-   * @param {string} msg - The message to display.
-   * @param {function} callback - Optional callback for OK button.
-   */
   show(msg = "", callback = undefined) {
     const type = "C O N F I R M A T I O N";
     this.control.style.display = "block";
@@ -1522,52 +906,27 @@ export class ConfirmBox extends Widget {
     this._m.innerHTML = msg;
     this.callback = callback;
   }
-
-  /**
-   * Shows the confirmation box with a message and returns a Promise.
-   * @param {string} msg - The message to display.
-   * @returns {Promise<boolean>} Resolves to true if OK is clicked, false otherwise.
-   */
   async show_r(msg = "") {
     const type = "C O N F I R M A T I O N";
     this.control.style.display = "block";
     this._lb.innerHTML = type;
     this._m.innerHTML = msg;
-
     return new Promise((resolve) => {
       this.callback = (ok) => resolve(ok);
     });
   }
-
-  /**
-   * Hides the confirmation box.
-   */
   hide() {
     this.control.style.display = "none";
   }
 }
-
-
-// end ConfirmBox
-
-// Progressbar end
-
 export class ProgressBar extends Widget {
   constructor() {
     super("div");
-    // Additional functionality for ProgressBar can be added here
   }
-
 }
-
-// done progressbar
-
-
 export class LoaderBox extends Widget {
   constructor() {
     super("div");
-
-    // Main container
     this._c = this.control;
     Object.assign(this._c.style, {
       display: "none",
@@ -1579,8 +938,6 @@ export class LoaderBox extends Widget {
       left: "0",
       top: "0",
     });
-
-    // Dialog box
     this._d = new div().control;
     Object.assign(this._d.style, {
       position: "absolute",
@@ -1596,51 +953,28 @@ export class LoaderBox extends Widget {
       boxShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
       textAlign: "center",
     });
-
-    // Loader element
     this._loader = new span().control;
     this._loader.setAttribute("class", "loader");
-
-    // Label
     this._label = new label().control;
     Object.assign(this._label.style, {
       fontWeight: "bold",
       marginTop: "10px",
     });
     this._label.innerHTML = "Please Wait...";
-
-    // Assemble the dialog
     this._d.appendChild(this._label);
     this._d.appendChild(this._loader);
-
-    // Add dialog to the container
     this._c.appendChild(this._d);
-
-    // this.control = this._d;
   }
-
-  /**
-   * Displays the loader box with a specified text.
-   * @param {string} loadertxt - The text to display in the loader.
-   * @returns {LoaderBox} - The current instance for method chaining.
-   */
   show(loadertxt = "Please Wait...") {
     this._c.style.display = "block";
     this._label.innerHTML = loadertxt;
     return this;
   }
-
-  /**
-   * Hides the loader box.
-   * @returns {LoaderBox} - The current instance for method chaining.
-   */
   hide() {
     this._c.style.display = "none";
     return this;
   }
 }
-
-// form done
 export class Form extends Widget {
   constructor() {
     super("div");
@@ -1649,11 +983,6 @@ export class Form extends Widget {
     this._v = []; // Array to store form elements and their associated names
     this.input = {}; // Object to map element names to their instances
   }
-
-  /**
-   * Retrieves the current values of all form elements.
-   * @returns {Object} - A key-value mapping of element names to their values.
-   */
   getValues() {
     const data = {};
     for (let i = 0; i < this._v.length; i++) {
@@ -1662,13 +991,6 @@ export class Form extends Widget {
     }
     return data;
   }
-
-  /**
-   * Adds one or more elements to the form.
-   * @param {Object|Array} o - A form element or an array of [element, name] pairs.
-   * @param {string|null} [n=null] - The name of the element (if a single element is added).
-   * @returns {Form} - The current instance for method chaining.
-   */
   add(o, n = null) {
     if (Array.isArray(o)) {
       for (let i = 0; i < o.length; i++) {
@@ -1688,11 +1010,6 @@ export class Form extends Widget {
     }
     return this;
   }
-
-  /**
-   * Clears the values of all form elements.
-   * @returns {Form} - The current instance for method chaining.
-   */
   clear() {
     for (let i = 0; i < this._v.length; i++) {
       const [, element] = this._v[i];
@@ -1701,10 +1018,6 @@ export class Form extends Widget {
     return this;
   }
 }
-
-// form done
-
-
 export var x_storage = {
   items: {},
   setItem: function (key, value) {
@@ -1718,7 +1031,6 @@ export var x_storage = {
     return null;
   }
 };
-
 export const Scaffold = async function (action = null, obj = null) {
   const panel = new Panel().setStyle({
     position: 'fixed',
@@ -1730,7 +1042,6 @@ export const Scaffold = async function (action = null, obj = null) {
     zIndex: 1000,
     overflowY: 'auto'
   });
-
   const nav = new Panel().setStyle({
     width: '100%',
     height: '50px',
@@ -1740,13 +1051,11 @@ export const Scaffold = async function (action = null, obj = null) {
     backgroundColor: 'rgba(245, 245, 245, 0.9)',
     boxShadow: '0 0 3px rgba(0, 0, 0, 0.4)'
   });
-
   const back = new Button('Exit', 'default', 'close', 'click to go back').setStyle({
     position: 'absolute',
     left: '5px',
     top: '8px'
   });
-
   if (action != null) {
     nav.add(new Panel().setStyle({
       height: '100%',
@@ -1755,48 +1064,31 @@ export const Scaffold = async function (action = null, obj = null) {
       top: '0'
     }).add(action));
   }
-
   nav.add(back);
-
   panel.add(nav);
-
   const content = new Panel().setStyle({
     paddingTop: '50px'
   });
-
   if (obj != null) {
     panel.add(content);
     content.add(obj);
   }
-
-  //document.body.prepend(panel.getContainer()); // using prepend allow to  use multiple dialog
   document.body.append(panel.getContainer());
-
   const promise = new Promise((resolve, reject) => {
     back.addEventListener('click', function (e) {
       panel.getContainer().remove();
       resolve(null);
-
     });
   });
-
-
   return await promise;
 };
-
-
 const loader_info = [];
-// spinner 
 export class MsgLoader extends Panel {
   constructor(loader_msg = 'Fetching...') {
     super();
     document.body.append(this._c);
-
-
     this.un = loader_info.length;
-
     const bot_pos = 10 + (this.un * (45)); // calculate the position of each msg loader
-
     this.setStyle({
       padding: '5px',
       zIndex: 100,
@@ -1809,21 +1101,13 @@ export class MsgLoader extends Panel {
       boxShadow: '0 0 3px rgba(0, 0, 0, 0.3)',
       borderRadius: '5px'
     });
-
-
     loader_info.push({
       object: this
     });
-
     this.panel = new Panel();
-
     this.panel.add(new Label(`<i class="fa fa-refresh rotate" style="color: orange;"></i> <span style="color: red;"> - ${loader_msg}</span>`));
-
     this.add(this.panel);
   }
-
-
-
   hide(msg_done = 'Loaded!', error = false) {
     this.panel.clear();
     if (!error) {
@@ -1835,73 +1119,19 @@ export class MsgLoader extends Panel {
         `<i class="fa fa-close" style="color: red;"></i> <span style="color: red;"> - ${msg_done}</span>`
       ));
     }
-
     setTimeout(() => {
       this._remove();
       // reposition all the msg
     }, 3000);
-
   }
-
   _remove() {
     this._c.remove();
     loader_info.splice(this._c.un, 1);
   }
 }
-
-// export class DefaultLoader extends Panel {
-//   constructor() {
-//     super();
-//     document.body.append(this._c);
-//   }
-  
-//   hide() {
-//     this._c.remove();
-//   }
-// }
-
-
 export class DropDown extends div {
-
-  /*
-    const drop = new DropDown("Menu", "success").setStyle({
-        marginRight: "10px"
-    });
-    drop.addItem(`<i class="fa fa-edit"></i> hellow`, () => {
-        alert("hellow2");
-    });
-    drop.addItem(`<i class="fa fa-envelop"></i> hellow 2`, () => {
-        alert("hellow2fdsafd");
-    });
-  
-  */
   constructor(title, type = "default", hint = "") {
     super();
-
-
-    // bs5
-
-    // <div class="dropdown">
-    //   <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-    //     Dropdown button
-    //   </button>
-    //   <ul class="dropdown-menu">
-    //     <li><a class="dropdown-item" href="#">Link 1</a></li>
-    //     <li><a class="dropdown-item" href="#">Link 2</a></li>
-    //     <li><a class="dropdown-item" href="#">Link 3</a></li>
-    //   </ul>
-    // </div>
-
-    // <div class="dropdown">
-    //   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
-    //   <span class="caret"></span></button>
-    //   <ul class="dropdown-menu">
-    //     <li><a href="#">HTML</a></li>
-    //     <li><a href="#">CSS</a></li>
-    //     <li><a href="#">JavaScript</a></li>
-    //   </ul>
-    // </div>
-
     this.class("dropdown");
     const btn = new button().class([
       "btn", "btn-primary", "dropdown-toggle"
@@ -1911,124 +1141,40 @@ export class DropDown extends div {
     });
     const caret = new span().class("caret");
     btn.add([new span().html(title), caret]);
-
     this.ul = new ul().class("dropdown-menu");
-    
     this.add([
       btn,
       this.ul
     ]);
-
-  
-
-    // this.addClass("dropdown");
-    // this.setStyle({
-    //   "display": "inline-block"
-    // });
-
-    // const btn = new Button(`${title}` + ` <span class="caret"></span>`, type, null, hint);
-    // this.add(btn);
-    
-
-    // this.ul = document.createElement("ul");
-    // this.ul.setAttribute("class", "dropdown-menu");
-
-    // this.add(this.ul);
-    
-    // this.toggle = false;
-
-    // btn.addEventListener("click", () => {
-    //   this.show();
-    // });
   }
   show() {
-    // this.toggle = !this.toggle;
-    //   // update the ul
-    // this.ul.style.display = this.toggle ? "block" : "none";
   }
-
-  addItem(html, fn) {
-    
+  addItem(html, fn) { 
     const _li = new li();
     const _a = new a().html(html).class("dropdown-item");
     _li.add(_a);
-
     this.ul.add(_li);
-
     if (typeof(fn) == "function") {
       _a.action("click", (e) => {
         fn();
         e.preventDefault();
       });
     }
-    
-    // const li = document.createElement("li");
-    // this.ul.appendChild(li);
-
-    // const link = document.createElement("a");
-    // link.setAttribute("href", "#");
-    // link.innerHTML = html;
-
-    // li.appendChild(link);
-
-    // if (typeof(fn) == "function") {
-    //   link.addEventListener("click", (e) => {
-    //     fn();
-    //     this.show();
-    //     e.preventDefault();
-    //   });
-    // }
   }
-
-  // clear() {
-  //   this.ul.innerHTML = '';
-    
-  // }
 }
-
-
 class BasicTab extends Panel {
   constructor() {
     super();
-
-    // bs5
-
-    // <ul class="nav nav-tabs">
-    //   <li class="nav-item">
-    //     <a class="nav-link active" href="#">Active</a>
-    //   </li>
-    //   <li class="nav-item">
-    //     <a class="nav-link" href="#">Link</a>
-    //   </li>
-    //   <li class="nav-item">
-    //     <a class="nav-link" href="#">Link</a>
-    //   </li>
-    //   <li class="nav-item">
-    //     <a class="nav-link disabled" href="#">Disabled</a>
-    //   </li>
-    // </ul>
-
-    // bs3
-    // <ul class="nav nav-tabs">
-    //   <li class="active"><a href="#">Home</a></li>
-    //   <li><a href="#">Menu 1</a></li>
-    //   <li><a href="#">Menu 2</a></li>
-    //   <li><a href="#">Menu 3</a></li>
-    // </ul>
-
     this.ul_ = new ul().class(["nav", "nav-tabs"]);
     this.list = [];
-
     this.content = new div();
     super.add([this.ul_, this.content]);
   }
-
   _clearactive() {
     for (const item of this.list) {
       item.removeClass("active");
     }
   }
-
   add(name, fn, is_active = false) {
     const li_ = new li().class("nav-item"); 
     const a_ = new a().class("nav-link").html(name);
@@ -2042,7 +1188,6 @@ class BasicTab extends Panel {
       a_.class("active");
       fn(this.content);
     });
-    // trigger if it is active
     if (is_active) {
       this._clearactive();
       this.content.clear();
@@ -2051,69 +1196,36 @@ class BasicTab extends Panel {
       fn(this.content);
     }
   }
-
 }
-
 class li2 extends li {
   constructor() {
     super();
     this.fn = null;
   }
 }
-
 class DropdownTab extends Panel {
   constructor() {
-
-    // <ul class="nav nav-pills">
-    //   <li class="nav-item">
-    //     <a class="nav-link active" href="#">Active</a>
-    //   </li>
-    //   <li class="nav-item dropdown">
-    //     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Dropdown</a>
-    //     <ul class="dropdown-menu">
-    //       <li><a class="dropdown-item" href="#">Link 1</a></li>
-    //       <li><a class="dropdown-item" href="#">Link 2</a></li>
-    //       <li><a class="dropdown-item" href="#">Link 3</a></li>
-    //     </ul>
-    //   </li>
-    //   <li class="nav-item">
-    //     <a class="nav-link" href="#">Link</a>
-    //   </li>
-    //   <li class="nav-item">
-    //     <a class="nav-link disabled" href="#">Disabled</a>
-    //   </li>
-    // </ul>
-
     super();
-
     this.ul_ = new ul().class(["class", "nav", "nav-tabs"]);
-    
     this.list = [];
-
     this.content = new div();
     super.add([this.ul_, this.content]);
-
     this.lis = [];
   }
-
   _clearactive() {
     for (const item of this.list) {
       item.removeClass("active");
     }
   }
-
   add(name, arr, is_active = false) {
     const li_ = new li2().class(["nav-item", "dropdown"]); 
     const a_  = new a().class(["nav-link", "dropdown-toggle"]).attr({
       "data-bs-toggle": "dropdown"
     }).html(name);
-    li_.add(a_);
-    
+    li_.add(a_); 
     this.ul_.add(li_);
     this.list.push(a_);
-
     const arr_len = arr.length;
-    
     if (arr_len > 0) {
       li_.class("dropdown");
       const a_ = new a().class("dropdown-item");
@@ -2125,94 +1237,46 @@ class DropdownTab extends Panel {
       a_.style({
         fontSize: "12px"
       });
-
       const ul_ = new ul();
       ul_.class("dropdown-menu");
-      
-
       let toggle = false;
-      // li_.addEventListener("click", () => {
-      //   toggle = !toggle;
-      //   if (toggle) {
-      //     ul_.show();
-      //   } else {
-      //     ul_.hide();
-      //   }
-      // });
-
       for (let i = 0; i < arr_len; i++) {
         const li_ = new li();
-        
         const _a = new a().html(`${arr[i][0]}`).class("dropdown-item");
-
         this.lis.push(_a);
         li_.add(_a);
-
         li_.addEventListener("click", (e) => {
           e.stopPropagation();
           for (const s of this.lis) {
             s.removeClass("active");
           }
-
           _a.class("active");
           this.content.clear();
-          
           const fn = arr[i][1];
-
           fn(this.content);
-          
         });
-        
         ul_.add(li_);
       }
-
-
       li_.add(ul_);
-
     }
-
     if (arr_len > 0) {
       li_.fn = arr[0][1];
     }
-
     li_.addEventListener("click", (e) => {
-      // e.stopPropagation();
       this._clearactive();
-      //this.content.clear();
       li_.widgets[0].class("active");
       if (li_.fn != null) {
         this.content.clear();
         li_.fn(this.content);
       }
-      // fn(this.content);
     });
-    // trigger if it is active
     if (is_active) {
-      //this._clearactive();
-      //this.content.clear();
       li_.widgets[0].class("active");
-      // fn(this.content);
     }
   }
 
 }
-
-
 export {
   BasicTab,
   DropdownTab
 };
-
-
-/*
-classes:
-  Application
-  Table
-  Button
-  TextBox
-  ComboBox
-  MessageBox
-  ConfirmBox
-  LoaderBox
-  Form
-*/
