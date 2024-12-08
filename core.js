@@ -40,6 +40,7 @@ class Widget {
       this.widgets[index].control.remove();
     }
     this.widgets.splice(index, 1);
+    this.control.remove();
   }
   delete() {
     this.clear();
