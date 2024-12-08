@@ -4,8 +4,7 @@ class Widget {
     this.control = document.createElement(element);
     this.body = document.body;
     this.widgets = [];
-  }
-  
+  }  
   hasClass(className) {
     const clist = this.control.classList;
     for (const item of clist) {
@@ -15,55 +14,37 @@ class Widget {
     }
     return false;
   }
-
   getContainer() {
-    // this function is a wrapper for the mcontrol legacy in payroll system 
-    /// in the future this must not used
     return this.control;
   }
-
   control() {
     return this.control;
   }
-
   clear() {
-    while (this.control.firstChild) {
-      
+    while (this.control.firstChild) {   
       this.control.firstChild.remove();
-      
     }
-
-
-    // tree clearing algo
     for (const item of this.widgets) {
       if (typeof(item.dispose) == 'function') {
         item.dispose();
       }
-
       item.clear();
       item.widgets = [];
     }
-
     this.widgets = []; // clearing up the widgets after the clear to avoid loading
-
     return this;
   }
-
   remove(index = 0) {
-
     if (typeof(this.widgets[index]) != 'undefined') {
       this.widgets[index].clear();
       this.widgets[index].control.remove();
     }
-
     this.widgets.splice(index, 1);
   }
-
   delete() {
     this.clear();
     this.control.remove();
   }
-
   style(styles = {}, value = '') {
     if (typeof(styles) == 'object') {
       for (const item in styles) {
@@ -74,9 +55,7 @@ class Widget {
     }
     return this;
   }
-
   setStyle(styles = {}, value = '') {
-
     if (typeof(styles) == 'object') {
       for (const item in styles) {
         this.control.style[item] = styles[item];
@@ -84,13 +63,9 @@ class Widget {
     } else if (typeof(styles) == 'string') {
       this.control.style[styles] = value;
     }
-
     return this;
   }
-
-
   class(cs = null) {
-    // add class will must remove in the future
     if (cs != null) {
       if (typeof(cs) == 'string') {
         this.control.classList.add(cs);
@@ -103,10 +78,7 @@ class Widget {
       }
       return this;
     }
-
-    // return the list of class
   }
-
   addClass(cs) {
     if (typeof(cs) == 'string') {
       this.control.classList.add(cs);
@@ -119,7 +91,6 @@ class Widget {
     }
     return this;
   }
-
   removeClass(cs) {
     if (typeof(cs) == 'string') {
       this.control.classList.remove(cs);
@@ -132,8 +103,6 @@ class Widget {
     }
     return this;
   }
-
-
   attr(attrs = null, value = '') {
     if (attrs != null) {
       if (typeof(attrs) == 'object') {
@@ -144,11 +113,8 @@ class Widget {
         this.control.setAttribute(attrs, value);
       }
       return this;
-    } else {
-      // get the value of the attr
-    }
+    } else { }
   }
-
   setAttr(attrs = {}, value = '') {
     if (typeof(attrs) == 'object') {
       for (const item in attrs) {
@@ -159,20 +125,16 @@ class Widget {
     }
     return this;    
   }
-  
   getAttr(key) {
     return this.control.getAttribute(key);
   }
-
   setValue(v) {
     this.control.value = v
     return this;
   }
-
   getValue() {
     return this.control.value;
   }
-
   __escape(text) {
     if (typeof text !== 'string') {
         return text; // if not a string, return as is
@@ -188,22 +150,16 @@ class Widget {
         return htmlEntities[match];
     });
   }
-
   value(value = null) {
     if (this.obj === "input" || this.obj === "select") {
-
       if (value != null) {
         this.control.value = value;
         return null;
       } 
-
       return this.control.value;
-      
     }
-
     throw new TypeError(`${this.name} dont have value method`);
   }
-
   html(html = null) {
     if (html != null) {
       this.control.innerHTML = html;
@@ -211,7 +167,6 @@ class Widget {
     }
     return this.control.innerHTML;;
   }
-
   text(text = null) {
     if (text != null) {
       this.control.innerHTML = this.__escape(text);
@@ -219,27 +174,21 @@ class Widget {
     }
     return this.control.innerText;
   }
-
   show() {
     this.control.style.display = 'inline-block';
     return this;
   }
-
   hide() {
     this.control.style.display = 'none';
     return this;
   }
-
   setHTML(html) {
     this.control.innerHTML = html;
     return this;
   }
-
   add(widget) {
-
     if (widget instanceof Widget) {
       this.widgets.push(widget);
-
       this.control.appendChild(widget.control);
     } else if (widget instanceof Array) {
       for (const item of widget) {
@@ -249,27 +198,17 @@ class Widget {
         }
       }
     }
-
     return this;
   }
-
   addEventListener(evt, fn) {
     this.control.addEventListener(evt, fn);
-
     return this;
   }
-
   action(evt, fn) {
     this.control.addEventListener(evt, fn);
-
     return this;
   }
-
-  
-
-
 }
-
 class html extends Widget { constructor() { super("html"); } }
 class head extends Widget { constructor() { super("head"); } }
 class body extends Widget { constructor() { super("body"); } }
@@ -281,7 +220,6 @@ class style extends Widget { constructor() { super("style"); } }
 class script extends Widget { constructor() { super("script"); } }
 class noscript extends Widget { constructor() { super("noscript"); } }
 class template extends Widget { constructor() { super("template"); } }
-
 class section extends Widget { constructor() { super("section"); } }
 class nav extends Widget { constructor() { super("nav"); } }
 class article extends Widget { constructor() { super("article"); } }
@@ -294,7 +232,6 @@ class h5 extends Widget { constructor() { super("h5"); } }
 class h6 extends Widget { constructor() { super("h6"); } }
 class header extends Widget { constructor() { super("header"); } }
 class footer extends Widget { constructor() { super("footer"); } }
-
 class address extends Widget { constructor() { super("address"); } }
 class p extends Widget { constructor() { super("p"); } }
 class hr extends Widget { constructor() { super("hr"); } }
@@ -310,7 +247,6 @@ class figure extends Widget { constructor() { super("figure"); } }
 class figcaption extends Widget { constructor() { super("figcaption"); } }
 class main extends Widget { constructor() { super("main"); } }
 class div extends Widget { constructor() { super("div"); } }
-
 class a extends Widget { constructor() { super("a"); } }
 class em extends Widget { constructor() { super("em"); } }
 class strong extends Widget { constructor() { super("strong"); } }
@@ -332,10 +268,8 @@ class bdo extends Widget { constructor() { super("bdo"); } }
 class span extends Widget { constructor() { super("span"); } }
 class br extends Widget { constructor() { super("br"); } }
 class wbr extends Widget { constructor() { super("wbr"); } }
-
 class ins extends Widget { constructor() { super("ins"); } }
 class del extends Widget { constructor() { super("del"); } }
-
 class img extends Widget { constructor() { super("img"); } }
 class iframe extends Widget { constructor() { super("iframe"); } }
 class embed extends Widget { constructor() { super("embed"); } }
@@ -350,7 +284,6 @@ class map extends Widget { constructor() { super("map"); } }
 class area extends Widget { constructor() { super("area"); } }
 class svg extends Widget { constructor() { super("svg"); } }
 class math extends Widget { constructor() { super("math"); } }
-
 class table extends Widget { constructor() { super("table"); } }
 class caption extends Widget { constructor() { super("caption"); } }
 class colgroup extends Widget { constructor() { super("colgroup"); } }
@@ -361,7 +294,6 @@ class tfoot extends Widget { constructor() { super("tfoot"); } }
 class tr extends Widget { constructor() { super("tr"); } }
 class td extends Widget { constructor() { super("td"); } }
 class th extends Widget { constructor() { super("th"); } }
-
 class form extends Widget { constructor() { super("form"); } }
 class label extends Widget { constructor() { super("label"); } }
 class input extends Widget { constructor() { super("input"); } }
@@ -376,18 +308,10 @@ class legend extends Widget { constructor() { super("legend"); } }
 class progress extends Widget { constructor() { super("progress"); } }
 class meter extends Widget { constructor() { super("meter"); } }
 class output extends Widget { constructor() { super("output"); } }
-
 class details extends Widget { constructor() { super("details"); } }
 class summary extends Widget { constructor() { super("summary"); } }
 class dialog extends Widget { constructor() { super("dialog"); } }
-
 class center extends Widget { constructor() { super("center"); } }
-
-
-
-
-//std
-
 class Window extends Widget {
   constructor(param) {
     super('div');
@@ -402,57 +326,41 @@ class Window extends Widget {
     this.hide();
     this.body.appendChild(this.control);
   }
-
   navigate(obj) {
     this.clear();
     this.add(obj);
   } 
-
   run() {
     this.show();
   }
 }
-
-// std
-
 class Http {
-  constructor(param) {
-    
+  constructor(param) {   
     let { method = 'GET', url = '', body = null, header = {} } = param;
-
     this.xml = new XMLHttpRequest();
     this.xml.open(method, url);
-    
     if (typeof(header) == 'object') {
-
       if (typeof(body) === "object") {
         header["Content-Type"] = "application/json";
         body = JSON.stringify(body);
       }
-
       for (const key in header) {
         this.xml.setRequestHeader(key, header[key]);
       }
     }
-
     this.xml.send(body);
   }
-
   async load() {
     const promise = new Promise((resolve, reject) => {
       this.xml.addEventListener('load', function() {
         resolve(this.response);
       });
-
       this.xml.addEventListener('error', function() {
         resolve(null);
       });
-
     });
-    
     return await promise;
   }
-
   progress(fn) {
     if (typeof(fn) == 'function') {
       this.xml.addEventListener('progress', (e) => {
@@ -460,7 +368,6 @@ class Http {
       });
     }
   }
-
   upload_progress(fn) {
     if (typeof(fn) == 'function') {
       this.xml.upload.addEventListener('progress', (e) => {
@@ -468,13 +375,8 @@ class Http {
       });
     }
   }
-
 }
-
-// interface
 export {Widget};
-
-// core
 export {
   html, head, body, title, base, link, meta, style, script, noscript, template,
   section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address,
@@ -486,8 +388,6 @@ export {
   optgroup, option, textarea, fieldset, legend, progress, meter, output, details,
   summary, dialog, center
 };
-
-// std 
 export {
   Window,
   Http
