@@ -11,9 +11,15 @@ class Dialog extends div {
     this.square = new div().class(["core-dialog-sq", "c-fade"]);
     
     if (width != null) {
-      this.square.style({
-        width: `${width}px`
-      });
+      if (!/[0-9]/g.test(width)) {
+        this.square.style({
+          width: `${width}px`
+        });
+      } else {
+        this.square.style({
+          width: `${width}`
+        });
+      }
     }
 
     this.resolve = null;
