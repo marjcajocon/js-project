@@ -528,6 +528,10 @@ export class ComboBox2 extends div {
     }
     return this;
   }
+  clear() {
+    this.tf.clear();
+    return this;
+  }
 }
 export class ComboBox extends Widget {
   constructor(option = [], label, type = "text", icon = null, hint = null, placeholder = "") {
