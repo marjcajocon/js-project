@@ -145,7 +145,7 @@ export class Application extends Widget {
 class Table2 extends table {
   constructor(header = [], th_bg = "success") {
     super();
-    this.class("table");
+    this.class(["table", "table-sm", "table-bordered"]);
     const _thead = new thead().class(`table-${th_bg}`);
     const _tr = new tr();
     for (const item of header) {
@@ -610,6 +610,8 @@ export class Button extends Widget {
     if (this.type) {
       this.control.setAttribute("class", `btn btn-${this.type}`);
     }
+    this.class(["btn-sm"]);
+
     this._i = new i().control;
     if (this.icon) {
       this._i.setAttribute("class", `fa fa-${this.icon}`);
@@ -638,13 +640,11 @@ export class Button extends Widget {
   }
 }
 export class Panel extends Widget {
-  constructor(widget = []) {
+  constructor(obj = null) {
     super("div"); // Call the parent class constructor
-    this._c = this.control; // Assuming _.c creates a DOM element
-    this.control = this._c;
-    widget.forEach(item => {
-      this.control.appendChild(item.getContainer());
-    });
+    if (obj != null) {
+      super.add(obj); 
+    }
   }
   add(mcontrol_obj) {
     super.add(mcontrol_obj);
