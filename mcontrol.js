@@ -36,9 +36,13 @@ export class Image extends img {
   }
 }
 export class Container extends div {
-  constructor() {
+  constructor(obj = null) {
     super();
     this.class("container-fluid");
+
+    if (obj != null) {
+      super.add(obj);
+    }
   }
 }
 export class NavBar extends Widget {
@@ -400,7 +404,7 @@ export class TextBox extends Widget {
   constructor(lbl = "", type = "text", icon = null, hint = null, placeholder = "") {
     super("div"); // Call the parent class's constructor
     if (icon) {
-      this.class("input-group");
+      this.class(["input-group", "input-group-sm"]);
       this.placeholder = placeholder; // Placeholder text
       this.hint = hint; // Tooltip hint
       this.icon = icon; // Icon class
@@ -423,7 +427,7 @@ export class TextBox extends Widget {
       });
       this.add(this.tf);  
     } else {
-      this.class(["form-floating", "mb-3", "m5-3"]);
+      this.class(["form-floating", "mb-3", "mt-3"]);
       this.hint = hint; // Tooltip hint
       this.icon = icon; // Icon class
       this.type = type; // Input type
@@ -479,7 +483,7 @@ export class ComboBox2 extends div {
   constructor(lbl = "",  icon = null, hint = null) {
     super();   
     if (icon) {
-      this.class("input-group");
+      this.class(["input-group", "input-group-sm"]);
       this.icon = icon; // Icon class
       this._lb = lbl; // Label text
       this.events = {}; // Object to store event listeners
@@ -498,7 +502,7 @@ export class ComboBox2 extends div {
       });
       super.add(this.tf);  
     } else {
-      this.class(["form-floating", "mb-3", "m5-3"]);
+      this.class(["form-floating", "mb-3", "mt-3"]);
       this.icon = icon; // Icon class
       this.events = {}; // Object to store event listeners
       this.tf = new select().attr({
