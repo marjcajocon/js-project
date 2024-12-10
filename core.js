@@ -220,7 +220,7 @@ class Widget {
       console.log(`Clean up: ${item[0]} - ${item[1]}`);
       this.control.removeEventListener(item[0], item[1]);
     }
-    this.events_list = [];
+    this.events_list = null;
     return this;
   }
 
