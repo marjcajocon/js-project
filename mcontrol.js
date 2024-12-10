@@ -528,7 +528,7 @@ export class ComboBox2 extends div {
     return this;
   }
 
-  clearItem() {
+  clearBody() {
     this.tf.clear();
     return this;
   }
