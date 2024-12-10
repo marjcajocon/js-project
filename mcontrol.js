@@ -533,7 +533,7 @@ export class ComboBox2 extends div {
     return this;
   }
   clear() {
-    this.tf.clear();
+    this.tf.clear(true);
     return this;
   }
 }
