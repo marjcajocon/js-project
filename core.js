@@ -32,7 +32,7 @@ class Widget {
       }
       item.removeEvents();
       item.clear();
-      item.widgets = [];
+      item.widgets = null;
     }
     this.widgets = []; // clearing up the widgets after the clear to avoid loading
     return this;
