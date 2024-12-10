@@ -217,9 +217,11 @@ class Widget {
 
   removeEvents() {
     for (const item of this.events_list) {
+      console.log(`Clean up: ${item[0]} - ${item[1]}`);
       this.control.removeEventListener(item[0], item[1]);
     }
     this.events_list = [];
+    return this;
   }
 
   action(evt, fn) {
