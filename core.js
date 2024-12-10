@@ -4,6 +4,7 @@ class Widget {
     this.control = document.createElement(element);
     this.body = document.body;
     this.widgets = [];
+    this.events_list = [];
   }  
   hasClass(className) {
     const clist = this.control.classList;
@@ -21,6 +22,10 @@ class Widget {
     return this.control;
   }
   clear() {
+
+    // remove first the events
+    this.removeEvents();
+
     while (this.control.firstChild) {   
       this.control.firstChild.remove();
     }
@@ -203,10 +208,23 @@ class Widget {
   }
   addEventListener(evt, fn) {
     this.control.addEventListener(evt, fn);
+
+    this.events_list.push([evt, fn]);
+
     return this;
   }
+
+  removeEvents() {
+    for (const item of this.events_list) {
+      console.log(`Removing events ${item[0]}`);
+      this.control.removeEventListener(item[0], item[1]);
+    }
+    this.events_list = [];
+  }
+
   action(evt, fn) {
     this.control.addEventListener(evt, fn);
+    this.events_list.push([evt, fn]);
     return this;
   }
 }
