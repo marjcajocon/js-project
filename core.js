@@ -21,10 +21,12 @@ class Widget {
   control() {
     return this.control;
   }
-  clear() {
+  clear(isItemOnly = false) {
 
     // remove first the events
-    this.removeEvents();
+    if (isItemOnly == false) {
+      this.removeEvents();
+    }
 
     while (this.control.firstChild) {   
       this.control.firstChild.remove();
@@ -33,12 +35,15 @@ class Widget {
       if (typeof(item.dispose) == 'function') {
         item.dispose();
       }
+      item.removeEvents();
       item.clear();
       item.widgets = [];
     }
     this.widgets = []; // clearing up the widgets after the clear to avoid loading
     return this;
   }
+  
+
   remove(index = 0) {
     if (typeof(this.widgets[index]) != 'undefined') {
       this.widgets[index].clear();
