@@ -117,6 +117,11 @@ export class Grid extends Widget {
     this.panel.add(td); // Add the cell to the main panel
     return this; // Allow for method chaining
   }
+
+  clearBody() {
+    this.clear();
+    return this;
+  }
 }
 export class Application extends Widget {
   constructor() {
@@ -469,16 +474,8 @@ export class Label extends label {
     super();
   }
 }
-export class Center extends center {
-  constructor() {
-    super();
-  }
-}
-export class Bold extends b {
-  constructor() {
-    super();
-  }
-}
+
+
 export class ComboBox2 extends div {
   constructor(lbl = "",  icon = null, hint = null) {
     super();   
@@ -1330,9 +1327,98 @@ class Card extends div {
     }
   }
 }
+
+class Paragraph extends p {
+  constructor(obj = null) {
+    super();
+    if (obj != null) {
+      super.add(obj);
+    }
+  }
+}
+
+class Bold extends b {
+  constructor(obj = null) {
+    super();
+
+    if (obj != null) {
+      super.add(obj);
+    }
+  }
+}
+
+
+class Icon extends i {
+  constructor(name) {
+    super();
+    super.class(["fa", `fa-${name}`]);
+  }
+}
+
+class Center extends center {
+  constructor(obj = null) {
+    super();
+
+    if (obj != null) {
+      super.add(obj);
+    }
+  }
+}
+
+
+class List extends ul {
+  constructor() {
+    super();
+    this.class("list-group");
+    // <ul class="list-group">
+    //   <li class="list-group-item">First item</li>
+    //   <li class="list-group-item">Second item</li>
+    //   <li class="list-group-item">Third item</li>
+    // </ul>
+  }
+
+  add(obj, bg = null, badge_text = null, badge_color = "primary") {
+    const _li = new li().class("list-group-item");
+    
+    if (typeof(obj) == "string") {
+      _li.text(obj);
+    }  else {
+      _li.add(obj);
+    }
+
+    if (bg != null) {
+      _li.class(`list-group-item-${bg}`);
+    }
+
+    //<span class="badge bg-primary rounded-pill">50</span>
+
+    if (badge_text != null) {
+
+      _li.class(["d-flex", "justify-content-between", "align-items-center"]);
+      const _span = new span().text(badge_text).class(["badge", `bg-${badge_color}`, "rounded-pill"]);
+      _li.add(_span);
+    }
+
+    super.add(_li);
+
+    return this;
+  }
+
+  clearBody() {
+    this.clear();
+
+    return this;
+  }
+}
+
 export {
   Table2,
   Card,
   BasicTab,
-  DropdownTab
+  DropdownTab,
+  Paragraph,
+  Bold,
+  Icon,
+  Center,
+  List
 };
