@@ -654,10 +654,6 @@ export class Panel extends Widget {
     super.add(mcontrol_obj);
     return this; // Allow method chaining
   }
-  addEventListener(event, fn) {
-    this._c.addEventListener(event, fn);
-    return this; // Allow method chaining
-  }
 }
 export class Iframe extends Widget {
   constructor(widget = []) {
