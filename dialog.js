@@ -45,7 +45,7 @@ class Dialog extends div {
   } 
   
   hide(resolve = null) {
-    this.control.remove();
+    this.delete();
     setTimeout(() => {
       this.resolve(resolve);
     }, 100);
