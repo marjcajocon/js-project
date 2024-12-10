@@ -48,6 +48,7 @@ class Widget {
     this.control.remove();
   }
   delete() {
+    this.removeEvents();
     this.clear();
     this.control.remove();
   }
