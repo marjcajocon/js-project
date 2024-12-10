@@ -23,15 +23,16 @@ class Widget {
   }
   clear() {
 
-    while (this.control.firstChild) {   
-      this.control.firstChild.remove();
-    }
+    // while (this.control.firstChild) {   
+    //   this.control.firstChild.remove();
+    // }
     for (const item of this.widgets) {
       if (typeof(item.dispose) == 'function') {
         item.dispose();
       }
       item.removeEvents();
       item.clear();
+      item.control.remove();
       item.widgets = null;
     }
     this.widgets = []; // clearing up the widgets after the clear to avoid loading
