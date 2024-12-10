@@ -180,7 +180,7 @@ class Table2 extends table {
 
     return _tr;
   }
-  clear() {
+  clearBody() {
     this.tbody.clear();// clear the table content
     return this;
   }
@@ -486,7 +486,6 @@ export class ComboBox2 extends div {
       this.class(["input-group", "input-group-sm"]);
       this.icon = icon; // Icon class
       this._lb = lbl; // Label text
-      this.events = {}; // Object to store event listeners
       const addon = new span().class("input-group-text");
       if (icon != null) {
         addon.add(
@@ -524,15 +523,12 @@ export class ComboBox2 extends div {
   getValue() {
     return this.tf.value();
   }
-  addEventListener(evt, callback) {
-    const isEventDefined = typeof this.events[evt] === "undefined";
-    if (isEventDefined) {
-      this.tf.addEventListener(evt, callback);
-      this.events[evt] = evt; // Store the event to avoid duplicate listeners
-    }
+  addEventListener(e, fn) {
+      this.tf.action(e, fn);
     return this;
   }
-  clear() {
+
+  clearItem() {
     this.tf.clear();
     return this;
   }
