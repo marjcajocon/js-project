@@ -21,12 +21,7 @@ class Widget {
   control() {
     return this.control;
   }
-  clear(isItemOnly = false) {
-
-    // remove first the events
-    if (isItemOnly == false) {
-      this.removeEvents();
-    }
+  clear() {
 
     while (this.control.firstChild) {   
       this.control.firstChild.remove();
