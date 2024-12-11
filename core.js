@@ -172,7 +172,7 @@ class Widget {
     });
   }
   value(value = null) {
-    if (this.obj === "input" || this.obj === "select") {
+    if (this.obj === "input" || this.obj === "select" || this.obj == "textarea") {
       if (value != null) {
         this.control.value = value;
         return null;
