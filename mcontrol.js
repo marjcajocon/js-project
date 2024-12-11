@@ -498,7 +498,7 @@ export class TextBox2 extends Widget {
       });
       this.add(this.tf);  
     } else {
-      this.class(["input-group", "input-group-sm"]);
+      this.class(["input-group"]);
       this.hint = hint; // Tooltip hint
       this.icon = icon; // Icon class
       this.type = type; // Input type
@@ -508,7 +508,7 @@ export class TextBox2 extends Widget {
         class: "form-control",
         placeholder: ""
       });
-      this.add(new label().html(lbl));
+      this.add(new div().html(lbl).style({ "font-weight": "bold", "width": "100%" }));
       this.add(this.tf);  
     }
   }
@@ -1503,7 +1503,7 @@ class Select3 extends div {
     this.tf = new select().class("form-control");
     
 
-    this.search = new input().class("form-control");
+    this.search = new input().class("form-control").attr("placeholder", "Search...");
 
     this.search_panel = new div().style({ 
       "width": "100%",
