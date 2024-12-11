@@ -74,10 +74,10 @@ class Dialog2 extends div {
       "width": "480px",
       "min-height": "200px",
       "margin": "auto",
-      "margin-top": "10%",
+      "margin-top": "5%",
       "background-color": "white",
       "max-width": "94%",
-      "margin-bottom": "20px",
+      "margin-bottom": "5%",
       "box-shadow": "3px 3px 3px rgba(0, 0, 0, 0.3)",
       "border-radius": "5px",
       "padding-bottom": "20px"
