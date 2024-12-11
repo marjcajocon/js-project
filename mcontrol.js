@@ -1377,8 +1377,8 @@ class List extends ul {
     // </ul>
   }
 
-  add(obj, bg = null, badge_text = null, badge_color = "primary") {
-    const _li = new li().class("list-group-item");
+  add(obj, bg = null, badge_text = null, badge_color = "primary", fn = null) {
+    const _li = new li().class(["list-group-item", "list-group-item-action"]);
     
     if (typeof(obj) == "string") {
       _li.text(obj);
@@ -1390,7 +1390,14 @@ class List extends ul {
       _li.class(`list-group-item-${bg}`);
     }
 
+    _li.style({ cursor: "pointer" });
     //<span class="badge bg-primary rounded-pill">50</span>
+
+    if (fn != null) {
+      _li.action("click", () => {
+        fn();
+      });
+    }
 
     if (badge_text != null) {
 
@@ -1411,7 +1418,169 @@ class List extends ul {
   }
 }
 
+class Select3 extends div {
+  constructor(is_net = null) {
+    super();
+    this.style({
+      position: "relative",
+      width: "100%"
+    })
+
+    this.is_net = is_net;
+
+    this.local_item = [];
+
+    this.tf = new select().class("form-control");
+    
+
+    this.search = new input().class("form-control");
+
+    this.search_panel = new div().style({ 
+      "width": "100%",
+      "height": "300px",
+      "overflow-y": "auto",
+      "background-color": "white",
+      "position": "absolute",
+      "left": "0px",
+      "top": "0px",
+      "z-index": "3",
+      "display": "none",
+      "border-radius": "0 0 5px 5px",
+      "border": "1px solid grey",
+      "padding": "10px"
+    });
+
+    this.results = new div().style({
+      "height": "calc(100% - 50px)",
+      "overflow-y": "auto",
+      "margin-top": "5px"
+    });
+
+    this.search_panel.add([
+      this.search,
+      this.results
+    ]);
+
+    
+
+    this.tf.action("click", () => {
+      this.tf.attr("disabled", "");
+      this.search.control.focus();
+      this.search_panel.show();
+      this.display();
+    });
+  
+    let time_out = null;
+
+    this.search.action("keyup", (e) => {
+      if (e.keyCode == 27) {
+        // if escape key s pressd
+        this.search_panel.hide();
+        this.tf.removeAttr("disabled");
+        return;
+      }
+
+      if (this.is_net != null) {
+        clearTimeout(time_out);
+        time_out = setTimeout(() => {
+          this.display();
+        }, 500);
+      } else {
+        this.display();
+      }
+    });
+
+    super.add([
+      this.tf,
+      this.search_panel
+    ]);
+  
+  }
+
+  getValue() {
+    return this.tf.value();
+  }
+
+  setValue(val) {
+    this.tf.value(val);
+    return this;
+  }
+
+  async display() {
+    this.results.clear();
+
+    const list = new List();
+
+    if (typeof(this.is_net) == "function") {
+
+      // this logic is for the network
+
+      const items = await this.is_net(this.search.value());
+
+      if (items instanceof Array) {
+        for (const item of items) {
+          if (item instanceof Array && item.length == 3) {
+            const key = item[0];
+            const value_txt = item[1];
+            const value_obj = item[2];
+
+            list.add(value_obj, null, null, "primary", () => {
+              // create option
+              this.tf.clear();
+              this.search_panel.hide();
+              this.tf.removeAttr("disabled");
+
+              const op = new option().attr({
+                "value": key
+              }).text(value_txt);
+  
+              this.tf.add(op);
+            });
+
+          }
+        }
+      }
+    } else  {
+
+      for (const item of this.local_item) {
+        const key = item[0];
+        const value = item[1];
+        
+        if (value.toLowerCase().indexOf(this.search.value().toLowerCase()) >= 0) {
+        
+          list.add(value, null, null, "primary", () => {
+            // create option
+            this.tf.clear();
+            this.search_panel.hide();
+            this.tf.removeAttr("disabled");
+            const op = new option().attr({
+              "value": key
+            }).text(value);
+
+            this.tf.add(op);
+          });
+
+        }
+
+      }
+    }
+
+    this.results.add(list);
+  
+  }
+
+  add(key, value) {
+
+    this.local_item.push([key, value]);
+
+    return this;
+  } 
+
+
+}
+
 export {
+  Select3,
   Table2,
   Card,
   BasicTab,
