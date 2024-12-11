@@ -221,6 +221,22 @@ class Widget {
     }
     return this;
   }
+
+  prepend(widget) {
+    if (widget instanceof Widget) {
+      this.widgets.push(widget);
+      this.control.prepend(widget.control);
+    } else if (widget instanceof Array) {
+      for (const item of widget) {
+        if (item instanceof Widget) {
+          this.widgets.push(item);
+          this.control.prepend(item.control);
+        }
+      }
+    }
+    return this;
+  }
+
   addEventListener(evt, fn) {
     this.control.addEventListener(evt, fn);
 
