@@ -469,6 +469,74 @@ export class TextBox extends Widget {
     return this;
   }
 }
+
+
+export class TextBox2 extends Widget {
+  constructor(lbl = "", type = "text", icon = null, hint = null, placeholder = "") {
+    super("div"); // Call the parent class's constructor
+    if (icon) {
+      this.class(["input-group", "input-group-sm"]);
+      this.placeholder = placeholder; // Placeholder text
+      this.hint = hint; // Tooltip hint
+      this.icon = icon; // Icon class
+      this.type = type; // Input type
+      this._lb = label; // Label text
+      this.events = {}; // Object to store event listeners
+      const addon = new span().class("input-group-text");
+      if (icon != null) {
+        addon.add(
+          new i().attr("class", `fa fa-${icon}`)
+        );
+      } else if (lbl != "") {
+        addon.text(lbl);
+      }
+      this.add(addon);
+      this.tf = new input().attr({
+        type: type,
+        class: "form-control",
+        placeholder: this.placeholder
+      });
+      this.add(this.tf);  
+    } else {
+      this.class(["input-group", "input-group-sm"]);
+      this.hint = hint; // Tooltip hint
+      this.icon = icon; // Icon class
+      this.type = type; // Input type
+      this.events = {}; // Object to store event listeners
+      this.tf = new input().attr({
+        type: type,
+        class: "form-control",
+        placeholder: ""
+      });
+      this.add(new label().html(lbl));
+      this.add(this.tf);  
+    }
+  }
+  setPlaceHolder(t) {
+    this.tf.attr("placeholder", t); // Update placeholder
+    return this;
+  }
+  setValue(value) {
+    this.tf.value(value); // Update value
+    return this;
+  }
+  getValue() {
+    return this.tf.value(); // Get the current value
+  }
+  setStyle(styles) {
+    this.tf.style(styles);
+    return this;
+  }
+  addEventListener(evt, callback) {
+    if (typeof this.events[evt] === "undefined") {
+      this.tf.addEventListener(evt, callback); // Add the event listener
+      this.events[evt] = evt; // Store the event to avoid duplicate listeners
+    }
+    return this;
+  }
+}
+
+
 export class Label extends label {
   constructor() {
     super();
@@ -1419,12 +1487,14 @@ class List extends ul {
 }
 
 class Select3 extends div {
-  constructor(is_net = null) {
+  constructor(is_net = null, change = null) {
     super();
     this.style({
       position: "relative",
       width: "100%"
     })
+
+    this.change = change;
 
     this.is_net = is_net;
 
@@ -1449,7 +1519,7 @@ class Select3 extends div {
       "border": "1px solid #ddd",
       "padding": "10px",
       "border-radius": "5px",
-      "box-shadow": "3px 3px 3px rgba(0, 0, 0, 0.4)"
+      "box-shadow": "-3px 6px 6px rgba(0, 0, 0, 0.4)"
     });
 
     this.results = new div().style({
@@ -1503,6 +1573,11 @@ class Select3 extends div {
     return this.tf.value();
   }
 
+  action(evt, fn) {
+    this.tf.action(evt, fn);
+    return this;
+  }
+
   setValue(val) {
     this.tf.value(val);
     return this;
@@ -1537,6 +1612,10 @@ class Select3 extends div {
               }).text(value_txt);
   
               this.tf.add(op);
+
+              if (typeof(this.change) == "function") {
+                this.change(key);
+              }
             });
 
           }
@@ -1560,6 +1639,10 @@ class Select3 extends div {
             }).text(value);
 
             this.tf.add(op);
+
+            if (typeof(this.change) == "function") {
+              this.change(key);
+            }
           });
 
         }
