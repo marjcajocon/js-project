@@ -1571,7 +1571,7 @@ class Select3 extends div {
   
   }
 
-  add(key, value) {
+  addItem(key, value) {
 
     this.local_item.push([key, value]);
 
