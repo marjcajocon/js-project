@@ -123,6 +123,19 @@ class Widget {
       return this;
     } else { }
   }
+
+  removeAttr(name = null) {
+    if (typeof(name) == "string") {
+      this.control.removeAttribute(name);
+    } else if (name instanceof Array) {
+      for (const item of name) {
+        this.control.removeAttribute(item);
+      }
+    }
+
+    return this;
+  }
+
   setAttr(attrs = {}, value = '') {
     if (typeof(attrs) == 'object') {
       for (const item in attrs) {
