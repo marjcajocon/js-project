@@ -53,6 +53,129 @@ class Dialog extends div {
 
 }
 
+
+class Dialog2 extends div {
+  constructor(width = null) {
+    super();
+    this.style({
+      "z-index": "5000",
+      "width": "100%",
+      "background-color": "rgba(0, 0, 0, 0.2)",
+      "width": "100%",
+      "height": "100%",
+      "position": "fixed",
+      "top": "0",
+      "left": "0",
+      "overflow-y": "auto"
+    });
+
+    
+    this.square = new div().class(["c-fade"]).style({
+      "width": "480px",
+      "min-height": "200px",
+      "margin": "auto",
+      "margin-top": "10%",
+      "background-color": "white",
+      "max-width": "94%",
+      "margin-bottom": "20px",
+      "box-shadow": "3px 3px 3px rgba(0, 0, 0, 0.3)",
+      "border-radius": "5px",
+      "padding-bottom": "20px"
+    });
+    
+    if (width != null) {
+      if (!/[0-9]/g.test(width)) {
+        this.square.style({
+          width: `${width}px`
+        });
+      } else {
+        this.square.style({
+          width: `${width}`
+        });
+      }
+    }
+
+    this.resolve = null;
+    this.reject = null;
+
+    super.add([
+      this.square
+    ]);
+  }
+
+  async show() {
+    this.body.appendChild(this.control);
+
+    const promise = new Promise((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+    return promise;
+  }
+
+  add(widget) {
+    this.square.add(widget);
+  } 
+  
+  hide(resolve = null) {
+    this.delete();
+    setTimeout(() => {
+      this.resolve(resolve);
+    }, 100);
+  }
+
+}
+
+class DialogModal2 extends Dialog2 {
+  constructor(title = null, icon = null, width = null) {
+    super(width);
+
+    const header = new div().style({
+      width: "100%",
+      padding: "10px",
+      position: "sticky",
+      lefft: 0,
+      top: 0,
+      zIndex: "10",
+      backgroundColor: "white"
+    });
+
+    if (icon != null) {
+      header.add(new b().class([ "fa", `fa-${icon}` ]).style({ letterSpacing: "2px" }));
+    }
+    header.add(new b().html(title).style({ marginLeft: "5px" }).style({ letterSpacing: "2px" })).add(
+      new button().html(`X`).style({
+        position: "absolute",
+        right: "5px",
+        top: "5px",
+        width: "30px",
+        height: "30px",
+        border: "1px solid #ddd",
+        backgroundColor: "#ff5656",
+        color: "white",
+        borderRadius: "3px"
+      }).action("click", () => {
+        this.hide(null);
+      })
+    );
+
+    this.content = new div();
+
+
+    super.add([
+      header,
+      this.content
+    ]);
+  }
+
+  add(obj) {
+    this.content.add(obj);
+    return this;
+  }
+}
+
+
+
 class DialogModal extends Dialog {
   constructor(title = null, icon = null, width = null) {
     super(width);
@@ -326,4 +449,4 @@ const Confirm = async (title) => {
 };
 
 
-export { Alert, Confirm, DialogModal };
+export { Alert, Confirm, DialogModal, DialogModal2 };
