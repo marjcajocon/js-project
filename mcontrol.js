@@ -1,4 +1,4 @@
-import { b, center, hr, iframe, img, td, thead, tr } from "./core.js";
+import { b, center, hr, iframe, img, td, textarea, thead, tr } from "./core.js";
 import { button, div, i, label, li, p, span, ul, Widget, a, select, option, input, table, tbody, th } from "./core.js";
 export class InlinePanel extends span {
   constructor() {
@@ -438,6 +438,73 @@ export class TextBox extends Widget {
       this.type = type; // Input type
       this.events = {}; // Object to store event listeners
       this.tf = new input().attr({
+        type: type,
+        class: "form-control",
+        placeholder: ""
+      });
+      this.add(this.tf);  
+      this.add(new label().html(lbl));
+    }
+  }
+  setPlaceHolder(t) {
+    this.tf.attr("placeholder", t); // Update placeholder
+    return this;
+  }
+  setValue(value) {
+    this.tf.value(value); // Update value
+    return this;
+  }
+  getValue() {
+    return this.tf.value(); // Get the current value
+  }
+  setStyle(styles) {
+    this.tf.style(styles);
+    return this;
+  }
+  addEventListener(evt, callback) {
+    if (typeof this.events[evt] === "undefined") {
+      this.tf.addEventListener(evt, callback); // Add the event listener
+      this.events[evt] = evt; // Store the event to avoid duplicate listeners
+    }
+    return this;
+  }
+}
+
+
+
+export class MultiTextBox extends Widget {
+  constructor(lbl = "", type = "text", icon = null, hint = null, placeholder = "") {
+    super("div"); // Call the parent class's constructor
+    if (icon) {
+      this.class(["input-group", "input-group-sm"]);
+      this.placeholder = placeholder; // Placeholder text
+      this.hint = hint; // Tooltip hint
+      this.icon = icon; // Icon class
+      this.type = type; // Input type
+      this._lb = label; // Label text
+      this.events = {}; // Object to store event listeners
+      const addon = new span().class("input-group-text");
+      if (icon != null) {
+        addon.add(
+          new i().attr("class", `fa fa-${icon}`)
+        );
+      } else if (lbl != "") {
+        addon.text(lbl);
+      }
+      this.add(addon);
+      this.tf = new textarea().attr({
+        type: type,
+        class: "form-control",
+        placeholder: this.placeholder
+      });
+      this.add(this.tf);  
+    } else {
+      this.class(["form-floating", "mb-3", "mt-3"]);
+      this.hint = hint; // Tooltip hint
+      this.icon = icon; // Icon class
+      this.type = type; // Input type
+      this.events = {}; // Object to store event listeners
+      this.tf = new textarea().attr({
         type: type,
         class: "form-control",
         placeholder: ""
@@ -1505,6 +1572,17 @@ class Select3 extends div {
 
     this.search = new input().class("form-control").attr("placeholder", "Search...");
 
+    this.close_btn = new button().style({}).add(new Icon("close")).style({
+      "position": "absolute",
+      "right": "15px",
+      "top": "14px",
+      "border": "1px solid #ddd",
+      "color": "red",
+      "width": "30px",
+      "height": "30px",
+      "border-radius": "3px"
+    });
+
     this.search_panel = new div().style({ 
       "width": "100%",
       "height": "480px",
@@ -1529,6 +1607,7 @@ class Select3 extends div {
     });
 
     this.search_panel.add([
+      this.close_btn,
       this.search,
       this.results
     ]);
@@ -1560,6 +1639,12 @@ class Select3 extends div {
       } else {
         this.display();
       }
+    });
+
+    this.close_btn.action("click", () => {
+      this.search_panel.hide();
+      this.tf.removeAttr("disabled");
+      this.tf.clear();
     });
 
     super.add([
