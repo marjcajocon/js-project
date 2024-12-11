@@ -1437,17 +1437,19 @@ class Select3 extends div {
 
     this.search_panel = new div().style({ 
       "width": "100%",
-      "height": "300px",
+      "height": "480px",
       "overflow-y": "auto",
-      "background-color": "white",
+      "background-color": "rgba(255, 255, 255, 0.7)",
       "position": "absolute",
       "left": "0px",
       "top": "0px",
       "z-index": "3",
       "display": "none",
       "border-radius": "0 0 5px 5px",
-      "border": "1px solid grey",
-      "padding": "10px"
+      "border": "1px solid #ddd",
+      "padding": "10px",
+      "border-radius": "5px",
+      "box-shadow": "3px 3px 3px rgba(0, 0, 0, 0.4)"
     });
 
     this.results = new div().style({
