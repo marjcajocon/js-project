@@ -326,6 +326,10 @@ export class Table extends Widget {
     return data; // Return collected data
   }
 }
+
+
+
+
 export class CheckBox extends Widget {
   constructor(_mark = false) {
     super("input"); // Call the parent class's constructor
@@ -354,6 +358,8 @@ export class CheckBox extends Widget {
     return this;
   }
 }
+
+
 export class RadioButton extends Widget {
   constructor(name = "") {
     super("div"); // Call the parent class's constructor
@@ -1766,6 +1772,70 @@ class Select3 extends div {
 }
 
 
+
+class CheckBox2 extends div {
+  constructor(_mark = false) {
+    super(); // Call the parent class's constructor
+    const mark = _mark; // Set the initial checked state
+    
+    this.tf = new input();
+    this.setValue(mark);
+    
+  }
+  setValue(mark_true_false) {
+    this.tf.checked = mark_true_false; // Set the checked state
+    return this;
+  }
+  getValue() {
+    return this.tf.checked; // Return the current checked state
+  }
+  addEventListener(evt, callback) {
+    this.tf.action(evt, callback);
+    return this;
+  }
+}
+
+
+class Switch extends div {
+  constructor(title = "") {
+    // <div class="form-check form-switch">
+    //   <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
+    //   <label class="form-check-label" for="mySwitch">Dark Mode</label>
+    // </div>
+    super();
+    this.class([
+      "form-check", "form-switch"
+    ]);
+
+    this.tf = new input().class("form-check-input").attr({
+      "type": "checkbox",
+      "name": "darkmode",
+      "value": "yes"
+    });
+
+    const label = new Label().text(title);
+
+    this.add([
+      this.tf,
+      label
+    ]);
+  
+  }
+
+  setValue(mark_true_false) {
+    this.tf.checked = mark_true_false; // Set the checked state
+    return this;
+  }
+  getValue() {
+    return this.tf.checked; // Return the current checked state
+  }
+  addEventListener(evt, callback) {
+    this.tf.action(evt, callback);
+    return this;
+  }
+
+}
+
 class DateInfo extends DateCore {
   constructor() {
     super();
@@ -1777,6 +1847,8 @@ export {
 };
 
 export {
+  CheckBox2,
+  Switch,
   Select3,
   Table2,
   Card,
