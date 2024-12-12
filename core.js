@@ -391,7 +391,10 @@ class Http {
     this.xml = new XMLHttpRequest();
     this.xml.open(method, url);
     if (typeof(header) == 'object') {
-      if (typeof(body) === "object") {
+      if(body instanceof FormData) {
+        // this is a file
+      }
+      else if (typeof(body) === "object") {
         header["Content-Type"] = "application/json";
         body = JSON.stringify(body);
       }
@@ -412,6 +415,13 @@ class Http {
     });
     return await promise;
   }
+
+  then(fn) {
+    this.xml.addEventListener('load', function(e) {
+      fn(this.response);
+    });
+  }
+
   progress(fn) {
     if (typeof(fn) == 'function') {
       this.xml.addEventListener('progress', (e) => {
