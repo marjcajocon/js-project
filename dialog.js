@@ -133,7 +133,7 @@ class DialogModal2 extends Dialog2 {
     const header = new div().style({
       width: "100%",
       padding: "10px",
-      position: "sticky",
+      position: "relative",
       lefft: 0,
       top: 0,
       zIndex: "10",
