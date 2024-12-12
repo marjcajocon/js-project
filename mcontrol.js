@@ -1797,7 +1797,7 @@ class CheckBox2 extends div {
 
 
 class Switch extends div {
-  constructor(title = "") {
+  constructor(title = "", txt = "") {
     // <div class="form-check form-switch">
     //   <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
     //   <label class="form-check-label" for="mySwitch">Dark Mode</label>
@@ -1813,21 +1813,29 @@ class Switch extends div {
       "value": "yes"
     });
 
-    const label = new Label().text(title);
+    const label = new Label().text(`${title} - ${txt}`);
 
     this.add([
       this.tf,
       label
     ]);
+
+
+    this.title = title;
   
   }
 
   setValue(mark_true_false) {
-    this.tf.checked = mark_true_false; // Set the checked state
+    this.tf.control.checked = mark_true_false; // Set the checked state
     return this;
   }
+  
+  getLabel() {
+    return this.title;
+  }
+  
   getValue() {
-    return this.tf.checked; // Return the current checked state
+    return this.tf.control.checked; // Return the current checked state
   }
   addEventListener(evt, callback) {
     this.tf.action(evt, callback);
