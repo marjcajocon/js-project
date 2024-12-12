@@ -735,8 +735,12 @@ export class ComboBox extends Widget {
   }
 }
 export class Button extends Widget {
-  constructor(name = "", type = "default", icon = "", hint = null) {
+  constructor(name = "", type = "default", icon = "", hint = null, size = "sm") {
     super("button");
+
+    this.style({
+      position: "relative"
+    });
     this.name = name;
     this.type = type;
     this.icon = icon;
@@ -748,8 +752,9 @@ export class Button extends Widget {
     if (this.type) {
       this.control.setAttribute("class", `btn btn-${this.type}`);
     }
-    this.class(["btn-sm"]);
-
+    
+    this.class([`btn-${size}`]);
+    
     this._i = new i().control;
     if (this.icon) {
       this._i.setAttribute("class", `fa fa-${this.icon}`);
@@ -764,7 +769,14 @@ export class Button extends Widget {
     this.control.appendChild(this._i);
     this.control.appendChild(nameElement);
 
-    this.spinner = new span().class(["spinner-border", "spinner-border-sm"]);
+    this.spinner = new span().class(["spinner-border", "spinner-border-sm"]).style({
+      position: "absolute",
+      top: "0",
+      left: "0",
+      bottom: "0",
+      right: "0",
+      margin: "auto"      
+    });
     this.spinner.hide();
     
     this.prepend(this.spinner);
