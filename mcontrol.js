@@ -763,7 +763,26 @@ export class Button extends Widget {
     nameElement.innerHTML = this.name; 
     this.control.appendChild(this._i);
     this.control.appendChild(nameElement);
+
+    this.spinner = new span().class(["spinner-border", "spinner-border-sm"]);
+    this.spinner.hide();
+    
+    this.prepend(this.spinner);
+    //<span class="spinner-border spinner-border-sm"></span>
   }
+
+  showLoader() {
+    this.spinner.show();
+    this.attr("disabled", "");
+    return this;
+  }
+
+  hideLoader() {
+    this.spinner.hide();
+    this.removeAttr("disabled");
+    return this;
+  }
+
   addEventListener(evt, callback) {
     if (!this.events[evt]) {
       this.action(evt, callback);
@@ -1850,8 +1869,49 @@ class DateInfo extends DateCore {
   }
 }
 
+
+class CircularLoader extends div {
+  constructor(color = "primary") {
+    super();
+    this.class(["spinner-border", `text-${color}`]);
+  }
+}
+
+class Loader extends div {
+  constructor(color = "primary") {
+    super();
+    this.style({
+      width: "100%",
+      height: "100%",
+      position: "fixed",
+      top: "0",
+      left: "0",
+      zIndex: "10000",
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    });
+
+    this.add(new CircularLoader(color));
+  }
+  show() {
+    this.body.appendChild(this.control);
+    return this;
+  }
+
+  hide() {
+    this.clear();
+    this.delete();
+    return this;
+  }
+}
+
+
 export {
-  DateInfo
+  DateInfo,
+  CircularLoader,
+  Loader
 };
 
 export {
