@@ -432,7 +432,18 @@ class Http {
 class DateCore {
   constructor() {
 
+    this.names = {
+      0: "Sunday",
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday"
+    };
+
   }
+  
   date_check(frm, t) {
     var from_d = frm;
     var to_d = t;
@@ -461,6 +472,10 @@ class DateCore {
     b[1] = i;
 
     return b;
+  }
+
+  getDay(date_str) {
+    return this.names[new Date(date_str).getDay()];
   }
 }
 export { DateCore }
