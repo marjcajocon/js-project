@@ -33,7 +33,7 @@ class Widget {
       item.removeEvents();
       item.clear();
       item.control.remove();
-      item.widgets = null;
+      item.widgets = [];
     }
     this.widgets = []; // clearing up the widgets after the clear to avoid loading
     return this;
@@ -250,7 +250,7 @@ class Widget {
       console.log(`Clean up: ${item[0]} - ${item[1]}`);
       this.control.removeEventListener(item[0], item[1]);
     }
-    this.events_list = null;
+    this.events_list = [];
     return this;
   }
 
