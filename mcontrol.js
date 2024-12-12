@@ -1883,15 +1883,19 @@ class DateInfo extends DateCore {
 
 
 class CircularLoader extends div {
-  constructor(color = "primary") {
+  constructor(color_par = null, type_par = null) {
     super();
-    this.class(["spinner-border", `text-${color}`]);
+    let color = color_par == null ? "primary": color_par;
+    let type = type_par == null ? "border": type_par;
+    this.class([`spinner-${type}`, `text-${color}`]);
   }
 }
 
 class Loader extends div {
-  constructor(color = "primary") {
+  constructor(color_par = null, type_par = null) {
     super();
+    let color = color_par == null ? "primary": color_par;
+    let type = type_par == null ? "border": type_par;
     this.style({
       width: "100%",
       height: "100%",
@@ -1905,7 +1909,13 @@ class Loader extends div {
       justifyContent: "center"
     });
 
-    this.add(new CircularLoader(color));
+    if (type == "border") {
+      this.add(new CircularLoader(color));
+    } else if (type == "grow") {
+      this.add(new CircularLoader(null, color));
+    } else {
+      throw new Error("Loader type error: suggested: grow or border");
+    }
   }
   show() {
     this.body.appendChild(this.control);
