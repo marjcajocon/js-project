@@ -427,7 +427,44 @@ class Http {
     }
   }
 }
-export {Widget};
+
+
+class DateCore {
+  constructor() {
+
+  }
+  date_check(frm, t) {
+    var from_d = frm;
+    var to_d = t;
+    
+    var b = [false, 0, []];
+
+    if (from_d == '' || to_d == '') {
+      return b;
+    }
+    
+    b[0] = true;
+
+    var f = new Date(from_d);
+    var e = new Date(to_d);
+    var i = 0;
+    while (f <= e) {
+      var m = (f.getMonth() + 1) < 10 ? '0' + (f.getMonth() + 1) : (f.getMonth() + 1);
+      var day = f.getDate() < 10 ? '0' + f.getDate() : f.getDate();
+
+      var d = f.getFullYear().toString() + "-" + m + "-" + day;
+      b[2].push(d);
+      var ndate = f.setDate(f.getDate() + 1);
+      f = new Date(ndate);
+      i++;
+    }
+    b[1] = i;
+
+    return b;
+  }
+}
+export { DateCore }
+export { Widget };
 export {
   html, head, body, title, base, link, meta, style, script, noscript, template,
   section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address,
