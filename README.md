@@ -12,3 +12,7 @@ SOURCE TREE CORE.JS
   * plugin/core.css
   * index.html
   * main.js
+  * plugin/theme/materialize/
+  * plugin/theme/bootstrap5
+  * plugin/theme/bootstrap3
+  * plugin/them/otherSample
