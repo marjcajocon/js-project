@@ -7,6 +7,8 @@ PARNER FILE
 
 
 SOURCE TREE CORE.JS 
-  -> lib/*.js => Source Code 
-  -> plugin/core/core.js
-  -> plugin/core.css
+  * lib/*.js => Source Code 
+  * plugin/core/core.js
+  * plugin/core.css
+  * index.html
+  * main.js
