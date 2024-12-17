@@ -672,6 +672,8 @@ export class ComboBox2 extends div {
     opt.attr("value", key);
     opt.text(value);
     this.tf.add(opt);
+
+    return this;
   }
   setValue(key) {
     this.tf.value(key);
@@ -689,6 +691,68 @@ export class ComboBox2 extends div {
     return this;
   }
 }
+
+
+
+export class ComboBox3 extends div {
+  constructor(lbl = "",  icon = null, hint = null) {
+    super();   
+    if (icon) {
+      this.class(["input-group", "input-group-sm"]);
+      this.icon = icon; // Icon class
+      this._lb = lbl; // Label text
+      const addon = new span().class("input-group-text");
+      if (icon != null) {
+        addon.add(
+          new i().attr("class", `fa fa-${icon}`)
+        );
+      } else if (lbl != "") {
+        addon.text(lbl);
+      }
+      super.add(addon);
+      this.tf = new select().attr({
+        class: "form-control",
+        placeholder: this.placeholder
+      });
+      super.add(this.tf);  
+    } else {
+      //this.class(["form-floating", "mb-3", "mt-3"]);
+      this.icon = icon; // Icon class
+      this.events = {}; // Object to store event listeners
+      this.tf = new select().attr({
+        class: "form-control"
+      });
+      super.add(new label().html(lbl).style({ fontWeight: "bold" }));
+      super.add(this.tf);  
+    }
+  }
+  add(key, value) {
+    const opt = new option();
+    opt.attr("value", key);
+    opt.text(value);
+    this.tf.add(opt);
+    
+    return this;
+  }
+  setValue(key) {
+    this.tf.value(key);
+  }
+  getValue() {
+    return this.tf.value();
+  }
+  addEventListener(e, fn) {
+      this.tf.action(e, fn);
+    return this;
+  }
+
+  clearBody() {
+    this.tf.clear();
+    return this;
+  }
+}
+
+
+
 export class ComboBox extends Widget {
   constructor(option = [], label, type = "text", icon = null, hint = null, placeholder = "") {
     super("div"); // Call the parent class constructor
