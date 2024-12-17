@@ -584,6 +584,9 @@ export class TextBox2 extends Widget {
       this.add(new div().html(lbl).style({ "font-weight": "bold", "width": "100%" }));
       this.add(this.tf);  
     }
+
+    this.err_txt = new div();
+    this.add(this.err_txt);
   }
   setPlaceHolder(t) {
     this.tf.attr("placeholder", t); // Update placeholder
@@ -598,6 +601,21 @@ export class TextBox2 extends Widget {
   }
   setStyle(styles) {
     this.tf.style(styles);
+    return this;
+  }
+  error(err = null) {
+    this.err_txt.clear();
+    if (err != null) {
+      this.tf.removeClass(["text-danger", "border-success"]);
+      this.tf.class(["text-danger", "border-danger"]);
+      this.tf.style({ width: "100%" });
+      this.err_txt.add(new div().text(err).class("text-danger").style({ width: "100%"}));
+    } else {
+      this.tf.class(["text-danger", "border-success"]);
+
+      this.tf.removeClass("text-danger");
+      this.tf.removeClass("border-danger");
+    }
     return this;
   }
   addEventListener(evt, callback) {
@@ -786,6 +804,15 @@ export class Button extends Widget {
   showLoader() {
     this.spinner.show();
     this.attr("disabled", "");
+    return this;
+  }
+
+  enable(bool = true) {
+    if (bool) {
+      this.removeAttr("disabled");
+    } else {
+      this.attr("disabled", "");
+    }
     return this;
   }
 
@@ -1777,6 +1804,20 @@ class Select3 extends div {
 
     this.results.add(list);
   
+  }
+
+  addOption(key, value = "") {
+    const op = new option().attr({
+      "value": key
+    }).text(value);
+
+    this.tf.add(op);
+    return this;
+  }
+
+  clearOption() {
+    this.tf.clear();
+    return this;
   }
 
   addItem(key, value, obj = null) {
