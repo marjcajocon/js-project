@@ -154,7 +154,7 @@ export class Application extends Widget {
 class Table2 extends table {
   constructor(header = [], th_bg = "success") {
     super();
-    this.class(["table", "table-sm", "table-bordered"]);
+    this.class(["table", "table-sm", "table-bordered", "table-striped"]);
     const _thead = new thead().class(`table-${th_bg}`);
     const _tr = new tr();
     for (const item of header) {
@@ -168,10 +168,16 @@ class Table2 extends table {
   prepend() {
 
   }
-  add(values = []) {
+  add(values = [], td_style = [], row_style = {}) {
+
     const _tr = new tr();
-    for (const item of values) {
+    
+    for (let i = 0; i < values.length; i++) {
+      const item = values[i];
+
+
       const _td = new td();
+
       if (typeof(item) == "string") {
         _td.text(item);
       } else if(item instanceof Widget) {
@@ -179,8 +185,36 @@ class Table2 extends table {
       } else {
         _td.text(`${item}`);
       }
+      
+
+
+      if (typeof(td_style[i]) != "undefined" && td_style[i] != null) {
+        
+        if (td_style[i] instanceof Widget) {
+          
+          _td.text("");
+          _td.add(td_style[i]);
+          
+        }
+
+        else if (typeof(td_style[i]) == "object") {
+          
+          if (typeof (td_style[i].style) != "undefined") {
+            _td.style(td_style[i].style);
+          }
+
+          if (typeof(td_style[i].widget) != "undefined") {
+            _td.text("");
+            _td.add(td_style[i].widget);
+          }
+
+        }
+      }
+
       _tr.add(_td);
+
     }
+
     this.tbody.add(_tr);
 
     return _tr;
@@ -2043,6 +2077,17 @@ class GrowLoader extends div {
 }
 
 
+class Badge extends span {
+  constructor(txt = null, bg = "primary") {
+    super();
+    this.class([`badge`, `bg-${bg}`]);
+
+    if (txt != null) {
+      this.text(txt);
+    }
+  }
+}
+
 export {
   DateInfo,
   CircularLoader,
@@ -2062,5 +2107,6 @@ export {
   Bold,
   Icon,
   Center,
-  List
+  List,
+  Badge
 };
