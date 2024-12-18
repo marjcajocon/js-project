@@ -168,7 +168,7 @@ class Table2 extends table {
   prepend() {
 
   }
-  add(values = [], td_style = [], row_style = {}) {
+  add(values = [], td_style = []) {
 
     const _tr = new tr();
     
