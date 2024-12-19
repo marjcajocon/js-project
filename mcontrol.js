@@ -874,7 +874,9 @@ export class Button extends Widget {
     this._i = new i().control;
     if (this.icon) {
       this._i.setAttribute("class", `fa fa-${this.icon}`);
-      this._i.style.marginRight = "5px";
+      if (name != "") {
+        this._i.style.marginRight = "5px";
+      }
     }
     if (this.hint) {
       this.control.setAttribute("data-toggle", "tooltip");
