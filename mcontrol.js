@@ -663,8 +663,18 @@ export class TextBox2 extends Widget {
 
 
 export class Label extends label {
-  constructor() {
+  constructor(txt = null) {
     super();
+
+    if (txt != null) {
+
+      if (typeof(txt) == "string" || typeof(txt) == "number") {
+        this.html(txt);
+      } else if (txt instanceof Widget) {
+        this.add(txt);
+      }
+      
+    }
   }
 }
 
@@ -935,16 +945,12 @@ export class Button extends Widget {
     return this;
   }
 }
-export class Panel extends Widget {
+export class Panel extends div {
   constructor(obj = null) {
     super("div"); // Call the parent class constructor
     if (obj != null) {
       super.add(obj); 
     }
-  }
-  add(mcontrol_obj) {
-    super.add(mcontrol_obj);
-    return this; // Allow method chaining
   }
 }
 export class Iframe extends Widget {
@@ -1421,7 +1427,7 @@ const loader_info = [];
 export class MsgLoader extends Panel {
   constructor(loader_msg = 'Fetching...') {
     super();
-    document.body.append(this._c);
+    this.body.appendChild(this.control);
     this.un = loader_info.length;
     const bot_pos = 10 + (this.un * (45)); // calculate the position of each msg loader
     this.setStyle({
@@ -1460,8 +1466,9 @@ export class MsgLoader extends Panel {
     }, 3000);
   }
   _remove() {
-    this._c.remove();
-    loader_info.splice(this._c.un, 1);
+    //this._c.remove();
+    this.delete()
+    loader_info.splice(this.control.un, 1);
   }
 }
 export class DropDown extends div {
