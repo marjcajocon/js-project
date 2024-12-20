@@ -324,7 +324,7 @@ class DialogAlert2 extends Dialog {
       verticalAlign: "bottom",
       padding: "20px 20px 0 20px",
       letterSpacing: "3px"
-    }).add(new p().text(label));
+    }).add(new p().html(label));
 
     const yes = new button().html(ok_msg).class(["c-btn1"]).style({
       color: "#3adb3a",
