@@ -615,13 +615,17 @@ export class TextBox2 extends Widget {
         class: "form-control",
         placeholder: ""
       });
-      this.add(new div().html(lbl).style({ "font-weight": "bold", "width": "100%" }));
+
+      this.label = new div().html(lbl).style({ "font-weight": "bold", "width": "100%" });
+
+      this.add(this.label);
       this.add(this.tf);  
     }
 
     this.err_txt = new div();
     this.add(this.err_txt);
   }
+
   setPlaceHolder(t) {
     this.tf.attr("placeholder", t); // Update placeholder
     return this;
