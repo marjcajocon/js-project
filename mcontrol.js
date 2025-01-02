@@ -398,39 +398,48 @@ export class RadioButton extends Widget {
   constructor(name = "") {
     super("div"); // Call the parent class's constructor
     this.name = name; // Set the name property
-    this._c = this.control; // Create main container for radio buttons
-    this.control = this._c; // Reference to the main control
     this.events = {}; // Initialize an event dictionary
     this.el = []; // Array to store radio button elements
   }
   add(label_, value) {
-    const c = this._c; // Reference to main container
-    const p = new div().control; // Create a wrapper for the radio input
-    p.style.position = "relative"; // Set position for the wrapper
-    const rad = new input().control; // Create radio input element
-    rad.style.height = "20px"; // Set height
-    rad.style.width = "20px"; // Set width
-    rad.style.position = "absolute"; // Set position
-    rad.style.top = "3px"; // Adjust top position
+    const p = new div(); // Create a wrapper for the radio input
+    p.style({ position: "relative" });
+    const rad = new input(); // Create radio input element
+    rad.style({
+      height: "20px",
+      width: "20px",
+      position: "absolute",
+      top: "3px"
+    })
     const id_val = label_.replace(" ", "").trim(); // Create a unique id based on label
-    rad.setAttribute("type", "radio");
-    rad.setAttribute("name", this.name); // Set the name attribute for grouping
-    rad.setAttribute("value", value); // Set the value
-    rad.setAttribute("id", id_val); // Set the id
+    
+    rad.attr({
+      type: "radio",
+      name: this.name,
+      value: value,
+      id: id_val
+    });
+
     const labelf = new label(); // Create label element
-    labelf.setAttribute("for", id_val); // Associate label with radio button
-    labelf.innerText = label_; // Set the label text
+    labelf.attr("for", id_val); // Associate label with radio button
+    labelf.text(label_); // Set the label text
     labelf.style.marginLeft = "23px"; // Add some left margin
     labelf.style.marginTop = "7px"; // Add some top margin
-    p.appendChild(rad);
-    p.appendChild(labelf);
-    c.appendChild(p);
+    labelf.style({
+      marginLeft: "23px",
+      marginTop: "7px"
+    });
+
+    p.add(rad);
+    p.add(labelf);
+    
+    super.add(p);
     this.el.push(rad); // Store reference to the radio button
   }
   setValue(value) {
     for (const r of this.el) {
-      if (r.value === value) {
-        r.checked = true; // Check the radio button
+      if (r.getAttr("value") == value) {
+        r.control.checked = true; // Check the radio button
         break;
       }
     }
@@ -438,8 +447,8 @@ export class RadioButton extends Widget {
   }
   getValue() {
     for (const r of this.el) {
-      if (r.checked) {
-        return r.value; // Return the value of the checked button
+      if (r.control.checked) {
+        return r.getAttr("value"); // Return the value of the checked button
       }
     }
     return ""; // Return empty string if none are checked
